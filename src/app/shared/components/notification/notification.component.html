@@ -1,0 +1,43 @@
+<div
+  (click)="toggleContainer()"
+  [callback]="toggleClose"
+  [ngClass]="{ 'notifications--visible': isOpened }"
+  appOutSideClick
+  appStopPropagation
+  class="notifications"
+>
+  <span
+    *ngIf="numberNotification$ | async as number"
+    [class.notifications__number--entry]="number"
+    class="notifications__number"
+    >{{ number }}</span
+  >
+  <span class="material-icons notifications__icon">notifications</span>
+  <div appStopPropagation class="notifications__container">
+    <div class="notifications__scroll-container">
+      <ul class="notifications__list">
+        <li
+          *ngFor="let notification of notifications$ | async"
+          [class.notifications__item--unread]="!notification.check"
+          class="notifications__item"
+        >
+          <span class="notifications__item-title">{{
+            notification.notification.title
+          }}</span>
+          <div class="notifications__item-body">
+            <span class="material-icons notifications__item-icon"
+              >notifications</span
+            >
+            <span class="notifications__item-label">{{
+              notification.notification.message
+            }}</span>
+          </div>
+          <span class="notifications__item-date">{{
+            notification?.created_at | fromDate
+          }}</span>
+        </li>
+      </ul>
+    </div>
+    <span class="notifications__action">Ver Todas</span>
+  </div>
+</div>

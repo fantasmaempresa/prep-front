@@ -1,0 +1,103 @@
+<div class="sidebar-container">
+  <div class="sidebar__button">
+    <input
+      type="checkbox"
+      name="navi-toggle"
+      id="navi-toggle"
+      #naviToggle
+      class="sidebar__checkbox"
+    />
+    <label for="navi-toggle" class="sidebar__button">
+      <span class="sidebar__icon"></span>
+    </label>
+  </div>
+
+  <nav class="sidebar" [class.sidebar--extended]="naviToggle.checked">
+    <div class="sidebar-header">
+      <img
+        alt=""
+        class="profile-img profile-img--sidebar-header"
+        src="assets/images/profile_picture.jpg"
+      />
+      <h3 class="sidebar-header__profile-name">test</h3>
+      <span class="sidebar-header__profile-place"> role name </span>
+    </div>
+
+    <div class="sidebar-body" *ngFor="let menu of menus">
+      <div class="sidebar-menu">
+        <span class="sidebar-menu__title">{{ menu.menuName }}</span>
+        <ul class="sidebar-menu__body">
+          <ng-container *ngFor="let submenu of menu.submenus">
+            <li class="menu__dropdown" *ngIf="submenu.dropdowns; else menuItem">
+              <a
+                (click)="dropdown(submenu)"
+                [class.menu__dropdown-link--active]="submenu.isOpen"
+                class="menu__dropdown-link"
+              >
+                <span class="material-icons menu__icon">{{
+                  submenu.icon
+                }}</span>
+                <span class="menu__dropdown-label menu__label">{{
+                  submenu.label
+                }}</span>
+                <span class="material-icons menu__dropdown-icon"
+                  >expand_more</span
+                >
+                <div
+                  class="menu__dropdown-container sidebar-body"
+                  (click)="stopPropagation($event)"
+                >
+                  <div class="d-flex align-items-center">
+                    <button
+                      (click)="closeSubmenu(submenu)"
+                      class="menu__dropdown-back"
+                    >
+                      <i class="material-icons menu__dropdown-back-label-icon"
+                        >arrow_back</i
+                      >
+                    </button>
+                    <span class="menu__dropdown-back-label">
+                      {{ submenu.label }}
+                    </span>
+                  </div>
+                  <ul>
+                    <li
+                      *ngFor="let dropdown of submenu.dropdowns"
+                      class="menu__item"
+                    >
+                      <a
+                        [routerLink]="dropdown.route"
+                        routerLinkActive="menu__link--active"
+                        class="menu__link"
+                      >
+                        <span class="material-icons menu__icon">{{
+                          dropdown.icon
+                        }}</span>
+                        <span class="menu__label">{{ dropdown.label }}</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </a>
+            </li>
+
+            <ng-template #menuItem>
+              <li class="menu__item">
+                <a
+                  [routerLink]="submenu.route"
+                  class="menu__link"
+                  routerLinkActive="menu__link--active"
+                >
+                  <span class="material-icons menu__icon">{{
+                    submenu.icon
+                  }}</span>
+                  <span class="menu__label">{{ submenu.label }}</span>
+                </a>
+              </li>
+            </ng-template>
+          </ng-container>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>

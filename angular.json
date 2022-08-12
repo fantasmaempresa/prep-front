@@ -28,7 +28,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/assets/css/bootstrap-grid.css",
+              "src/theme.scss",
             ],
             "scripts": []
           },
@@ -116,6 +118,7 @@
   "cli": {
     "schematicCollections": [
       "@angular-eslint/schematics"
-    ]
+    ],
+    "analytics": "2a4d40a6-f0da-408e-b3ad-e93e5b4a7049"
   }
 }

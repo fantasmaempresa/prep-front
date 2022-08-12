@@ -1,0 +1,22 @@
+html {
+  box-sizing: border-box;
+  font-size: relativePercentaje(10); // 100% = 16px
+}
+
+*,
+::after,
+::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

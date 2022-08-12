@@ -5,9 +5,19 @@ import { RouterModule } from '@angular/router';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { MaterialModule } from './material/material.module';
 import { ErrorMessageDirective } from './directives/error-message.directive';
+import { NotificationComponent } from './components/notification/notification.component';
+import { OutSideClickDirective } from './directives/out-side-click.directive';
+import { FromDatePipe } from './pipes/from-date.pipe';
+import { BreadcrumbModule } from 'xng-breadcrumb';
 
 @NgModule({
-  declarations: [SpinnerComponent, ErrorMessageDirective],
+  declarations: [
+    SpinnerComponent,
+    ErrorMessageDirective,
+    NotificationComponent,
+    OutSideClickDirective,
+    FromDatePipe,
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -23,6 +33,8 @@ import { ErrorMessageDirective } from './directives/error-message.directive';
     FormsModule,
     RouterModule,
     MaterialModule,
+    NotificationComponent,
+    BreadcrumbModule,
   ],
 })
 export class SharedModule {}
