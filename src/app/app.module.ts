@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SidebarComponent } from './layout/components/sidebar/sidebar.component';
 import { HeaderComponent } from './layout/components/header/header.component';
 import { BreadcrumbComponent } from './layout/components/breadcrumb/breadcrumb.component';
+import { FooterComponent } from './layout/components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { BreadcrumbComponent } from './layout/components/breadcrumb/breadcrumb.c
     SidebarComponent,
     HeaderComponent,
     BreadcrumbComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
