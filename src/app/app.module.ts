@@ -11,6 +11,7 @@ import { SidebarComponent } from './layout/components/sidebar/sidebar.component'
 import { HeaderComponent } from './layout/components/header/header.component';
 import { BreadcrumbComponent } from './layout/components/breadcrumb/breadcrumb.component';
 import { FooterComponent } from './layout/components/footer/footer.component';
+import { AuthLayoutComponent } from './layout/auth-layout/auth-layout.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { FooterComponent } from './layout/components/footer/footer.component';
     HeaderComponent,
     BreadcrumbComponent,
     FooterComponent,
+    AuthLayoutComponent,
   ],
   imports: [
     BrowserModule,
