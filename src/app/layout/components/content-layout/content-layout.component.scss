@@ -1,0 +1,63 @@
+@import '~src/assets/styles/abstracts/variables';
+@import '~src/assets/styles/abstracts/mixins';
+
+:host {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 15rem minmax(0, 1fr);
+  grid-template-columns: $sidebarContainer repeat(2, 1fr);
+  background-color: var(--color-primary-bg);
+
+  grid-template-areas:
+    'header header header'
+    'sidebar main main';
+
+  @include respond(tabLand) {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'header'
+      'main';
+  }
+}
+
+.header {
+  grid-area: header;
+}
+
+.sidebar {
+  grid-area: sidebar;
+  @include respond(tabLand) {
+    grid-area: none;
+  }
+}
+
+.footer {
+}
+
+.main {
+  grid-area: main;
+  display: grid;
+  grid-template-rows: 6rem minmax(0, 1fr) 8rem;
+}
+
+.page-content {
+  margin-top: -4.5rem;
+  margin-bottom: 1.5rem;
+  padding: 0 2.4rem;
+
+  @include respond {
+    padding: 0;
+  }
+}
+
+.notification-area {
+  position: fixed;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 60rem;
+  height: 60rem;
+  bottom: 5rem;
+  right: 0;
+  pointer-events: none;
+}

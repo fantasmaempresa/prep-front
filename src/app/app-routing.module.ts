@@ -1,25 +1,34 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ChildrenRouteLayoutComponent } from './layout/children-route-layout/children-route-layout.component';
 import { AuthLayoutComponent } from './layout/auth-layout/auth-layout.component';
+import { ContentLayoutComponent } from './layout/components/content-layout/content-layout.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'app',
+    redirectTo: 'auth',
     pathMatch: 'full',
-  },
-  {
-    path: 'app',
-    component: ChildrenRouteLayoutComponent,
-    data: { breadcrumb: 'Inicio' },
-    children: [],
   },
   {
     path: 'auth',
     component: AuthLayoutComponent,
     loadChildren: () =>
       import('./features/auth/auth.module').then((m) => m.AuthModule),
+  },
+  {
+    path: 'app',
+    component: ContentLayoutComponent,
+    data: { breadcrumb: 'Inicio' },
+    children: [
+      {
+        path: 'militant',
+        loadChildren: () =>
+          import('./features/militant/militant.module').then(
+            (m) => m.MilitantModule
+          ),
+        data: { breadcrumb: 'Militantes' },
+      },
+    ],
   },
 ];
 
