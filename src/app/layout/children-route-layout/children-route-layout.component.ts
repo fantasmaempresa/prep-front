@@ -5,6 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './children-route-layout.component.html',
   styleUrls: ['./children-route-layout.component.scss'],
 })
-export class ChildrenRouteLayoutComponent {
-  constructor() {}
-}
+export class ChildrenRouteLayoutComponent {}

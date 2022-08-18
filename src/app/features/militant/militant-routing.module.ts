@@ -14,6 +14,7 @@ const routes: Routes = [
       {
         path: 'new',
         component: MilitantFormComponent,
+        data: { breadcrumb: 'Agregar militante' },
       },
     ],
   },

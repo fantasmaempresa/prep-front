@@ -30,7 +30,11 @@
             "styles": [
               "src/styles.scss",
               "src/assets/css/bootstrap-grid.css",
-              "src/theme.scss",
+              {
+                "input": "src/styles/themes/dark.scss",
+                "bundleName": "dark-theme",
+                "inject": false
+              }
             ],
             "scripts": []
           },

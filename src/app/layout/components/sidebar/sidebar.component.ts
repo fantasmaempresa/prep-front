@@ -17,7 +17,7 @@ export class SidebarComponent {
           isOpen: false,
           dropdowns: [
             {
-              label: 'Registro militantes',
+              label: 'Militantes',
               route: './militant/new',
               icon: 'person_add',
             },
@@ -43,17 +43,17 @@ export class SidebarComponent {
 
   constructor() {}
 
-  dropdown(submenu: unknown) {
+  dropdown(submenu: never) {
     this.menus.forEach((menu) => {
       menu.submenus.forEach((subMenu) => {
         subMenu.isOpen = false;
       });
     });
-    //submenu.isOpen = true;
+    // submenu.isOpen = true;
   }
 
-  closeSubmenu(submenu: unknown) {
-    //submenu.isOpen = false;
+  closeSubmenu(submenu: never) {
+    // submenu.isOpen = false;
   }
 
   stopPropagation(event: Event) {

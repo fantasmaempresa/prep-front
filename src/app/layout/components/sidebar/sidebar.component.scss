@@ -1,5 +1,5 @@
 @import '~src/assets/styles/abstracts/mixins';
-@import '~src/theme';
+@import '../../../../styles/themes/light';
 
 .sidebar-container {
   position: relative;
@@ -20,11 +20,10 @@
   margin-right: 0;
   top: -$top;
   right: 0;
-  color: var(--primary-color);
 
   width: 85%;
   min-height: calc(100% + #{$top});
-  background: var(--color-primary-sidebar);
+  //background: var(--primary-color);
   border-radius: 0.5rem;
   display: flex;
   flex-direction: column;
@@ -74,7 +73,7 @@
     &::before {
       width: 3rem;
       height: 2px;
-      background-color: #fff;
+      //background-color: #fff;
       display: inline-block;
     }
 
@@ -192,14 +191,14 @@
       width: 100%;
       border-radius: 0.5rem;
       transform: scaleX(0);
-      background: var(--color-primary-bg);
+      //background: var(--primary-color);
       transition: 360ms all ease-in-out;
       transform-origin: left;
       z-index: 2;
     }
 
     &:hover {
-      color: var(--color-secondary-400);
+      color: var(--accent-color);
       animation: heartBeating 850ms infinite ease-in-out;
       animation-direction: alternate;
     }
@@ -273,7 +272,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: var(--color-primary-sidebar);
+    //background: var(--primary-color);
     border-top: 2px solid rgba(0, 0, 0, 0.325);
     transform: translateX(-100%);
     transition: 450ms transform ease-in-out 300ms;
@@ -282,7 +281,7 @@
   &__dropdown-back {
     //height: 40px;
     width: 4rem;
-    background-color: var(--color-primary-sidebar);
+    //background-color: var(--primary-color);
     margin: 1rem 0.5rem;
     padding: 1rem;
     text-decoration: none;
@@ -294,8 +293,8 @@
     border-radius: 0.5rem;
 
     &:hover {
-      color: var(--color-primary-bg);
-      background: var(--primary-color);
+      color: var(--primary-color);
+      //background: var(--accent-color);
     }
   }
 

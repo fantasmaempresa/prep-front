@@ -1,3 +1,9 @@
+@use "@angular/material" as mat;
+
+@use 'styles/themes/light';
+@use "./styles/components";
+@use "./styles/typography/config" as typography;
+
 @import '~src/assets/styles/abstracts/variables';
 @import '~src/assets/styles/abstracts/functions';
 @import '~src/assets/styles/abstracts/mixins';
@@ -8,6 +14,11 @@
 
 @import '~src/assets/styles/components/profile-img';
 @import '~src/assets/styles/components/scrollbar';
+
+@include mat.core(typography.$fontConfig);
+
+@include mat.all-component-themes(light.$light-theme);
+@include components.theme(light.$light-theme, typography.$fontConfig);
 
 :root {
   @each $color, $shades in $colors {
@@ -22,19 +33,11 @@
 //* {
 //  outline: 1px solid red;
 //}
-.mat-typography {
-  font: 400 1.6rem / 1.6 Roboto;
-}
 
 a {
   text-decoration: none;
   outline: 0;
 }
-
-//img {
-//  height: 10rem;
-//  width: 10rem;
-//}
 
 ul {
   padding-inline-start: 0;
@@ -50,7 +53,7 @@ ul {
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  background-color: var(--color-primary-sidebar);
+  background-color: var(--primary-color);
   background-clip: border-box;
   border: 0 solid #f6f6f6;
   border-radius: 0.25rem;
@@ -163,4 +166,11 @@ td.mat-cell:first-of-type {
 .checkbox {
   margin: 0.25em 0;
   padding-bottom: 1.34375em;
+}
+
+
+hr{
+  background-color: var(--accent-color);
+  height: 1px;
+  border: none;
 }
