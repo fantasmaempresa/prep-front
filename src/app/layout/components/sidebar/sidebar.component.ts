@@ -43,7 +43,7 @@ export class SidebarComponent {
 
   constructor() {}
 
-  dropdown(submenu: never) {
+  dropdown(submenu: any) {
     this.menus.forEach((menu) => {
       menu.submenus.forEach((subMenu) => {
         subMenu.isOpen = false;
@@ -52,7 +52,7 @@ export class SidebarComponent {
     // submenu.isOpen = true;
   }
 
-  closeSubmenu(submenu: never) {
+  closeSubmenu(submenu: any) {
     // submenu.isOpen = false;
   }
 

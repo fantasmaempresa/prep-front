@@ -9,6 +9,7 @@ import { NotificationComponent } from './components/notification/notification.co
 import { OutSideClickDirective } from './directives/out-side-click.directive';
 import { FromDatePipe } from './pipes/from-date.pipe';
 import { BreadcrumbModule } from 'xng-breadcrumb';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { BreadcrumbModule } from 'xng-breadcrumb';
     FormsModule,
     ReactiveFormsModule,
     FormsModule,
+    HttpClientModule,
     RouterModule,
     MaterialModule,
     NotificationComponent,

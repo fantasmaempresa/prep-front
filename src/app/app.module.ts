@@ -13,6 +13,7 @@ import { BreadcrumbComponent } from './layout/components/breadcrumb/breadcrumb.c
 import { FooterComponent } from './layout/components/footer/footer.component';
 import { AuthLayoutComponent } from './layout/auth-layout/auth-layout.component';
 import { ContentLayoutComponent } from './layout/components/content-layout/content-layout.component';
+import { StateModule } from './state/state.module';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { ContentLayoutComponent } from './layout/components/content-layout/conte
     AppRoutingModule,
     SharedModule,
     CoreModule,
+    StateModule,
     BrowserAnimationsModule,
   ],
   providers: [],
