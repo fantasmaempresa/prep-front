@@ -10,7 +10,7 @@ export class SidebarComponent {
     {
       menuName: 'Menu',
       submenus: [
-        { label: 'Inicio', route: './dashboard', icon: 'home' },
+        { label: 'Inicio', route: '/app', icon: 'home' },
         {
           label: 'Operadores',
           icon: 'support_agent',
@@ -21,11 +21,11 @@ export class SidebarComponent {
               route: './militant/new',
               icon: 'person_add',
             },
-            {
-              label: 'En Curso',
-              route: './ongoing_procedure',
-              icon: 'play_arrow',
-            },
+            // {
+            //   label: 'En Curso',
+            //   route: './ongoing_procedure',
+            //   icon: 'play_arrow',
+            // },
           ],
         },
         {
@@ -49,11 +49,11 @@ export class SidebarComponent {
         subMenu.isOpen = false;
       });
     });
-    // submenu.isOpen = true;
+    submenu.isOpen = true;
   }
 
   closeSubmenu(submenu: any) {
-    // submenu.isOpen = false;
+    submenu.isOpen = false;
   }
 
   stopPropagation(event: Event) {

@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SectionService } from '../../../../data/services/section.service';
+import { MunicipalityService } from '../../../../data/services/municipality.service';
+import { LocalDistrictService } from '../../../../data/services/local-district.service';
+import { FederalDistrictService } from '../../../../data/services/federal-district.service';
 
 @Component({
   selector: 'app-militant-form',
@@ -63,7 +67,18 @@ export class MilitantFormComponent {
     if (event.latLng !== null) this.display = event.latLng.toJSON();
   }
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private section: SectionService,
+    private municipality: MunicipalityService,
+    private localDistrict: LocalDistrictService,
+    private federalDistrict: FederalDistrictService
+  ) {
+    this.section.fetchAll().subscribe((response) => {
+      console.log(response);
+    });
+  }
 
   backToListRoles() {
     this.router.navigate(['../'], { relativeTo: this.route });
