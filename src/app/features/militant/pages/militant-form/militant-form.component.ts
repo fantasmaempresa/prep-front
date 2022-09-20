@@ -5,6 +5,7 @@ import { SectionService } from '../../../../data/services/section.service';
 import { MunicipalityService } from '../../../../data/services/municipality.service';
 import { LocalDistrictService } from '../../../../data/services/local-district.service';
 import { FederalDistrictService } from '../../../../data/services/federal-district.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-militant-form',
@@ -30,10 +31,16 @@ export class MilitantFormComponent {
     assign_pattern: new FormControl('', [Validators.required]),
     //location data
     district: new FormControl('', [Validators.required]),
-    municipaliy: new FormControl('', [Validators.required]),
+    municipality: new FormControl('', [Validators.required]),
     section: new FormControl('', [Validators.required]),
     address: new FormControl('', [Validators.required]),
   });
+
+  districts = [];
+  municipalities = [];
+  sections = [];
+  CURP_REGEX =
+    '/^([A-Z][AEIOUX][A-Z]{2}\\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\\d])(\\d)$/';
 
   role_select = [
     {
@@ -60,12 +67,6 @@ export class MilitantFormComponent {
     lng: -98.197851,
   };
   zoom = 15;
-  moveMap(event: google.maps.MapMouseEvent) {
-    if (event.latLng !== null) this.center = event.latLng.toJSON();
-  }
-  move(event: google.maps.MapMouseEvent) {
-    if (event.latLng !== null) this.display = event.latLng.toJSON();
-  }
 
   constructor(
     private router: Router,
@@ -75,9 +76,41 @@ export class MilitantFormComponent {
     private localDistrict: LocalDistrictService,
     private federalDistrict: FederalDistrictService
   ) {
-    this.section.fetchAll().subscribe((response) => {
-      console.log(response);
+    this.federalDistrict.fetchAll().subscribe((response) => {
+      for (const element of response.data) {
+        // @ts-ignore
+        this.districts.push(element);
+      }
+      console.log(this.districts);
     });
+    // this.localDistrict.fetchAll().subscribe((response) => {
+    //   console.log(response);
+    // });
+    this.militantForm.get('district')?.valueChanges.subscribe((value) => {
+      Swal.showLoading();
+      this.federalDistrict.fetch(Number(value)).subscribe((response) => {
+        // @ts-ignore
+        this.municipalities = response.municipalities;
+        Swal.close();
+      });
+    });
+
+    this.militantForm.get('municipality')?.valueChanges.subscribe((value) => {
+      Swal.showLoading();
+      this.municipality.fetch(Number(value)).subscribe((response) => {
+        // @ts-ignore
+        this.sections = response.sections;
+        Swal.close();
+      });
+    });
+  }
+
+  moveMap(event: google.maps.MapMouseEvent) {
+    if (event.latLng !== null) this.center = event.latLng.toJSON();
+  }
+
+  move(event: google.maps.MapMouseEvent) {
+    if (event.latLng !== null) this.display = event.latLng.toJSON();
   }
 
   backToListRoles() {

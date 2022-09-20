@@ -137,13 +137,12 @@
       <div class="col-4 d-flex flex-column">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Distrito</mat-label>
-          <mat-select formControlName="assign_pattern">
-            <mat-option>Ninguna</mat-option>
+          <mat-select formControlName="district">
             <mat-option
-              *ngFor="let option of role_select; index as i"
-              [value]="option.value"
+              *ngFor="let district of districts"
+              [value]="district['id']"
             >
-              {{ option.label }}
+              {{ district['key'] }}
             </mat-option>
           </mat-select>
           <mat-error appErrorMessage></mat-error>
@@ -153,13 +152,15 @@
       <div class="col-4 d-flex flex-column">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Municipio</mat-label>
-          <mat-select formControlName="assign_pattern">
-            <mat-option>Ninguna</mat-option>
+          <mat-select formControlName="municipality">
+            <mat-option [value]="null" *ngIf="municipalities.length === 0"
+              >Seleccione un distrito
+            </mat-option>
             <mat-option
-              *ngFor="let option of role_select; index as i"
-              [value]="option.value"
+              *ngFor="let municipality of municipalities"
+              [value]="municipality['id']"
             >
-              {{ option.label }}
+              {{ municipality['name'] }}
             </mat-option>
           </mat-select>
           <mat-error appErrorMessage></mat-error>
@@ -169,13 +170,15 @@
       <div class="col-4 d-flex flex-column">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Sección</mat-label>
-          <mat-select formControlName="assign_pattern">
-            <mat-option>Ninguna</mat-option>
+          <mat-select formControlName="section">
+            <mat-option [value]="null" *ngIf="sections.length === 0"
+              >Seleccione un municipio
+            </mat-option>
             <mat-option
-              *ngFor="let option of role_select; index as i"
-              [value]="option.value"
+              *ngFor="let section of sections"
+              [value]="section['id']"
             >
-              {{ option.label }}
+              {{ section['section'] }}
             </mat-option>
           </mat-select>
           <mat-error appErrorMessage></mat-error>

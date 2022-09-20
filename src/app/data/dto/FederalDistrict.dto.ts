@@ -4,4 +4,5 @@ export interface FederalDistrictDto extends EntityDto {
   id: number;
   key: string;
   name: string;
+  // municipalities?: ;
 }
