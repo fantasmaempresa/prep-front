@@ -31,4 +31,5 @@ export const genericErrorMessages: { [key: string]: any } = {
     `This field has a maximum of ${requiredLength} characters`,
   min: ({ min }: any) => `Min Value ${min}`,
   max: ({ max }: any) => `Max Value ${max}`,
+  notEquals: () => 'This field not match with another field',
 };

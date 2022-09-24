@@ -11,8 +11,46 @@
     (ngSubmit)="onSubmit()"
     [formGroup]="militantForm"
     class="row justify-content-center"
+    autocomplete="off"
   >
-    <h3 class="mb-0 mt-5">Datos personales</h3>
+    <h3 class="mb-0 mt-5">Roles de sistema</h3>
+    <hr />
+    <div class="row mt-3 mb-5">
+      <div class="col-6 d-flex flex-column">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Rol</mat-label>
+          <mat-select formControlName="type">
+            <mat-option
+              *ngFor="let option of role_select; index as i"
+              [value]="option.value"
+              >{{ option.label }}</mat-option
+            >
+          </mat-select>
+          <mat-error appErrorMessage></mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-6 d-flex flex-column">
+        <mat-form-field
+          appearance="outline"
+          class="w-100"
+          *ngIf="showAssignPattern"
+        >
+          <mat-label>Asignar superior</mat-label>
+          <mat-select formControlName="assign_pattern">
+            <mat-option
+              *ngFor="let option of pattern_select"
+              [value]="option['value']"
+            >
+              {{ option['label'] }}
+            </mat-option>
+          </mat-select>
+          <mat-error appErrorMessage></mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <h3 class="mb-0">Datos personales</h3>
     <hr />
     <div class="row mt-3 mb-5">
       <div class="col-4 d-flex flex-column">
@@ -26,7 +64,7 @@
       <div class="col-4 d-flex flex-column">
         <mat-form-field appearance="outline">
           <mat-label>Apellido Paterno</mat-label>
-          <input formControlName="last_name_p" matInput type="text" />
+          <input formControlName="father_last_name" matInput type="text" />
           <mat-error appErrorMessage></mat-error>
         </mat-form-field>
       </div>
@@ -34,15 +72,7 @@
       <div class="col-4 d-flex flex-column">
         <mat-form-field appearance="outline">
           <mat-label>Apellido Materno</mat-label>
-          <input formControlName="last_name_m" matInput type="text" />
-          <mat-error appErrorMessage></mat-error>
-        </mat-form-field>
-      </div>
-
-      <div class="col-12 d-flex flex-column">
-        <mat-form-field appearance="outline">
-          <mat-label>CURP</mat-label>
-          <input formControlName="curp" matInput type="text" />
+          <input formControlName="mother_last_name" matInput type="text" />
           <mat-error appErrorMessage></mat-error>
         </mat-form-field>
       </div>
@@ -53,6 +83,22 @@
     <div class="row mt-3 mb-5">
       <div class="col-6 d-flex flex-column">
         <mat-form-field appearance="outline">
+          <mat-label>CURP</mat-label>
+          <input formControlName="curp" matInput type="text" />
+          <mat-error appErrorMessage></mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-6 d-flex flex-column">
+        <mat-form-field appearance="outline">
+          <mat-label>Confirmar CURP</mat-label>
+          <input formControlName="curp_confirm" matInput type="text" />
+          <mat-error appErrorMessage></mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-6 d-flex flex-column">
+        <mat-form-field appearance="outline">
           <mat-label>OCR</mat-label>
           <input formControlName="ocr" matInput type="text" />
           <mat-error appErrorMessage></mat-error>
@@ -61,8 +107,24 @@
 
       <div class="col-6 d-flex flex-column">
         <mat-form-field appearance="outline">
+          <mat-label>OCR</mat-label>
+          <input formControlName="ocr_confirm" matInput type="text" />
+          <mat-error appErrorMessage></mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-6 d-flex flex-column">
+        <mat-form-field appearance="outline">
           <mat-label>Clave de elector</mat-label>
           <input formControlName="elector_key" matInput type="text" />
+          <mat-error appErrorMessage></mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-6 d-flex flex-column">
+        <mat-form-field appearance="outline">
+          <mat-label>Clave de elector</mat-label>
+          <input formControlName="elector_key_confirm" matInput type="text" />
           <mat-error appErrorMessage></mat-error>
         </mat-form-field>
       </div>
@@ -91,41 +153,6 @@
         <mat-form-field appearance="outline">
           <mat-label>Número de casa</mat-label>
           <input formControlName="house_phone" matInput type="text" />
-          <mat-error appErrorMessage></mat-error>
-        </mat-form-field>
-      </div>
-    </div>
-
-    <h3 class="mb-0">Roles de sistema</h3>
-    <hr />
-    <div class="row mt-3 mb-5">
-      <div class="col-6 d-flex flex-column">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Rol</mat-label>
-          <mat-select formControlName="role">
-            <mat-option>Ninguna</mat-option>
-            <mat-option
-              *ngFor="let option of role_select; index as i"
-              [value]="option.value"
-              >{{ option.label }}</mat-option
-            >
-          </mat-select>
-          <mat-error appErrorMessage></mat-error>
-        </mat-form-field>
-      </div>
-
-      <div class="col-6 d-flex flex-column">
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Asignar superior</mat-label>
-          <mat-select formControlName="assign_pattern">
-            <mat-option>Ninguna</mat-option>
-            <mat-option
-              *ngFor="let option of role_select; index as i"
-              [value]="option.value"
-            >
-              {{ option.label }}
-            </mat-option>
-          </mat-select>
           <mat-error appErrorMessage></mat-error>
         </mat-form-field>
       </div>
@@ -170,7 +197,7 @@
       <div class="col-4 d-flex flex-column">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>Sección</mat-label>
-          <mat-select formControlName="section">
+          <mat-select formControlName="section_id">
             <mat-option [value]="null" *ngIf="sections.length === 0"
               >Seleccione un municipio
             </mat-option>
@@ -188,15 +215,19 @@
       <div class="col-12 d-flex flex-column">
         <mat-form-field appearance="outline">
           <mat-label>Dirección</mat-label>
-          <input formControlName="house_phone" matInput type="text" />
+          <input
+            #mapSearch
+            matInput
+            type="text"
+            autocomplete="false"
+            formControlName="address"
+          />
           <mat-error appErrorMessage></mat-error>
         </mat-form-field>
       </div>
     </div>
 
-    <h3 class="mb-0">Mapa</h3>
-    <hr />
-    <div class="row mt-3 mb-5">
+    <div class="row mb-5">
       <div class="col-12 d-flex flex-column">
         <google-map
           height="400px"

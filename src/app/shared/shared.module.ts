@@ -37,6 +37,7 @@ import { HttpClientModule } from '@angular/common/http';
     MaterialModule,
     NotificationComponent,
     BreadcrumbModule,
+    ErrorMessageDirective,
   ],
 })
 export class SharedModule {}

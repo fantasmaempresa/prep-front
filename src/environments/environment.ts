@@ -11,6 +11,7 @@ export const environment = {
   mix_pusher_app_key: '1234567',
   mix_pusher_app_cluster: 'mt1',
   name_app: 'PREP',
+  api_key_google: 'AIzaSyAHukNiEIS2AzxptYrarhGCdFJw2zmZGLY',
 };
 
 /*
