@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SectionService } from '../../../../data/services/section.service';
@@ -7,7 +13,7 @@ import { LocalDistrictService } from '../../../../data/services/local-district.s
 import { FederalDistrictService } from '../../../../data/services/federal-district.service';
 import Swal from 'sweetalert2';
 import { ValidatorEquals } from '../../../../shared/helpers/ValidatorsHelper';
-import { GoogleMap } from '@angular/google-maps';
+import { MapsComponent } from '../../../../shared/components/maps/maps.component';
 
 @Component({
   selector: 'app-militant-form',
@@ -15,11 +21,7 @@ import { GoogleMap } from '@angular/google-maps';
   styleUrls: ['./militant-form.component.scss'],
 })
 export class MilitantFormComponent implements AfterViewInit {
-  @ViewChild('mapSearch') searchElementRef!: ElementRef;
-  @ViewChild(GoogleMap) public map!: GoogleMap;
-
-  geocoder: google.maps.Geocoder;
-  markers: google.maps.Marker[] = [];
+  @ViewChild(MapsComponent) public maps!: MapsComponent;
   showAssignPattern = true;
   districts = [];
   municipalities = [];
@@ -53,15 +55,6 @@ export class MilitantFormComponent implements AfterViewInit {
   ];
 
   pattern_select: { label: string; value: number }[] = [];
-  display: any;
-  latitude = 19.043764;
-  longitude = -98.197851;
-  center: google.maps.LatLngLiteral = {
-    lat: this.latitude,
-    lng: this.longitude,
-  };
-  zoom = 15;
-
   militantForm = new FormGroup(
     {
       //general info
@@ -92,7 +85,7 @@ export class MilitantFormComponent implements AfterViewInit {
         Validators.required,
         Validators.maxLength(10),
       ]),
-      house_phone: new FormControl('', []),
+      home_phone: new FormControl('', []),
       email: new FormControl('', [Validators.required, Validators.email]),
       //admin data
       type: new FormControl('', [Validators.required]),
@@ -120,7 +113,6 @@ export class MilitantFormComponent implements AfterViewInit {
     private localDistrict: LocalDistrictService,
     private federalDistrict: FederalDistrictService
   ) {
-    this.geocoder = new google.maps.Geocoder();
     this.federalDistrict.fetchAll().subscribe((response) => {
       for (const element of response.data) {
         // @ts-ignore
@@ -206,59 +198,7 @@ export class MilitantFormComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    const searchBox = new google.maps.places.SearchBox(
-      this.searchElementRef.nativeElement
-    );
-
-    searchBox.addListener('places_changed', () => {
-      const places = searchBox.getPlaces();
-      if (places?.length === 0) {
-        return;
-      }
-      this.markers.forEach((marker) => {
-        marker.setMap(null);
-      });
-      this.markers = [];
-
-      const bounds = new google.maps.LatLngBounds();
-      places?.forEach((place) => {
-        if (!place.geometry || !place.geometry.location) {
-          console.log('Returned place contains no geometry');
-          return;
-        }
-
-        const icon = {
-          url: place.icon as string,
-          size: new google.maps.Size(71, 71),
-          origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(17, 34),
-          scaledSize: new google.maps.Size(25, 25),
-        };
-
-        const marker = new google.maps.Marker({
-          map: this.map.googleMap,
-          icon: icon,
-          animation: google.maps.Animation.DROP,
-          title: place.name,
-          position: place.geometry.location,
-          draggable: true,
-          clickable: true,
-        });
-
-        marker.addListener('dragend', () => {
-          this.decoderPosition();
-        });
-        this.markers.push(marker);
-
-        if (place.geometry.viewport) {
-          bounds.union(place.geometry.viewport);
-        } else {
-          bounds.extend(place.geometry.location);
-        }
-      });
-      this.map.fitBounds(bounds);
-    });
-    console.log(searchBox);
+    this.maps.drawGeoJson('./../assets/geojson/mun.json');
   }
 
   removeValidatorsMilitant() {
@@ -295,39 +235,6 @@ export class MilitantFormComponent implements AfterViewInit {
       .get('elector_key_confirm')
       ?.addValidators([Validators.required]);
     this.militantForm.get('elector_key_confirm')?.updateValueAndValidity();
-  }
-
-  decoderPosition() {
-    this.markers.forEach((marker) => {
-      Swal.showLoading();
-      this.geocoder
-        .geocode({ location: marker.getPosition() })
-        .then((response) => {
-          if (response.results[0]) {
-            console.log('geocoder ---> ', response.results[0]);
-            this.militantForm
-              .get('address')
-              ?.setValue(response.results[0].formatted_address);
-            const lat = marker.getPosition()?.lat().toString();
-            const lng = marker.getPosition()?.lng().toString();
-            if (lat && lng) {
-              this.militantForm.get('lat')?.setValue(lat);
-              this.militantForm.get('lng')?.setValue(lng);
-            }
-
-            Swal.close();
-          }
-        })
-        .catch((e) => console.log('Geocoder failed due to: ' + e));
-    });
-  }
-
-  moveMap(event: google.maps.MapMouseEvent) {
-    if (event.latLng !== null) this.center = event.latLng.toJSON();
-  }
-
-  move(event: google.maps.MapMouseEvent) {
-    if (event.latLng !== null) this.display = event.latLng.toJSON();
   }
 
   backToListRoles() {

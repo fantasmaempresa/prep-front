@@ -1,0 +1,30 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="form">
+  <div class="row">
+    <div class="col-12 d-flex flex-column">
+      <mat-form-field appearance="outline">
+        <mat-label>Dirección</mat-label>
+        <input
+          #mapSearch
+          matInput
+          type="text"
+          autocomplete="false"
+          formControlName="address"
+          *ngIf="viewAddressBox"
+        />
+        <mat-error appErrorMessage></mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="col-12 d-flex flex-column">
+      <google-map
+        height="400px"
+        width="100%"
+        [center]="center"
+        [zoom]="zoom"
+        (mapClick)="moveMap($event)"
+        (mapMousemove)="move($event)"
+      >
+      </google-map>
+    </div>
+  </div>
+</form>
