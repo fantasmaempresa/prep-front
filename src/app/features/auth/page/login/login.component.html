@@ -1,38 +1,31 @@
 <div class="col-md-6 col-lg-4 col-xl-3">
-  <div class="card overflow-hidden">
+  <div class="card overflow-hidden mat-elevation-z5">
     <div class="bg-login">
       <div class="position-relative">
         <h5 class="text-white">Bienvenido</h5>
-        <p class="text-white-50">
-          Inicia sesión para continuar a {{ name_app }}
-        </p>
+        <p class="text-white-50">Inicia sesión para continuar a ERP</p>
         <div class="logo-admin mt-4">
           <span class="material-icons logo-admin-icon">person_outline</span>
         </div>
       </div>
     </div>
     <div class="card-body pt-5">
-      <div class="error-message m-3" *ngIf="errorMessage$ | async as message">
-        <span>{{ message }}</span>
-      </div>
+      <!--            <div class="error-message m-3" *ngIf="errorMessage$ | async as message">-->
+      <!--                <span>{{ message }}</span>-->
+      <!--            </div>-->
       <div class="p-2">
-        <form
-          [formGroup]="signUpForm"
-          (ngSubmit)="onSubmit()"
-          (blur)="logValidationErrors()"
-        >
+        <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
           <mat-form-field appearance="outline" class="w-100 mb-2">
             <mat-label>Email</mat-label>
             <input
+              appAutofocus
               matInput
               placeholder="example@email.com"
               type="text"
               formControlName="username"
-              (blur)="logValidationErrors()"
+              autocomplete="off"
             />
-            <mat-error *ngIf="formErrors.email">{{
-              formErrors.email
-            }}</mat-error>
+            <mat-error appErrorMessage></mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="w-100">
@@ -41,28 +34,12 @@
               [type]="hidePassword ? 'password' : 'text'"
               matInput
               formControlName="password"
-              (blur)="logValidationErrors()"
             />
-            <mat-icon (click)="hidePassword = !hidePassword" matSuffix>{{
-              hidePassword ? 'visibility_off' : 'visibility'
-            }}</mat-icon>
-            <mat-error *ngIf="formErrors.password">{{
-              formErrors.password
-            }}</mat-error>
+            <mat-icon (click)="hidePassword = !hidePassword" matSuffix>
+              {{ hidePassword ? 'visibility_off' : 'visibility' }}
+            </mat-icon>
+            <mat-error appErrorMessage></mat-error>
           </mat-form-field>
-
-          <!--          <mat-form-field appearance="outline" class="w-100">-->
-          <!--            <mat-label>Confirm password:</mat-label>-->
-          <!--            <input-->
-          <!--              matInput-->
-          <!--              type="password"-->
-          <!--              formControlName="confirmPassword"-->
-          <!--              (blur)="logValidationErrors()"-->
-          <!--            />-->
-          <!--            <mat-error *ngIf="formErrors.confirmPassword">{{-->
-          <!--              formErrors.confirmPassword-->
-          <!--            }}</mat-error>-->
-          <!--          </mat-form-field>-->
 
           <div class="mt-3">
             <button
@@ -70,7 +47,6 @@
               class="w-100"
               color="primary"
               type="submit"
-              [disabled]="isLoading$ | async"
             >
               Iniciar sesión
             </button>
@@ -87,3 +63,34 @@
     </div>
   </div>
 </div>
+
+
+<!--<div class="formContentParent">-->
+<!--    <div class="wrapper fadeInDown">-->
+<!--        <div class="formContent">-->
+<!--            &lt;!&ndash; Icon &ndash;&gt;-->
+<!--            <div class="fadeIn first">-->
+<!--                <img class="m-3 img-thumbnail" src="./assets/img/morena-logo.png" id="icon" alt="User Icon"/>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; Login Form &ndash;&gt;-->
+<!--            <form [formGroup]="form" (submit)="submit()" class="login100-form validate-form">-->
+<!--                <div class="container">-->
+<!--                    <span class="build-version">{{BUILD_VERSION}}</span>-->
+<!--                </div>-->
+<!--                <hr>-->
+<!--                <input type="text" class="fadeIn second inputLogin" formControlName="username" placeholder="Usuario">-->
+<!--                <br>-->
+<!--                <input type="password" class="fadeIn third inputLogin" formControlName="password"-->
+<!--                       placeholder="Contraseña">-->
+<!--                <br>-->
+<!--                &lt;!&ndash;                <a style="width: 86%" class="btn btn-outline-primary m-3" [routerLink]="['/dashboard']"> Entrar </a>&ndash;&gt;-->
+<!--                <button class="btn btn-outline-primary m-3" type="submit" style="width: 86%" [disabled]="!form.valid">-->
+<!--                    Entrar-->
+<!--                </button>-->
+<!--            </form>-->
+<!--            <div id="formFooter">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->

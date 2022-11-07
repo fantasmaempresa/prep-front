@@ -20,7 +20,7 @@ $dark-dividers: rgba($dark-primary-text, 0.12);
 $dark-focused: rgba($dark-primary-text, 0.12);
 
 // Dark bg
-$dark-background:     #0b2738;
+$dark-background:     #2c2c2c;
 $dark-bg-lighter-5:   lighten($dark-background, 5%);
 $dark-bg-lighter-10:  lighten($dark-background, 10%);
 $dark-bg-lighter-20:  lighten($dark-background, 20%);
@@ -66,49 +66,59 @@ $mat-dark-theme-background: (
   disabled-list-option:     $dark-bg-lighter-10,
 );
 
+body {
+  --primary-color: #2b2b2b;
+  --primary-lighter-color: #bfbfbf;
+  --primary-darker-color: #1a1a1a;
+  --text-primary-color: #{$light-primary-text};
+  --text-primary-lighter-color: #{$dark-primary-text};
+  --text-primary-darker-color: #{$light-primary-text};
+}
 $mat-dark-primary: (
-  main: #234a62,
-  lighter: #bdc9d0,
-  darker: #153246,
-  200: #234a62, // For slide toggle,
+  main: #2b2b2b,
+  lighter: #bfbfbf,
+  darker: #1a1a1a,
+  200: #2b2b2b, // For slide toggle,
   contrast : (
     main: $light-primary-text,
     lighter: $dark-primary-text,
     darker: $light-primary-text,
   )
 );
+$theme-primary: mat.define-palette($mat-dark-primary, main, lighter, darker);
+
 
 body {
-  --primary-color: #234a62;
-  --primary-lighter-color: #bdc9d0;
-  --primary-darker-color: #153246;
-  --text-primary-color: #{$light-primary-text};
-  --text-primary-lighter-color: #{$dark-primary-text};
-  --text-primary-darker-color: #{$light-primary-text};
+  --accent-color: #e6ddda;
+  --accent-lighter-color: #f8f5f4;
+  --accent-darker-color: #dbcfcb;
+  --text-accent-color: #{$dark-primary-text};
+  --text-accent-lighter-color: #{$dark-primary-text};
+  --text-accent-darker-color: #{$dark-primary-text};
 }
-
-$mat-accent: (
-  main: #14d9c3,
-  lighter: #b9f4ed,
-  darker: #0bcaae,
-  200: #14d9c3, // For slide toggle,
+$mat-dark-accent: (
+  main: #e6ddda,
+  lighter: #f8f5f4,
+  darker: #dbcfcb,
+  200: #e6ddda, // For slide toggle,
   contrast : (
     main: $dark-primary-text,
     lighter: $dark-primary-text,
     darker: $dark-primary-text,
   )
 );
+$theme-accent: mat.define-palette($mat-dark-accent, main, lighter, darker);
+
 
 body {
-  --accent-color: #14d9c3;
-  --accent-lighter-color: #b9f4ed;
-  --accent-darker-color: #0bcaae;
-  --text-accent-color: #{$dark-primary-text};
-  --text-accent-lighter-color: #{$dark-primary-text};
-  --text-accent-darker-color: #{$dark-primary-text};
+  --warn-color: #ff0000;
+  --warn-lighter-color: #ffb3b3;
+  --warn-darker-color: #ff0000;
+  --text-warn-color: #{$light-primary-text};
+  --text-warn-lighter-color: #{$dark-primary-text};
+  --text-warn-darker-color: #{$light-primary-text};
 }
-
-$mat-warn: (
+$mat-dark-warn: (
   main: #ff0000,
   lighter: #ffb3b3,
   darker: #ff0000,
@@ -119,19 +129,11 @@ $mat-warn: (
     darker: $light-primary-text,
   )
 );
-
-body {
-  --warn-color: #ff0000;
-  --warn-lighter-color: #ffb3b3;
-  --warn-darker-color: #ff0000;
-  --text-warn-color: #{$light-primary-text};
-  --text-warn-lighter-color: #{$dark-primary-text};
-  --text-warn-darker-color: #{$light-primary-text};
-}
+$theme-warn: mat.define-palette($mat-dark-warn, main, lighter, darker);
 
 $theme-dark-primary: mat.define-palette($mat-dark-primary, main, lighter, darker);
-$theme-dark-accent: mat.define-palette($mat-accent, main, lighter, darker);
-$theme-dark-warn: mat.define-palette($mat-warn, main, lighter, darker);
+$theme-dark-accent: mat.define-palette($mat-dark-accent, main, lighter, darker);
+$theme-dark-warn: mat.define-palette($mat-dark-warn, main, lighter, darker);
 
 $dark-theme-structure: (
   primary: $theme-dark-primary,
@@ -142,10 +144,20 @@ $dark-theme-structure: (
   background: $mat-dark-theme-background,
 );
 
+$input-dark-theme: (
+  primary: $theme-accent,
+  accent: $theme-primary,
+  warn: $theme-warn,
+  is-dark: true,
+  foreground: $mat-dark-theme-foreground,
+  background: $mat-dark-theme-background,
+);
+
 $dark-theme: mat.define-dark-theme($dark-theme-structure);
 
 .dark-theme {
   @include mat.all-component-themes($dark-theme);
+  @include mat.form-field-theme($input-dark-theme);
   @include components.theme($dark-theme, typography.$fontConfig);
 }
 

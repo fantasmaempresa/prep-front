@@ -10,7 +10,7 @@
 }
 
 .bg-login {
-  background-image: url('~src/assets/images/brand/logo.png');
+  //background-image: url('~src/assets/images/brand/logo.png');
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center center;
@@ -23,8 +23,8 @@
 .bg-login:before {
   content: '';
   position: absolute;
-  background: -webkit-gradient(linear, left top, right top, from(#273c92), to(#293e92));
-  background: linear-gradient(to right, var(--accent-color), var(--accent-darker-color));
+  background: -webkit-gradient(linear, left top, right top, from(var(--primary-color)), to(var(--primary-darker-color)));
+  background: linear-gradient(to right, var(--primary-color), var(--primary-darker-color));
   top: 0;
   right: 0;
   left: 0;

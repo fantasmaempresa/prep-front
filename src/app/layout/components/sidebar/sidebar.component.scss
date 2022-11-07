@@ -1,11 +1,11 @@
-@import '~src/assets/styles/abstracts/mixins';
-@import '../../../../styles/themes/light';
+@use './src/assets/styles/abstracts/variables' as variables;
+@use './src/assets/styles/abstracts/mixins' as mixins;
 
 .sidebar-container {
   position: relative;
   height: 100%;
 
-  @include respond(tabLand) {
+  @include mixins.respond(tabLand) {
     position: absolute;
     top: 0;
     left: 0;
@@ -21,9 +21,8 @@
   top: -$top;
   right: 0;
 
-  width: 94%;
+  width: 85%;
   min-height: calc(100% + #{$top});
-  //background: var(--primary-color);
   border-radius: 0.5rem;
   display: flex;
   flex-direction: column;
@@ -31,15 +30,15 @@
   padding: 4rem 1rem 2rem;
   box-shadow: 8px 8px 16px 8px rgba(0, 0, 0, 0.125);
 
-  @include respond(tabLand) {
-    top: $headerHeight/2;
+  @include mixins.respond(tabLand) {
+    top: calc(#{variables.$headerHeight} / 2);
     min-height: auto;
     width: 30rem;
     transition: transform 550ms ease-in-out;
     transform: translateX(-100%);
   }
 
-  @include respond {
+  @include mixins.respond {
     width: 66.66vw;
   }
 
@@ -56,7 +55,7 @@
     display: none;
     z-index: 2000;
 
-    @include respond(tabLand) {
+    @include mixins.respond(tabLand) {
       display: block;
     }
   }
@@ -126,7 +125,6 @@
 
     &__profile-place {
       margin-top: 0.3rem;
-      color: var(--color-secondary-400);
       font-size: var(--text-300);
       font-weight: 500;
     }
@@ -169,49 +167,49 @@
   }
 
   &__link {
-    position: relative;
-    padding: 0.5rem 1.5rem;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    color: inherit;
-    text-decoration: none;
+    //position: relative;
+    //padding: 0.5rem 1.5rem;
+    //display: flex;
+    //align-items: center;
+    //cursor: pointer;
+    //color: inherit;
+    //text-decoration: none;
 
     & > * {
       position: relative;
       z-index: 3;
     }
 
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      border-radius: 0.5rem;
-      transform: scaleX(0);
-      //background: var(--primary-color);
-      transition: 360ms all ease-in-out;
-      transform-origin: left;
-      z-index: 2;
-    }
+    //&::after {
+    //  content: '';
+    //  position: absolute;
+    //  bottom: 0;
+    //  left: 0;
+    //  height: 100%;
+    //  width: 100%;
+    //  border-radius: 0.5rem;
+    //  transform: scaleX(0);
+    //  //background: var(--primary-color);
+    //  transition: 360ms all ease-in-out;
+    //  transform-origin: left;
+    //  z-index: 2;
+    //}
+    //
+    //&:hover {
+    //  color: var(--accent-color);
+    //  animation: heartBeating 850ms infinite ease-in-out;
+    //  animation-direction: alternate;
+    //}
 
-    &:hover {
-      color: var(--accent-color);
-      animation: heartBeating 850ms infinite ease-in-out;
-      animation-direction: alternate;
-    }
-
-    &--active,
-    &--active:hover {
-      color: var(--color-secondary-100);
-      animation: none;
-
-      &::after {
-        transform: scaleX(1);
-      }
-    }
+    //&--active,
+    //&--active:hover {
+    //color: var(--color-secondary-100);
+    //animation: none;
+    //
+    //&::after {
+    //  transform: scaleX(1);
+    //}
+    //}
   }
 
   &__icon {
@@ -234,7 +232,7 @@
     display: flex;
     align-items: center;
     cursor: pointer;
-    color: inherit;
+    color: var(--text-primary-color);
     text-decoration: none;
 
     &:hover {
@@ -294,7 +292,7 @@
 
     &:hover {
       color: var(--primary-color);
-      //background: var(--accent-color);
+      //background: var(--primaryColor);
     }
   }
 

@@ -1,33 +1,39 @@
 <header class="header">
   <div class="header__logo">
-    <img
-      alt="Logo Code"
-      class="header__logo-img"
-      src="assets/images/logo.svg"
-    />
+    <h1>
+      Promotores
+    </h1>
+    <!--    <img-->
+    <!--      alt="Logo Code"-->
+    <!--      class="header__logo-img"-->
+    <!--      src="assets/images/logo.svg"-->
+    <!--    />-->
   </div>
 
-  <app-notification class="header__notification"></app-notification>
+  <!--  <app-notification class="header__notification"></app-notification>-->
 
-  <div class="header__profile">
-    <div class="header__profile-container">
-      <button [matMenuTriggerFor]="profileMenu" mat-button>
-        <img
-          alt=""
-          class="profile-img"
-          src="assets/images/profile_picture.jpg"
-        />
-        <span class="header__profile-label">Patrick</span>
-        <span class="material-icons">expand_more</span>
-      </button>
-      <mat-menu #profileMenu="matMenu" xPosition="before">
-        <mat-slide-toggle #slide color="primary" (change)="changeTheme($event)">
-          Modo {{ slide.checked ? 'Oscuro' : 'Claro' }}
-        </mat-slide-toggle>
-        <button mat-menu-item>Item 1</button>
-        <button mat-menu-item>Item 2</button>
-        <button mat-menu-item>Cerrar sesión</button>
-      </mat-menu>
-    </div>
-  </div>
+  <button mat-icon-button matTooltip="Cerrar sesión">
+    <mat-icon>logout</mat-icon>
+  </button>
+
+
+  <!--  <div class="header__profile">-->
+  <!--    <div class="header__profile-container">-->
+  <!--      <button [matMenuTriggerFor]="profileMenu" mat-button>-->
+  <!--        <img-->
+  <!--          alt=""-->
+  <!--          class="profile-img"-->
+  <!--          src="assets/images/profile_picture.jpg"-->
+  <!--        />-->
+  <!--        <span class="header__profile-label">Patrick</span>-->
+  <!--        <span class="material-icons">expand_more</span>-->
+  <!--      </button>-->
+  <!--      <mat-menu #profileMenu="matMenu" xPosition="before">-->
+  <!--        <mat-slide-toggle #slide color="primary" (change)="changeTheme($event)">-->
+  <!--          Modo {{ slide.checked ? 'Oscuro' : 'Claro' }}-->
+  <!--        </mat-slide-toggle>-->
+  <!--        <button mat-menu-item>Cerrar sesión</button>-->
+  <!--      </mat-menu>-->
+  <!--    </div>-->
+  <!--  </div>-->
 </header>
