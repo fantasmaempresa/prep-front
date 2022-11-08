@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SectionService } from '../../../../data/services/section.service';
@@ -14,6 +8,10 @@ import { FederalDistrictService } from '../../../../data/services/federal-distri
 import Swal from 'sweetalert2';
 import { ValidatorEquals } from '../../../../shared/helpers/ValidatorsHelper';
 import { MapsComponent } from '../../../../shared/components/maps/maps.component';
+import { FederalDistrictDto } from '../../../../data/dto/FederalDistrict.dto';
+import { MunicipalityDto } from '../../../../data/dto/Municipality.dto';
+import { SectionDto } from '../../../../data/dto/Section.dto';
+import { map, Observable, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-militant-form',
@@ -23,9 +21,9 @@ import { MapsComponent } from '../../../../shared/components/maps/maps.component
 export class MilitantFormComponent implements AfterViewInit {
   @ViewChild(MapsComponent) public maps!: MapsComponent;
   showAssignPattern = true;
-  districts = [];
-  municipalities = [];
-  sections = [];
+  districts$: Observable<FederalDistrictDto[]>;
+  municipalities: MunicipalityDto[] = [];
+  sections: SectionDto[] = [];
   CURP_REGEX =
     '[A-Z]{1}[AEIOU]{1}[A-Z]{2}[0-9]{2}' +
     '(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])' +
@@ -34,7 +32,6 @@ export class MilitantFormComponent implements AfterViewInit {
     '[B-DF-HJ-NP-TV-Z]{3}' +
     '[0-9A-Z]{1}[0-9]{1}$';
   EK_REGEX = '[A-Z]{6}[0-9]{8}[A-Z]{1}[0-9]{3}';
-
   role_select = [
     {
       label: 'Operador',
@@ -53,7 +50,6 @@ export class MilitantFormComponent implements AfterViewInit {
       value: 4,
     },
   ];
-
   pattern_select: { label: string; value: number }[] = [];
   militantForm = new FormGroup(
     {
@@ -104,6 +100,16 @@ export class MilitantFormComponent implements AfterViewInit {
       ValidatorEquals('ocr', 'ocr_confirm', 'notEquals'),
     ]
   );
+  private fieldsToValidate = [
+    'cell_phone',
+    'email',
+    'curp',
+    'curp_confirm',
+    'ocr',
+    'ocr_confirm',
+    'elector_key',
+    'elector_key_confirm',
+  ];
 
   constructor(
     private router: Router,
@@ -113,34 +119,37 @@ export class MilitantFormComponent implements AfterViewInit {
     private localDistrict: LocalDistrictService,
     private federalDistrict: FederalDistrictService
   ) {
-    this.federalDistrict.fetchAll().subscribe((response) => {
-      for (const element of response.data) {
-        // @ts-ignore
-        this.districts.push(element);
-      }
-    });
-    this.militantForm.get('district')?.valueChanges.subscribe((value) => {
-      Swal.showLoading();
-      this.federalDistrict.fetch(Number(value)).subscribe((response) => {
-        // @ts-ignore
-        this.municipalities = response.municipalities;
-        this.sections = [];
-        Swal.close();
+    this.districts$ = this.federalDistrict
+      .fetchAll()
+      .pipe(map(({ data }) => data));
+    this.militantForm
+      .get('district')
+      ?.valueChanges.pipe(
+        tap(() => Swal.showLoading()),
+        switchMap((value) => this.federalDistrict.fetch(Number(value))),
+        tap(() => Swal.close())
+      )
+      .subscribe({
+        next: (response) => {
+          this.municipalities = response.municipalities;
+          this.sections = [];
+        },
       });
-    });
 
-    this.militantForm.get('municipality')?.valueChanges.subscribe((value) => {
-      Swal.showLoading();
-      this.municipality.fetch(Number(value)).subscribe((response) => {
-        // @ts-ignore
+    this.militantForm
+      .get('municipality')
+      ?.valueChanges.pipe(
+        tap(() => Swal.showLoading()),
+        switchMap((value) => this.municipality.fetch(Number(value))),
+        tap(() => Swal.close())
+      )
+      .subscribe((response) => {
         this.sections = response.sections;
-        Swal.close();
       });
-    });
 
     this.militantForm.get('type')?.valueChanges.subscribe((value) => {
       this.pattern_select = [];
-      if (value === null) return;
+      if (!value) return;
 
       switch (+value) {
         case 1:
@@ -165,7 +174,7 @@ export class MilitantFormComponent implements AfterViewInit {
               value: 1,
             },
             {
-              label: 'Coornidaor de general',
+              label: 'Coordinador de general',
               value: 2,
             }
           );
@@ -179,16 +188,14 @@ export class MilitantFormComponent implements AfterViewInit {
               value: 1,
             },
             {
-              label: 'Coornidaor de general',
+              label: 'Coordinador de general',
               value: 2,
             },
             {
-              label: 'Coornidaor de sección',
+              label: 'Coordinador de sección',
               value: 3,
             }
           );
-          console.log('remove validators');
-
           break;
 
         default:
@@ -202,46 +209,20 @@ export class MilitantFormComponent implements AfterViewInit {
   }
 
   removeValidatorsMilitant() {
-    this.militantForm.get('cell_phone')?.clearValidators();
-    this.militantForm.get('cell_phone')?.updateValueAndValidity();
-    this.militantForm.get('email')?.clearValidators();
-    this.militantForm.get('email')?.updateValueAndValidity();
-    this.militantForm.get('curp')?.clearValidators();
-    this.militantForm.get('curp')?.updateValueAndValidity();
-    this.militantForm.get('curp_confirm')?.clearValidators();
-    this.militantForm.get('curp_confirm')?.updateValueAndValidity();
-    this.militantForm.get('ocr')?.clearValidators();
-    this.militantForm.get('ocr')?.updateValueAndValidity();
-    this.militantForm.get('ocr_confirm')?.clearValidators();
-    this.militantForm.get('ocr_confirm')?.updateValueAndValidity();
-    this.militantForm.get('elector_key')?.clearValidators();
-    this.militantForm.get('elector_key')?.updateValueAndValidity();
-    this.militantForm.get('elector_key_confirm')?.clearValidators();
-    this.militantForm.get('elector_key_confirm')?.updateValueAndValidity();
+    this.fieldsToValidate.forEach((field) => {
+      this.militantForm.get(field)?.clearValidators();
+      this.militantForm.get(field)?.updateValueAndValidity();
+    });
   }
 
   setValidatorsMilitant() {
-    this.militantForm.get('curp')?.addValidators([Validators.required]);
-    this.militantForm.get('curp')?.updateValueAndValidity();
-    this.militantForm.get('curp_confirm')?.addValidators([Validators.required]);
-    this.militantForm.get('curp_confirm')?.updateValueAndValidity();
-    this.militantForm.get('ocr')?.addValidators([Validators.required]);
-    this.militantForm.get('ocr')?.updateValueAndValidity();
-    this.militantForm.get('ocr_confirm')?.addValidators([Validators.required]);
-    this.militantForm.get('ocr_confirm')?.updateValueAndValidity();
-    this.militantForm.get('elector_key')?.addValidators([Validators.required]);
-    this.militantForm.get('elector_key')?.updateValueAndValidity();
-    this.militantForm
-      .get('elector_key_confirm')
-      ?.addValidators([Validators.required]);
-    this.militantForm.get('elector_key_confirm')?.updateValueAndValidity();
-  }
-
-  backToListRoles() {
-    this.router.navigate(['../'], { relativeTo: this.route });
+    this.fieldsToValidate.forEach((field) => {
+      this.militantForm.get(field)?.addValidators(Validators.required);
+      this.militantForm.get(field)?.updateValueAndValidity();
+    });
   }
 
   onSubmit() {
-    console.log('se envia el formulario', this.militantForm);
+    console.log('se envía el formulario', this.militantForm);
   }
 }

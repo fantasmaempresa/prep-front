@@ -166,10 +166,10 @@
           <mat-label>Distrito</mat-label>
           <mat-select formControlName="district">
             <mat-option
-              *ngFor="let district of districts"
-              [value]="district['id']"
+              *ngFor="let district of districts$ | async"
+              [value]="district.id"
             >
-              {{ district['key'] }}
+              {{ district.key }}
             </mat-option>
           </mat-select>
           <mat-error appErrorMessage></mat-error>
