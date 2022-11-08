@@ -1,4 +1,3 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SectionService } from '../../../../data/services/section.service';
@@ -12,6 +11,7 @@ import { FederalDistrictDto } from '../../../../data/dto/FederalDistrict.dto';
 import { MunicipalityDto } from '../../../../data/dto/Municipality.dto';
 import { SectionDto } from '../../../../data/dto/Section.dto';
 import { map, Observable, switchMap, tap } from 'rxjs';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-militant-form',
@@ -125,7 +125,7 @@ export class MilitantFormComponent implements AfterViewInit {
     this.militantForm
       .get('district')
       ?.valueChanges.pipe(
-        tap(() => Swal.showLoading()),
+        tap(() => Swal.showLoading(null)),
         switchMap((value) => this.federalDistrict.fetch(Number(value))),
         tap(() => Swal.close())
       )
@@ -139,7 +139,7 @@ export class MilitantFormComponent implements AfterViewInit {
     this.militantForm
       .get('municipality')
       ?.valueChanges.pipe(
-        tap(() => Swal.showLoading()),
+        tap(() => Swal.showLoading(null)),
         switchMap((value) => this.municipality.fetch(Number(value))),
         tap(() => Swal.close())
       )
