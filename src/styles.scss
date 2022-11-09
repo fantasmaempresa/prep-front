@@ -20,6 +20,13 @@
 @include mat.all-component-themes(light.$light-theme);
 @include components.theme(light.$light-theme, typography.$fontConfig);
 
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
 :root {
   @each $color, $shades in $colors {
     @each $shade, $value in $shades {

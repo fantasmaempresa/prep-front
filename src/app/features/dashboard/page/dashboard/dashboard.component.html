@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-12">
     <mat-card class="d-flex flex-column">
-      <mat-card-content style="overflow: auto; max-height: 50vh; height: 400px;">
+      <mat-card-content style="overflow: auto; max-height: 50vh; height: 400px">
         <ngx-charts-bar-horizontal
           [scheme]="colorScheme"
           [results]="byPromoters$ | async"
@@ -14,7 +14,8 @@
           [xAxis]="true"
           [yAxis]="true"
           [showDataLabel]="true"
-          [gradient]="true">
+          [gradient]="true"
+        >
         </ngx-charts-bar-horizontal>
       </mat-card-content>
       <mat-card-footer>
@@ -27,39 +28,39 @@
   </div>
 </div>
 
-<div class="row mt-5">
-  <div class="col-12">
-    <mat-card class="d-flex flex-column" style="height: 400px">
-      <mat-radio-group aria-label="Select an option" (change)="rangeChanged($event.value)">
-        <mat-radio-button class="me-3" value="1" checked>Federal</mat-radio-button>
-        <mat-radio-button value="2">Local</mat-radio-button>
-      </mat-radio-group>
-      <mat-card-content class="mt-3" *ngIf="byDistrict$ | async as districts; else loading">
-        <ngx-charts-bar-vertical
-          [scheme]="colorScheme"
-          [results]="districts.value"
-          [xAxisLabel]="'Distrito'"
-          [yAxisLabel]="'Promovidos'"
-          [legendTitle]="'Promovidos por promotor'"
-          [showYAxisLabel]="true"
-          [showXAxisLabel]="true"
-          [xAxis]="true"
-          [yAxis]="true"
-          [showDataLabel]="true"
-          [gradient]="true">
-        </ngx-charts-bar-vertical>
-      </mat-card-content>
-      <ng-template #loading>
-        <mat-card-content class="d-flex justify-content-center my-5">
-          <mat-spinner></mat-spinner>
-        </mat-card-content>
-      </ng-template>
-      <mat-card-footer>
-        <div class="stats">
-          <mat-icon>access_time</mat-icon>
-          Última actualización hace 1 minuto
-        </div>
-      </mat-card-footer>
-    </mat-card>
-  </div>
-</div>
+<!--<div class="row mt-5">-->
+<!--  <div class="col-12">-->
+<!--    <mat-card class="d-flex flex-column" style="height: 400px">-->
+<!--      <mat-radio-group aria-label="Select an option" (change)="rangeChanged($event.value)">-->
+<!--        <mat-radio-button class="me-3" value="1" checked>Federal</mat-radio-button>-->
+<!--        <mat-radio-button value="2">Local</mat-radio-button>-->
+<!--      </mat-radio-group>-->
+<!--      <mat-card-content class="mt-3" *ngIf="byDistrict$ | async as districts; else loading">-->
+<!--        <ngx-charts-bar-vertical-->
+<!--          [scheme]="colorScheme"-->
+<!--          [results]="districts.value"-->
+<!--          [xAxisLabel]="'Distrito'"-->
+<!--          [yAxisLabel]="'Promovidos'"-->
+<!--          [legendTitle]="'Promovidos por promotor'"-->
+<!--          [showYAxisLabel]="true"-->
+<!--          [showXAxisLabel]="true"-->
+<!--          [xAxis]="true"-->
+<!--          [yAxis]="true"-->
+<!--          [showDataLabel]="true"-->
+<!--          [gradient]="true">-->
+<!--        </ngx-charts-bar-vertical>-->
+<!--      </mat-card-content>-->
+<!--      <ng-template #loading>-->
+<!--        <mat-card-content class="d-flex justify-content-center my-5">-->
+<!--          <mat-spinner></mat-spinner>-->
+<!--        </mat-card-content>-->
+<!--      </ng-template>-->
+<!--      <mat-card-footer>-->
+<!--        <div class="stats">-->
+<!--          <mat-icon>access_time</mat-icon>-->
+<!--          Última actualización hace 1 minuto-->
+<!--        </div>-->
+<!--      </mat-card-footer>-->
+<!--    </mat-card>-->
+<!--  </div>-->
+<!--</div>-->

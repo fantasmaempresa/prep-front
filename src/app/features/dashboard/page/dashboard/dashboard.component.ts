@@ -32,6 +32,6 @@ export class DashboardComponent implements OnInit {
     this.byPromoters$ = this.chartsService
       .byPromoter()
       .pipe(map((data: any) => data.slice(0, 50)));
-    this.byDistrict$ = this.chartsService.byDistrict(1).pipe(tap(console.log));
+    // this.byDistrict$ = this.chartsService.byDistrict(1).pipe(tap(console.log));
   }
 }
