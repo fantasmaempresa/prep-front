@@ -1,5 +1,5 @@
-import { EntityDto } from '../../core/interfaces/Entity.dto';
 import { SectionDto } from './Section.dto';
+import { EntityDto } from 'o2c_core';
 
 export interface MunicipalityDto extends EntityDto {
   id: number;

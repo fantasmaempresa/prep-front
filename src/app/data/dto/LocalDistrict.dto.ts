@@ -1,4 +1,4 @@
-import { EntityDto } from '../../core/interfaces/Entity.dto';
+import { EntityDto } from 'o2c_core';
 
 export interface LocalDistrictDto extends EntityDto {
   id: number;

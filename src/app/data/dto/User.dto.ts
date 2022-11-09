@@ -1,5 +1,6 @@
-import { EntityDto } from '../../core/interfaces/Entity.dto';
 // import { RoleDto } from './Role.dto';
+
+import { EntityDto } from 'o2c_core';
 
 export interface UserDto extends EntityDto {
   email: string;

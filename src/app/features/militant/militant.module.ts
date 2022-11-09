@@ -5,9 +5,15 @@ import { SharedModule } from '../../shared/shared.module';
 import { MilitantFormComponent } from './pages/militant-form/militant-form.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { MilitantListComponent } from './pages/militant-list/militant-list.component';
+import { ErrorMessagesModule } from 'o2c_core';
 
 @NgModule({
   declarations: [MilitantFormComponent, MilitantListComponent],
-  imports: [SharedModule, MilitantRoutingModule, GoogleMapsModule],
+  imports: [
+    SharedModule,
+    MilitantRoutingModule,
+    GoogleMapsModule,
+    ErrorMessagesModule,
+  ],
 })
 export class MilitantModule {}

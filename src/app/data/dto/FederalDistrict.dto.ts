@@ -1,4 +1,4 @@
-import { EntityDto } from '../../core/interfaces/Entity.dto';
+import { EntityDto } from 'o2c_core';
 import { MunicipalityDto } from './Municipality.dto';
 
 export interface FederalDistrictDto extends EntityDto {

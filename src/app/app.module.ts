@@ -16,6 +16,8 @@ import { ContentLayoutComponent } from './layout/components/content-layout/conte
 import { StateModule } from './state/state.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
+import { URL_BASE_CRUD_SERVICE } from 'o2c_core';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,7 @@ import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: URL_BASE_CRUD_SERVICE, useValue: environment.base_url },
   ],
   bootstrap: [AppComponent],
 })
