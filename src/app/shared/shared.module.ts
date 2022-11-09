@@ -11,6 +11,7 @@ import { BreadcrumbModule } from 'xng-breadcrumb';
 import { HttpClientModule } from '@angular/common/http';
 import { MapsComponent } from './components/maps/maps.component';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { WithLoadingPipe } from './pipes/with-loading.pipe';
 import { ErrorMessagesModule } from 'o2c_core';
 
 @NgModule({
@@ -20,6 +21,7 @@ import { ErrorMessagesModule } from 'o2c_core';
     OutSideClickDirective,
     FromDatePipe,
     MapsComponent,
+    WithLoadingPipe,
   ],
   imports: [
     CommonModule,
