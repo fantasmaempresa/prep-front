@@ -17,15 +17,15 @@ export class SidebarComponent {
           isOpen: false,
           dropdowns: [
             {
-              label: 'Militantes',
+              label: 'Militantes Alta',
               route: './militant/new',
               icon: 'person_add',
             },
-            // {
-            //   label: 'En Curso',
-            //   route: './ongoing_procedure',
-            //   icon: 'play_arrow',
-            // },
+            {
+              label: 'Militantes Lista',
+              route: './militant/list',
+              icon: 'list',
+            },
           ],
         },
         {
