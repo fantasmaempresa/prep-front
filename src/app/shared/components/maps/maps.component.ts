@@ -103,7 +103,7 @@ export class MapsComponent implements OnInit, AfterViewInit {
 
   decoderPosition() {
     this.markers.forEach((marker) => {
-      Swal.showLoading();
+      Swal.showLoading(null);
       this.geocoder
         .geocode({ location: marker.getPosition() })
         .then((response) => {
