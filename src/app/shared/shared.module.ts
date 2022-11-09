@@ -12,6 +12,7 @@ import { BreadcrumbModule } from 'xng-breadcrumb';
 import { HttpClientModule } from '@angular/common/http';
 import { MapsComponent } from './components/maps/maps.component';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { WithLoadingPipe } from './pipes/with-loading.pipe';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
     OutSideClickDirective,
     FromDatePipe,
     MapsComponent,
+    WithLoadingPipe,
   ],
   imports: [
     CommonModule,
@@ -43,6 +45,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
     BreadcrumbModule,
     ErrorMessageDirective,
     MapsComponent,
-  ],
+    WithLoadingPipe
+  ]
 })
 export class SharedModule {}

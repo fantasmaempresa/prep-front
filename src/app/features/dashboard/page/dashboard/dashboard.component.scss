@@ -1,0 +1,14 @@
+.stats {
+  display: inline-flex;
+}
+
+.stats {
+  color: rgba(0, 0, 0, 0.54);
+
+  mat-icon {
+    position: relative;
+    margin-right: 3px;
+    margin-left: 3px;
+    font-size: 18px;
+  }
+}

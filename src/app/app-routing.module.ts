@@ -21,12 +21,22 @@ const routes: Routes = [
     data: { breadcrumb: 'Inicio' },
     children: [
       {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full',
+      },
+      {
         path: 'militant',
         loadChildren: () =>
           import('./features/militant/militant.module').then(
             (m) => m.MilitantModule
           ),
         data: { breadcrumb: 'Militantes' },
+      },
+      {
+        path: 'dashboard',
+        loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardModule),
+        data: { breadcrumb: 'Dashboard' },
       },
     ],
   },
