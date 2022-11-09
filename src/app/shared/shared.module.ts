@@ -13,6 +13,7 @@ import { MapsComponent } from './components/maps/maps.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { WithLoadingPipe } from './pipes/with-loading.pipe';
 import { ErrorMessagesModule } from 'o2c_core';
+import { CoreModule } from '../core/core.module';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { ErrorMessagesModule } from 'o2c_core';
     MaterialModule,
     GoogleMapsModule,
     ErrorMessagesModule,
+    CoreModule,
   ],
   exports: [
     CommonModule,
