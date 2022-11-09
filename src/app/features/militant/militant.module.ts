@@ -6,9 +6,14 @@ import { MilitantFormComponent } from './pages/militant-form/militant-form.compo
 import { GoogleMapsModule } from '@angular/google-maps';
 import { MilitantListComponent } from './pages/militant-list/militant-list.component';
 import { ErrorMessagesModule, ViewsModule } from 'o2c_core';
+import { PromotorListComponent } from './pages/promotor-list/promotor-list.component';
 
 @NgModule({
-  declarations: [MilitantFormComponent, MilitantListComponent],
+  declarations: [
+    MilitantFormComponent,
+    MilitantListComponent,
+    PromotorListComponent,
+  ],
   imports: [
     SharedModule,
     MilitantRoutingModule,

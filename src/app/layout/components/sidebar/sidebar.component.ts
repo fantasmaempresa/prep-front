@@ -22,8 +22,13 @@ export class SidebarComponent {
               icon: 'person_add',
             },
             {
-              label: 'Militantes Lista',
-              route: './militant/list',
+              label: 'Promotor Lista',
+              route: './militant/list/promotor',
+              icon: 'list',
+            },
+            {
+              label: 'Militante Lista',
+              route: './militant/list/people',
               icon: 'list',
             },
           ],
