@@ -13,6 +13,10 @@ import { SectionDto } from '../../../../data/dto/Section.dto';
 import { map, Observable, switchMap, tap } from 'rxjs';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { Promoter } from '../../../../data/models/Promoter.model';
+import { FormHandler, Pagination } from 'o2c_core';
+import { PromoterDto } from '../../../../data/dto/Promoter.dto';
+import { PromoterService } from '../../../../data/services/promoter.service';
+import { PeopleService } from '../../../../data/services/people.service';
 
 @Component({
   selector: 'app-militant-form',
@@ -20,6 +24,8 @@ import { Promoter } from '../../../../data/models/Promoter.model';
   styleUrls: ['./militant-form.component.scss'],
 })
 export class MilitantFormComponent implements AfterViewInit {
+  formHandler!: FormHandler<PromoterDto, Pagination<PromoterDto>>;
+
   @ViewChild(MapsComponent) public maps!: MapsComponent;
   showAssignPattern = true;
   districts$: Observable<FederalDistrictDto[]>;
@@ -101,7 +107,9 @@ export class MilitantFormComponent implements AfterViewInit {
     private section: SectionService,
     private municipality: MunicipalityService,
     private localDistrict: LocalDistrictService,
-    private federalDistrict: FederalDistrictService
+    private federalDistrict: FederalDistrictService,
+    private promoterService: PromoterService,
+    private peopleService: PeopleService
   ) {
     this.districts$ = this.federalDistrict
       .fetchAll()
@@ -132,8 +140,27 @@ export class MilitantFormComponent implements AfterViewInit {
       });
 
     this.militantForm.get('type')?.valueChanges.subscribe((value) => {
-      this.pattern_select = [];
       if (!value) return;
+      this.pattern_select = [];
+
+      const findRol = this.role_select.find((item) => +value === item.value);
+
+      this.formHandler =
+        +value === 4
+          ? new FormHandler(
+              this.peopleService,
+              this.route,
+              this.router,
+              this.militantForm,
+              findRol?.label
+            )
+          : new FormHandler(
+              this.peopleService,
+              this.route,
+              this.router,
+              this.militantForm,
+              findRol?.label
+            );
 
       switch (+value) {
         case 1:
@@ -207,6 +234,6 @@ export class MilitantFormComponent implements AfterViewInit {
   }
 
   onSubmit() {
-    console.log('se envía el formulario', this.militantForm);
+    this.formHandler.currentAction();
   }
 }
