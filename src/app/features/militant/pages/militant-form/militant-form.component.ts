@@ -12,6 +12,7 @@ import { MunicipalityDto } from '../../../../data/dto/Municipality.dto';
 import { SectionDto } from '../../../../data/dto/Section.dto';
 import { map, Observable, switchMap, tap } from 'rxjs';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { Promoter } from '../../../../data/models/Promoter.model';
 
 @Component({
   selector: 'app-militant-form',
@@ -32,24 +33,7 @@ export class MilitantFormComponent implements AfterViewInit {
     '[B-DF-HJ-NP-TV-Z]{3}' +
     '[0-9A-Z]{1}[0-9]{1}$';
   EK_REGEX = '[A-Z]{6}[0-9]{8}[A-Z]{1}[0-9]{3}';
-  role_select = [
-    {
-      label: 'Operador',
-      value: 1,
-    },
-    {
-      label: 'Coordinador de general',
-      value: 2,
-    },
-    {
-      label: 'Coordinador de sección',
-      value: 3,
-    },
-    {
-      label: 'Militante',
-      value: 4,
-    },
-  ];
+  role_select = Promoter.ROL;
   pattern_select: { label: string; value: number }[] = [];
   militantForm = new FormGroup(
     {
