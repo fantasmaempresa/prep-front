@@ -1,6 +1,36 @@
-import { viewCrud, viewHTML, viewLabel } from 'o2c_core';
+import { ViewActions, viewCrud, viewHTML, viewLabel } from "o2c_core";
 import { PromoterService } from '../services/promoter.service';
 import { People } from './People.model';
+import { PromoterDto } from "../dto/Promoter.dto";
+import { MatDialog } from "@angular/material/dialog";
+import {
+  BudgetFormComponent
+} from "../../features/militant/pages/militant-list/dialogs/budget-form/budget-form.component";
+import {
+  BillsFormComponent
+} from "../../features/militant/pages/militant-list/dialogs/bills-form/bills-form.component";
+
+const budgetDialog = new ViewActions<PromoterDto>(
+  ({row, injector}) => {
+    const dialog = injector.get(MatDialog);
+    dialog.open(BudgetFormComponent, {
+      data: row,
+      width: '500px',
+    });
+
+  }, 'savings', {tooltip: 'Agregar presupuesto', color: 'primary', isVisible: (row) => !!row}
+);
+
+const billsDialog = new ViewActions<PromoterDto>(
+  ({row, injector}) => {
+    const dialog = injector.get(MatDialog);
+    dialog.open(BillsFormComponent, {
+      data: row,
+      width: '500px',
+    });
+
+  }, 'point_of_sale', {tooltip: 'Agregar gastos', color: 'primary', isVisible: (row) => !!row}
+);
 
 @viewCrud({
   classProvider: PromoterService,
@@ -9,6 +39,10 @@ import { People } from './People.model';
     edit: '../',
   },
   registerName: 'Promotor',
+  actions: [
+    budgetDialog,
+    billsDialog
+  ]
 })
 export class Promoter extends People {
   static ROL = [

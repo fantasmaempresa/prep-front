@@ -7,12 +7,16 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { MilitantListComponent } from './pages/militant-list/militant-list.component';
 import { ErrorMessagesModule, ViewsModule } from 'o2c_core';
 import { PromotorListComponent } from './pages/promotor-list/promotor-list.component';
+import { BudgetFormComponent } from './pages/militant-list/dialogs/budget-form/budget-form.component';
+import { BillsFormComponent } from './pages/militant-list/dialogs/bills-form/bills-form.component';
 
 @NgModule({
   declarations: [
     MilitantFormComponent,
     MilitantListComponent,
     PromotorListComponent,
+    BudgetFormComponent,
+    BillsFormComponent,
   ],
   imports: [
     SharedModule,
