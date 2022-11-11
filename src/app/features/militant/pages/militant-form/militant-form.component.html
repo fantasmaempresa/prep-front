@@ -50,6 +50,26 @@
       </div>
     </div>
 
+    <div class="col-6 d-flex flex-column">
+      <mat-form-field
+        appearance="outline"
+        class="w-100"
+        *ngIf="
+          showAssignPattern && !!this.militantForm.get('assign_pattern')?.value
+        "
+      >
+        <mat-label>Superior a asignar</mat-label>
+        <input
+          matInput
+          o2cSinglePopup
+          [title]="optionsClass['title']"
+          [viewClassBuilder]="optionsClass['view']"
+          formControlName="promoter_id"
+        />
+        <mat-error o2cErrorMessage></mat-error>
+      </mat-form-field>
+    </div>
+
     <h3 class="mb-0">Datos personales</h3>
     <hr />
     <div class="row mt-3 mb-5">
@@ -73,6 +93,17 @@
         <mat-form-field appearance="outline">
           <mat-label>Apellido Materno</mat-label>
           <input formControlName="mother_last_name" matInput type="text" />
+          <mat-error o2cErrorMessage></mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-4 d-flex flex-column">
+        <mat-form-field appearance="outline">
+          <mat-label>Genero</mat-label>
+          <mat-select formControlName="gender">
+            <mat-option [value]="1">Hombre</mat-option>
+            <mat-option [value]="2">Mujer</mat-option>
+          </mat-select>
           <mat-error o2cErrorMessage></mat-error>
         </mat-form-field>
       </div>
@@ -100,8 +131,9 @@
       <div class="col-6 d-flex flex-column">
         <mat-form-field appearance="outline">
           <mat-label>OCR</mat-label>
-          <input formControlName="ocr" matInput type="text" />
+          <input #ocr formControlName="ocr" matInput type="text" />
           <mat-error o2cErrorMessage></mat-error>
+          <mat-hint>{{ ocr.value.length }} / 13</mat-hint>
         </mat-form-field>
       </div>
 

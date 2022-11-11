@@ -12,8 +12,13 @@ import { MunicipalityDto } from '../../../../data/dto/Municipality.dto';
 import { SectionDto } from '../../../../data/dto/Section.dto';
 import { map, Observable, switchMap, tap } from 'rxjs';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { Promoter } from '../../../../data/models/Promoter.model';
-import { FormHandler, Pagination } from 'o2c_core';
+import {
+  GeneralCoordinateType,
+  OperatorType,
+  Promoter,
+  SectionCoordinateType,
+} from '../../../../data/models/Promoter.model';
+import { FormHandler, MessageHelper, Pagination } from 'o2c_core';
 import { PromoterDto } from '../../../../data/dto/Promoter.dto';
 import { PromoterService } from '../../../../data/services/promoter.service';
 import { PeopleService } from '../../../../data/services/people.service';
@@ -25,8 +30,7 @@ import { PeopleService } from '../../../../data/services/people.service';
 })
 export class MilitantFormComponent implements AfterViewInit {
   formHandler!: FormHandler<PromoterDto, Pagination<PromoterDto>>;
-
-  @ViewChild(MapsComponent) public maps!: MapsComponent;
+  maps!: MapsComponent;
   showAssignPattern = true;
   districts$: Observable<FederalDistrictDto[]>;
   municipalities: MunicipalityDto[] = [];
@@ -47,6 +51,7 @@ export class MilitantFormComponent implements AfterViewInit {
       name: new FormControl('', [Validators.required]),
       father_last_name: new FormControl('', [Validators.required]),
       mother_last_name: new FormControl('', [Validators.required]),
+      gender: new FormControl(null, [Validators.required]),
       curp: new FormControl('', [
         Validators.required,
         Validators.pattern(this.CURP_REGEX),
@@ -56,14 +61,24 @@ export class MilitantFormComponent implements AfterViewInit {
         // Validators.pattern(this.CURP_REGEX),
       ]),
       //elector info
-      ocr: new FormControl('', [Validators.required]),
-      ocr_confirm: new FormControl('', [Validators.required]),
+      ocr: new FormControl('', [
+        Validators.required,
+        Validators.minLength(13),
+        Validators.maxLength(13),
+      ]),
+      ocr_confirm: new FormControl('', [
+        Validators.required,
+        Validators.minLength(13),
+        Validators.maxLength(13),
+      ]),
       elector_key: new FormControl('', [
         Validators.required,
+
         Validators.pattern(this.EK_REGEX),
       ]),
       elector_key_confirm: new FormControl('', [
         Validators.required,
+
         Validators.pattern(this.EK_REGEX),
       ]),
       //contact info
@@ -80,9 +95,12 @@ export class MilitantFormComponent implements AfterViewInit {
       district: new FormControl('', [Validators.required]),
       municipality: new FormControl('', [Validators.required]),
       section_id: new FormControl('', [Validators.required]),
-      address: new FormControl('', [Validators.required]),
-      lat: new FormControl('', [Validators.required]),
-      lng: new FormControl('', [Validators.required]),
+      address: new FormControl(''),
+      address_lat: new FormControl(''),
+      address_long: new FormControl(''),
+      register_lat: new FormControl('0'),
+      register_long: new FormControl('0'),
+      promoter_id: new FormControl(null),
     },
     [
       ValidatorEquals('curp', 'curp_confirm', 'notEquals'),
@@ -90,6 +108,10 @@ export class MilitantFormComponent implements AfterViewInit {
       ValidatorEquals('ocr', 'ocr_confirm', 'notEquals'),
     ]
   );
+  optionsClass = {
+    view: OperatorType,
+    title: 'Operador',
+  };
   private fieldsToValidate = [
     'cell_phone',
     'email',
@@ -99,6 +121,7 @@ export class MilitantFormComponent implements AfterViewInit {
     'ocr_confirm',
     'elector_key',
     'elector_key_confirm',
+    'promoter_id',
   ];
 
   constructor(
@@ -139,6 +162,26 @@ export class MilitantFormComponent implements AfterViewInit {
         this.sections = response.sections;
       });
 
+    this.militantForm.get('assign_pattern')?.valueChanges.subscribe((value) => {
+      const options = [
+        {
+          view: OperatorType,
+          title: 'Operador',
+        },
+        {
+          view: GeneralCoordinateType,
+          title: 'Coordinador General',
+        },
+        {
+          view: SectionCoordinateType,
+          title: 'Coordinador de Sección',
+        },
+      ];
+      if (value) {
+        this.optionsClass = options[+value - 1];
+      }
+    });
+
     this.militantForm.get('type')?.valueChanges.subscribe((value) => {
       if (!value) return;
       this.pattern_select = [];
@@ -146,9 +189,9 @@ export class MilitantFormComponent implements AfterViewInit {
       const findRol = this.role_select.find((item) => +value === item.value);
 
       this.formHandler =
-        +value === 4
+        +value !== 4
           ? new FormHandler(
-              this.peopleService,
+              this.promoterService,
               this.route,
               this.router,
               this.militantForm,
@@ -165,6 +208,8 @@ export class MilitantFormComponent implements AfterViewInit {
       switch (+value) {
         case 1:
           this.showAssignPattern = false;
+          this.militantForm.get('assign_pattern')?.clearValidators();
+          this.militantForm.get('assign_pattern')?.updateValueAndValidity();
           this.setValidatorsMilitant();
           break;
         case 2:
@@ -215,6 +260,30 @@ export class MilitantFormComponent implements AfterViewInit {
     });
   }
 
+  @ViewChild(MapsComponent) set setMap(maps: MapsComponent) {
+    this.maps = maps;
+    setTimeout(() => {
+      this.militantForm.setControl(
+        'address',
+        this.maps.form.get('address') as FormControl
+      );
+      this.militantForm.setControl(
+        'address_lat',
+        this.maps.form.get('lat') as FormControl
+      );
+      this.militantForm.setControl(
+        'address_long',
+        this.maps.form.get('lng') as FormControl
+      );
+      this.militantForm.get('address')?.addValidators(Validators.required);
+      this.militantForm.get('address_lat')?.addValidators(Validators.required);
+      this.militantForm.get('address_lng')?.addValidators(Validators.required);
+      this.militantForm.get('address')?.updateValueAndValidity();
+      this.militantForm.get('address_lat')?.updateValueAndValidity();
+      this.militantForm.get('address_long')?.updateValueAndValidity();
+    });
+  }
+
   ngAfterViewInit(): void {
     this.maps.drawGeoJson('./../assets/geojson/mun.json');
   }
@@ -233,7 +302,14 @@ export class MilitantFormComponent implements AfterViewInit {
     });
   }
 
-  onSubmit() {
+  async onSubmit() {
+    if (this.militantForm.invalid) {
+      const errors = Object.keys(this.militantForm.controls).map((key) => {
+        return { key, error: this.militantForm.get(key)?.errors };
+      });
+      console.log(errors, this.militantForm.value);
+      await MessageHelper.infoMessage('Válida tus campos por favor');
+    }
     this.formHandler.currentAction();
   }
 }

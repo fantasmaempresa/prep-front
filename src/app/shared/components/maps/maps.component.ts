@@ -97,6 +97,8 @@ export class MapsComponent implements OnInit, AfterViewInit {
         }
       });
       this.map.fitBounds(bounds);
+
+      this.decoderPosition();
     });
     console.log(searchBox);
   }
