@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartsService } from '../../../../data/services/charts.service';
-import { map, Observable, tap } from 'rxjs';
-import { Color, ScaleType } from '@swimlane/ngx-charts';
+import { Observable, tap } from 'rxjs';
+import { Color, LegendPosition, ScaleType } from '@swimlane/ngx-charts';
 import { FederalDistrictService } from '../../../../data/services/federal-district.service';
 
 @Component({
@@ -10,6 +10,7 @@ import { FederalDistrictService } from '../../../../data/services/federal-distri
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
+  legendPosition: LegendPosition = LegendPosition.Below;
   byPromoters$!: Observable<any>;
   byDistrict$!: Observable<any>;
   colorScheme: Color = {
@@ -18,6 +19,8 @@ export class DashboardComponent implements OnInit {
     group: ScaleType.Linear,
     selectable: true,
   };
+
+  view: [number, number] = [2000, 400];
 
   constructor(
     private chartsService: ChartsService,
@@ -29,9 +32,9 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.byPromoters$ = this.chartsService
-      .byPromoter()
-      .pipe(map((data: any) => data.slice(0, 50)));
-    // this.byDistrict$ = this.chartsService.byDistrict(1).pipe(tap(console.log));
+    this.byPromoters$ = this.chartsService.byPromoter();
+    this.byDistrict$ = this.chartsService.byDistrict(1).pipe(tap(console.log));
   }
+
+  onResize(event: any) {}
 }
