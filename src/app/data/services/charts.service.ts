@@ -17,4 +17,8 @@ export class ChartsService {
   byDistrict(range: number) {
     return this.http.get(`${this.url}/promotedForDistrict/${range}`);
   }
+
+  byPromoterBudget() {
+    return this.http.get(`${this.url}/promotedForBudgets`);
+  }
 }

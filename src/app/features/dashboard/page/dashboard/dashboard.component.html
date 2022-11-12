@@ -73,3 +73,41 @@
     </mat-card>
   </div>
 </div>
+
+<div class="row mt-5">
+  <div class="col-12">
+    <mat-card class="d-flex flex-column" style="height: 400px">
+      <mat-card-content
+        class="mt-3 card-chart"
+        *ngIf="byPromoterBudget$ | async as budget; else loading"
+      >
+        <ngx-charts-bar-vertical-2d
+          [results]="budget"
+          [xAxisLabel]="'Promotores'"
+          [yAxisLabel]="'Dinero'"
+          [legendTitle]="'Cuentas por promotor'"
+          [showYAxisLabel]="false"
+          [showXAxisLabel]="true"
+          [xAxis]="true"
+          [yAxis]="true"
+          [legend]="true"
+          [showDataLabel]="true"
+          [gradient]="true"
+          [barPadding]="1"
+        >
+        </ngx-charts-bar-vertical-2d>
+      </mat-card-content>
+      <ng-template #loading>
+        <mat-card-content class="d-flex justify-content-center my-5">
+          <mat-spinner></mat-spinner>
+        </mat-card-content>
+      </ng-template>
+      <mat-card-footer>
+        <div class="stats">
+          <mat-icon>access_time</mat-icon>
+          Última actualización hace 1 minuto
+        </div>
+      </mat-card-footer>
+    </mat-card>
+  </div>
+</div>

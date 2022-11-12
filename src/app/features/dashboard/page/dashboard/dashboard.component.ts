@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartsService } from '../../../../data/services/charts.service';
-import { Observable, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { Color, LegendPosition, ScaleType } from '@swimlane/ngx-charts';
 import { FederalDistrictService } from '../../../../data/services/federal-district.service';
 
@@ -13,6 +13,8 @@ export class DashboardComponent implements OnInit {
   legendPosition: LegendPosition = LegendPosition.Below;
   byPromoters$!: Observable<any>;
   byDistrict$!: Observable<any>;
+  byPromoterBudget$!: Observable<any>;
+
   colorScheme: Color = {
     domain: ['#2b2b2b', '#e6ddda'],
     name: 'cool',
@@ -34,6 +36,26 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.byPromoters$ = this.chartsService.byPromoter();
     this.byDistrict$ = this.chartsService.byDistrict(1).pipe(tap(console.log));
+    this.byPromoterBudget$ = this.chartsService.byPromoterBudget().pipe(
+      map((data: any) => data.slice(0, 5)),
+      map((data: any) => {
+        return data.map((item: any) => {
+          for (const serie of item.series) {
+            if (serie.name === 'budget') {
+              serie.name = 'Presupuesto';
+            }
+            if (serie.name === 'bills_total') {
+              serie.name = 'Gastos';
+            }
+            if (serie.name === 'difference') {
+              serie.name = 'Restante';
+            }
+          }
+          return item;
+        });
+      }),
+      tap(console.log)
+    );
   }
 
   onResize(event: any) {}
