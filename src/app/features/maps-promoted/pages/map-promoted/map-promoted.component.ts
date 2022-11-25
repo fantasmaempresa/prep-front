@@ -1,10 +1,21 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { GoogleMap } from '@angular/google-maps';
+import { OperatorTypeService } from '../../../../data/services/promoter.service';
 import {
-  OperatorTypeService,
-  PromoterService,
-} from '../../../../data/services/promoter.service';
-import { map, Observable, tap } from 'rxjs';
+  map,
+  Observable,
+  scan,
+  startWith,
+  Subject,
+  switchMap,
+  tap,
+  timer,
+} from 'rxjs';
+import { MessageHelper } from 'o2c_core';
+import { format } from 'date-fns';
+
+const SECOND = 1_000;
+const REFRESH_TIME = 2 * 60 * SECOND;
 
 @Component({
   selector: 'app-map-promoted',
@@ -25,38 +36,60 @@ export class MapPromotedComponent implements AfterViewInit {
   heatmapOptions = { radius: 10 };
   heatmapData$!: Observable<{ lat: number; lng: number }[]>;
 
+  click$ = new Subject<number>();
+  refresh$ = this.click$.asObservable().pipe(
+    startWith(0),
+    switchMap(() => timer(0, REFRESH_TIME))
+  );
+  clock$ = this.refresh$.pipe(
+    switchMap(() =>
+      timer(0, SECOND).pipe(
+        scan((accumulator) => accumulator - SECOND, REFRESH_TIME)
+      )
+    ),
+    map((time) => format(time, 'mm:ss'))
+  );
+
   constructor(private dataService: OperatorTypeService) {
-    this.heatmapData$ = this.dataService.fetchAll().pipe(
-      map(({ data }) => data.map(({ lng, lat }) => ({ lat: +lat, lng: +lng }))),
-      map((value) => [
-        ...value,
-        ...[
-          {
-            lat: this.latitude,
-            lng: this.longitude,
-          },
-          {
-            lat: this.latitude,
-            lng: this.longitude,
-          },
-          {
-            lat: this.latitude,
-            lng: this.longitude,
-          },
-          {
-            lat: this.latitude,
-            lng: this.longitude,
-          },
-          {
-            lat: this.latitude,
-            lng: this.longitude,
-          },
-          {
-            lat: this.latitude,
-            lng: this.longitude,
-          },
-        ],
-      ])
+    this.heatmapData$ = this.refresh$.pipe(
+      tap(() => MessageHelper.showLoading('Obteniendo información')),
+      switchMap(() =>
+        this.dataService.fetchAll().pipe(
+          map(({ data }) =>
+            data.map(({ lng, lat }) => ({ lat: +lat, lng: +lng }))
+          ),
+          tap(() => MessageHelper.getInstanceSwal().close()),
+          map((value) => [
+            ...value,
+            ...[
+              {
+                lat: this.latitude,
+                lng: this.longitude,
+              },
+              {
+                lat: this.latitude,
+                lng: this.longitude,
+              },
+              {
+                lat: this.latitude,
+                lng: this.longitude,
+              },
+              {
+                lat: this.latitude,
+                lng: this.longitude,
+              },
+              {
+                lat: this.latitude,
+                lng: this.longitude,
+              },
+              {
+                lat: this.latitude,
+                lng: this.longitude,
+              },
+            ],
+          ])
+        )
+      )
     );
   }
 

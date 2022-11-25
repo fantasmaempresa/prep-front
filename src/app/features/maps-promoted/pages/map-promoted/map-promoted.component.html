@@ -1,3 +1,6 @@
+<span (click)="click$.next(0)" class="map-timer">
+  Actualizar en: {{ clock$ | async }}
+</span>
 <google-map height="75vh" width="100%" [center]="center" [zoom]="zoom">
   <map-heatmap-layer
     *ngIf="heatmapData$ | async as heatmapData"
