@@ -1,0 +1,110 @@
+<mat-card>
+  <mat-toolbar color="primary">
+    <h2>Agregar zona</h2>
+  </mat-toolbar>
+
+  <form class="row justify-content-center mt-5" [formGroup]="zoneForm">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Nombre</mat-label>
+      <input matInput type="text" formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+    </mat-form-field>
+  </form>
+
+  <div class="row">
+    <div class="col-6">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Distrito</mat-label>
+        <mat-select [formControl]="districtControl">
+          <mat-option
+            *ngFor="let district of districts$ | async"
+            [value]="district.id"
+          >
+            {{ district.key }}
+          </mat-option>
+        </mat-select>
+        <mat-error o2cErrorMessage></mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-6" *ngIf="municipalities.length > 0">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Municipio</mat-label>
+        <mat-select [formControl]="municipalityControl">
+          <mat-option [value]="null" *ngIf="municipalities.length === 0"
+            >Seleccione un distrito
+          </mat-option>
+          <mat-option
+            *ngFor="let municipality of municipalities"
+            [value]="municipality['id']"
+          >
+            {{ municipality['name'] }}
+          </mat-option>
+        </mat-select>
+        <mat-error o2cErrorMessage></mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field
+      class="w-100"
+      appearance="outline"
+      *ngIf="sections.length > 0"
+    >
+      <mat-label>Sección</mat-label>
+      <input
+        #sectionInput
+        type="text"
+        placeholder="Selecciona una sección para agregarla"
+        aria-label="Number"
+        matInput
+        [formControl]="sectionControl"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        [displayWith]="displayFn"
+        (optionSelected)="updateList($event)"
+      >
+        <mat-option
+          *ngFor="let section of filteredSections | async"
+          [value]="section"
+        >
+          {{ section.section }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+
+  <mat-nav-list disableRipple>
+    <mat-list-item
+      class="section-list__item"
+      *ngFor="let section of selectedSections; let index = index"
+      (mouseenter)="enter(index)"
+      (mouseleave)="leave()"
+    >
+      <div mat-line>Sección: {{ section.section }}</div>
+      <button
+        mat-icon-button
+        matTooltip="Remover de la zona"
+        *ngIf="hoverIndex === index"
+        (click)="removeSectionFromZone(section)"
+      >
+        <mat-icon>remove_circle</mat-icon>
+      </button>
+    </mat-list-item>
+  </mat-nav-list>
+
+  <div class="row mt-3">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="saveZone()"
+      [disabled]="selectedSections.length === 0"
+    >
+      Guardar
+    </button>
+  </div>
+</mat-card>

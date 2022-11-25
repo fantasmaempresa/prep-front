@@ -49,14 +49,31 @@ export class SidebarComponent {
           ],
         },
         {
-          label: 'Configuración',
-          icon: 'settings',
+          label: 'Zonas',
+          icon: 'pin_drop',
           isOpen: false,
           dropdowns: [
-            { label: 'Usuarios', route: './users', icon: 'person' },
-            { label: 'Roles', route: './roles', icon: 'verified_user' },
+            {
+              label: 'Alta de Zona',
+              route: './zone/new',
+              icon: 'person_add',
+            },
+            {
+              label: 'Lista de zonas',
+              route: './zone/list',
+              icon: 'list',
+            },
           ],
         },
+        // {
+        //   label: 'Configuración',
+        //   icon: 'settings',
+        //   isOpen: false,
+        //   dropdowns: [
+        //     { label: 'Usuarios', route: './users', icon: 'person' },
+        //     { label: 'Roles', route: './roles', icon: 'verified_user' },
+        //   ],
+        // },
       ],
     },
   ];

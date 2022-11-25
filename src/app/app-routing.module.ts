@@ -34,6 +34,14 @@ const routes: Routes = [
         data: { breadcrumb: 'Militantes' },
       },
       {
+        path: 'zone',
+        loadChildren: () =>
+          import('./features/zones/zones.module').then(
+            (m) => m.ZonesModule
+          ),
+        data: { breadcrumb: 'Zonas' },
+      },
+      {
         path: 'dashboard',
         loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardModule),
         data: { breadcrumb: 'Dashboard' },

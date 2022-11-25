@@ -285,7 +285,8 @@ export class MilitantFormComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.maps.drawGeoJson('./../assets/geojson/mun.json');
+    this.maps.setCenterMap(18.07918, -93.235782, 8);
+    this.maps.drawGeoJson('./../assets/geojson/tabasco_municipalities.json');
   }
 
   removeValidatorsMilitant() {
