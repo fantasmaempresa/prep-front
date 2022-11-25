@@ -127,6 +127,15 @@ export class MapsComponent implements OnInit, AfterViewInit {
     });
   }
 
+  public setCenterMap(lat: number, lng: number, zoom: number) {
+    this.center = {
+      lat: lat,
+      lng: lng,
+    };
+
+    this.zoom = zoom;
+  }
+
   moveMap(event: google.maps.MapMouseEvent) {
     if (event.latLng !== null) this.center = event.latLng.toJSON();
   }
