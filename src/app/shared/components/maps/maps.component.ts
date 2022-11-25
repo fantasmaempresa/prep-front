@@ -16,7 +16,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class MapsComponent implements OnInit, AfterViewInit {
   @ViewChild('mapSearch') searchElementRef!: ElementRef;
-  @ViewChild(GoogleMap) public map!: GoogleMap;
+  @ViewChild(GoogleMap, { static: true }) public map!: GoogleMap;
   viewAddressBox = true;
   latitude = 19.043764;
   longitude = -98.197851;

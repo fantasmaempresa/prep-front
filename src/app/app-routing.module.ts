@@ -36,14 +36,23 @@ const routes: Routes = [
       {
         path: 'zone',
         loadChildren: () =>
-          import('./features/zones/zones.module').then(
-            (m) => m.ZonesModule
-          ),
+          import('./features/zones/zones.module').then((m) => m.ZonesModule),
         data: { breadcrumb: 'Zonas' },
       },
       {
         path: 'dashboard',
-        loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardModule),
+        loadChildren: () =>
+          import('./features/dashboard/dashboard.module').then(
+            (m) => m.DashboardModule
+          ),
+        data: { breadcrumb: 'Dashboard' },
+      },
+      {
+        path: 'promoted-map',
+        loadChildren: () =>
+          import('./features/maps-promoted/maps-promoted.module').then(
+            (m) => m.MapsPromotedModule
+          ),
         data: { breadcrumb: 'Dashboard' },
       },
     ],

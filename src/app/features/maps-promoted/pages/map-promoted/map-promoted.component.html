@@ -1,0 +1,7 @@
+<google-map height="75vh" width="100%" [center]="center" [zoom]="zoom">
+  <map-heatmap-layer
+    *ngIf="heatmapData$ | async as heatmapData"
+    [data]="heatmapData"
+    [options]="heatmapOptions"
+  ></map-heatmap-layer>
+</google-map>
