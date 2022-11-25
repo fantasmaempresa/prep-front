@@ -52,19 +52,19 @@ const billsDialog = new ViewActions<PromoterDto>(
 export class Promoter extends People {
   static ROL = [
     {
-      label: 'Operador',
+      label: 'Responsable de Sección',
       value: 1,
     },
     {
-      label: 'Coordinador de general',
+      label: 'Activista',
       value: 2,
     },
     {
-      label: 'Coordinador de sección',
+      label: 'Simpatizante',
       value: 3,
     },
     {
-      label: 'Militante',
+      label: 'Promovido',
       value: 4,
     },
   ];
@@ -108,24 +108,24 @@ export class Promoter extends People {
 
 @viewCrud({
   classProvider: OperatorTypeService,
-  registerName: 'Operador',
+  registerName: 'Responsable de Sección',
 })
 export class OperatorType extends Promoter {}
 
 @viewCrud({
   classProvider: GeneralCoordinateTypeService,
-  registerName: 'Coordinador General',
+  registerName: 'Activista',
 })
 export class GeneralCoordinateType extends Promoter {}
 
 @viewCrud({
   classProvider: SectionCoordinateTypeService,
-  registerName: 'Coordinador de Sección',
+  registerName: 'Simpatizante',
 })
 export class SectionCoordinateType extends Promoter {}
 
 @viewCrud({
   classProvider: MilitantTypeService,
-  registerName: 'Militante',
+  registerName: 'Promovido',
 })
 export class MilitantType extends Promoter {}

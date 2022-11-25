@@ -27,8 +27,23 @@ export class SidebarComponent {
               icon: 'list',
             },
             {
-              label: 'Militante Lista',
-              route: './militant/list/people',
+              label: 'Responsable de Sección Lista',
+              route: './militant/list/section-responsible',
+              icon: 'list',
+            },
+            {
+              label: 'Activista Lista',
+              route: './militant/list/militant',
+              icon: 'list',
+            },
+            {
+              label: 'Simpatizante Lista',
+              route: './militant/list/sympathizer',
+              icon: 'list',
+            },
+            {
+              label: 'Promovido Lista',
+              route: './militant/list/promoted',
               icon: 'list',
             },
           ],
