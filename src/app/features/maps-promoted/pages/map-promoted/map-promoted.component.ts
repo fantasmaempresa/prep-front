@@ -6,6 +6,7 @@ import {
   DistrictCoordinatorService,
   PromoterService,
   SectionManagerService,
+  SympathizerService,
 } from '../../../../data/services/promoter.service';
 import { map, Observable, switchMap, tap } from 'rxjs';
 import { MessageHelper } from 'o2c_core';
@@ -31,7 +32,7 @@ export class MapPromotedComponent implements AfterViewInit {
     lng: this.longitude,
   };
 
-  heatmapOptions = { radius: 10 };
+  heatmapOptions = { radius: 15 };
   heatmapData$!: Observable<{ lat: number; lng: number }[]>;
 
   refreshCountDown = new RefreshCountdown(REFRESH_TIME);
@@ -44,7 +45,8 @@ export class MapPromotedComponent implements AfterViewInit {
     private districtCoordinatorService: DistrictCoordinatorService,
     private areaManagerService: AreaManagerService,
     private sectionManagerService: SectionManagerService,
-    private activistTypeService: ActivistTypeService
+    private activistTypeService: ActivistTypeService,
+    private sympathizerService: SympathizerService
   ) {
     this.heatmapData$ = this.refreshCountDown.refresh$.pipe(
       tap(() => MessageHelper.showLoading('Obteniendo información')),
@@ -67,6 +69,7 @@ export class MapPromotedComponent implements AfterViewInit {
             this.sectionManagerService,
             this.activistTypeService,
             this.activistTypeService,
+            this.sympathizerService,
           ];
           return options[+option - 1];
         }),
@@ -82,8 +85,8 @@ export class MapPromotedComponent implements AfterViewInit {
   drawGeoJson(geoJson: string) {
     this.map.data.loadGeoJson(geoJson);
     this.map.data.setStyle({
-      fillColor: '#eee',
-      strokeWeight: 0.6,
+      fillColor: '#ddd',
+      strokeWeight: 2,
       strokeOpacity: 1,
     });
   }

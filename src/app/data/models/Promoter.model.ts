@@ -5,15 +5,14 @@ import {
   PromoterService,
   DistrictCoordinatorService,
   SectionManagerService,
+  SympathizerService,
 } from '../services/promoter.service';
 import { People } from './People.model';
 import { PromoterDto } from '../dto/Promoter.dto';
 import { MatDialog } from '@angular/material/dialog';
 import { BudgetFormComponent } from '../../features/militant/pages/militant-list/dialogs/budget-form/budget-form.component';
 import { BillsFormComponent } from '../../features/militant/pages/militant-list/dialogs/bills-form/bills-form.component';
-import {
-  ChildrenListComponent
-} from '../../features/militant/pages/militant-list/dialogs/children-list/children-list.component';
+import { ChildrenListComponent } from '../../features/militant/pages/militant-list/dialogs/children-list/children-list.component';
 
 const budgetDialog = new ViewActions<PromoterDto>(
   ({ row, injector }) => {
@@ -155,3 +154,9 @@ export class SectionManagerType extends Promoter {}
   actions: [childrenDialog],
 })
 export class ActivistType extends Promoter {}
+
+@viewCrud({
+  classProvider: SympathizerService,
+  registerName: 'Simpatizante',
+})
+export class SympathizerType extends Promoter {}

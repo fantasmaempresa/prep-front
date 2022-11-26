@@ -38,12 +38,17 @@ export class SidebarComponent {
             },
             {
               label: 'Responsable de sección lista',
-              route: './militant/list/sympathizer',
+              route: './militant/list/section-manager',
               icon: 'list',
             },
             {
               label: 'Activista lista',
               route: './militant/list/promoted',
+              icon: 'list',
+            },
+            {
+              label: 'Simpatizante lista',
+              route: './militant/list/sympathizer',
               icon: 'list',
             },
           ],

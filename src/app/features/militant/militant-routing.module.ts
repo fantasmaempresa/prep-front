@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MilitantFormComponent } from './pages/militant-form/militant-form.component';
-import { MilitantListComponent } from './pages/militant-list/militant-list.component';
 import { PromotorListComponent } from './pages/promotor-list/promotor-list.component';
 import { BasicViewComponent, VIEW_CLAZZ } from 'o2c_core';
 import {
-  AreaManagerType,
   ActivistType,
+  AreaManagerType,
   DistrictCoordinatorType,
   SectionManagerType,
+  SympathizerType,
 } from '../../data/models/Promoter.model';
 
 const routes: Routes = [
@@ -48,7 +48,7 @@ const routes: Routes = [
         data: { breadcrumb: 'Lista de Responsables de lista' },
       },
       {
-        path: 'list/sympathizer',
+        path: 'list/section-manager',
         component: BasicViewComponent,
         providers: [
           {
@@ -56,7 +56,7 @@ const routes: Routes = [
             useValue: SectionManagerType,
           },
         ],
-        data: { breadcrumb: 'Lista de Responsable de sección'},
+        data: { breadcrumb: 'Lista de Responsable de sección' },
       },
       {
         path: 'list/promoted',
@@ -68,6 +68,17 @@ const routes: Routes = [
           },
         ],
         data: { breadcrumb: 'Lista de Activistas' },
+      },
+      {
+        path: 'list/sympathizer',
+        component: BasicViewComponent,
+        providers: [
+          {
+            provide: VIEW_CLAZZ,
+            useValue: SympathizerType,
+          },
+        ],
+        data: { breadcrumb: 'Lista de Simpatizantes' },
       },
       {
         path: 'list/promotor',

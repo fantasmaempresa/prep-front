@@ -55,3 +55,13 @@ export class ActivistTypeService extends PromoterService {
     return super.fetchAll(params);
   }
 }
+
+@Injectable({
+  providedIn: 'root',
+})
+export class SympathizerService extends PromoterService {
+  override fetchAll(params?: HttpParams): Observable<Pagination<PromoterDto>> {
+    params = new HttpParams().append('type', '5');
+    return super.fetchAll(params);
+  }
+}
