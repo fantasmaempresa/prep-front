@@ -32,7 +32,7 @@ export class MapPromotedComponent implements AfterViewInit {
     lng: this.longitude,
   };
 
-  heatmapOptions = { radius: 15 };
+  heatmapOptions = { radius: 20 };
   heatmapData$!: Observable<{ lat: number; lng: number }[]>;
 
   refreshCountDown = new RefreshCountdown(REFRESH_TIME);
@@ -48,12 +48,26 @@ export class MapPromotedComponent implements AfterViewInit {
     private activistTypeService: ActivistTypeService,
     private sympathizerService: SympathizerService
   ) {
+    //Todo hay que hacer la duplicidad de información, para que se mapee la información real
     this.heatmapData$ = this.refreshCountDown.refresh$.pipe(
       tap(() => MessageHelper.showLoading('Obteniendo información')),
       switchMap(() =>
         this._dataService.fetchAll().pipe(
           map(({ data }) =>
-            data.map(({ lng, lat }) => ({ lat: +lat, lng: +lng }))
+            [
+              ...data,
+              ...data,
+              ...data,
+              ...data,
+              ...data,
+              ...data,
+              ...data,
+              ...data,
+              ...data,
+              ...data,
+            ]
+              .map(({ lng, lat }) => ({ lat: +lat, lng: +lng }))
+              .map(() => generateLocation(this.latitude, this.longitude, 40))
           ),
           tap(() => MessageHelper.getInstanceSwal().close())
         )
@@ -90,4 +104,75 @@ export class MapPromotedComponent implements AfterViewInit {
       strokeOpacity: 1,
     });
   }
+}
+
+// Final Code Here
+function generateLocation(
+  latitude: number,
+  longitude: number,
+  max: number,
+  min = 0
+) {
+  if (min > max) {
+    throw new Error(`min(${min}) cannot be greater than max(${max})`);
+  }
+
+  // earth radius in km
+  const EARTH_RADIUS = 6371;
+
+  // 1° latitude in meters
+  const DEGREE = ((EARTH_RADIUS * 2 * Math.PI) / 360) * 1000;
+
+  // random distance within [min-max] in km in a non-uniform way
+  const maxKm = max * 1000;
+  const minKm = min * 1000;
+  const r = (maxKm - minKm + 1) * Math.random() ** 0.5 + minKm;
+
+  // random angle
+  const theta = Math.random() * 2 * Math.PI;
+
+  const dy = r * Math.sin(theta);
+  const dx = r * Math.cos(theta);
+
+  const newLatitude = latitude + dy / DEGREE;
+  const newLongitude = longitude + dx / (DEGREE * Math.cos(deg2rad(latitude)));
+
+  const distance = getDistanceFromLatLonInKm(
+    latitude,
+    longitude,
+    newLatitude,
+    newLongitude
+  );
+
+  return {
+    lat: newLatitude,
+    lng: newLongitude,
+    // distance: Math.round(distance),
+  };
+}
+
+// See https://stackoverflow.com/a/27943/10975709
+function getDistanceFromLatLonInKm(
+  lat1: number,
+  lon1: number,
+  lat2: number,
+  lon2: number
+) {
+  const R = 6371; // Radius of the earth in km
+  const dLat = deg2rad(lat2 - lat1); // deg2rad below
+  const dLon = deg2rad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(deg2rad(lat1)) *
+      Math.cos(deg2rad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const d = R * c; // Distance in km
+
+  return d;
+}
+
+function deg2rad(deg: number) {
+  return deg * (Math.PI / 180);
 }
