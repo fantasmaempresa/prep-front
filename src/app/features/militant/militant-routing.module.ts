@@ -5,10 +5,10 @@ import { MilitantListComponent } from './pages/militant-list/militant-list.compo
 import { PromotorListComponent } from './pages/promotor-list/promotor-list.component';
 import { BasicViewComponent, VIEW_CLAZZ } from 'o2c_core';
 import {
-  GeneralCoordinateType,
-  MilitantType,
-  OperatorType,
-  SectionCoordinateType,
+  AreaManagerType,
+  ActivistType,
+  DistrictCoordinatorType,
+  SectionManagerType,
 } from '../../data/models/Promoter.model';
 
 const routes: Routes = [
@@ -31,10 +31,10 @@ const routes: Routes = [
         providers: [
           {
             provide: VIEW_CLAZZ,
-            useValue: OperatorType,
+            useValue: DistrictCoordinatorType,
           },
         ],
-        data: { breadcrumb: 'Lista de Responsables de Sección' },
+        data: { breadcrumb: 'Lista de Coordinadores distritales' },
       },
       {
         path: 'list/militant',
@@ -42,10 +42,10 @@ const routes: Routes = [
         providers: [
           {
             provide: VIEW_CLAZZ,
-            useValue: GeneralCoordinateType,
+            useValue: AreaManagerType,
           },
         ],
-        data: { breadcrumb: 'Lista de Activista' },
+        data: { breadcrumb: 'Lista de Responsables de lista' },
       },
       {
         path: 'list/sympathizer',
@@ -53,10 +53,10 @@ const routes: Routes = [
         providers: [
           {
             provide: VIEW_CLAZZ,
-            useValue: SectionCoordinateType,
+            useValue: SectionManagerType,
           },
         ],
-        data: { breadcrumb: 'Lista de Simpatizante' },
+        data: { breadcrumb: 'Lista de Responsable de sección'},
       },
       {
         path: 'list/promoted',
@@ -64,10 +64,10 @@ const routes: Routes = [
         providers: [
           {
             provide: VIEW_CLAZZ,
-            useValue: MilitantType,
+            useValue: ActivistType,
           },
         ],
-        data: { breadcrumb: 'Lista de Promovido' },
+        data: { breadcrumb: 'Lista de Activistas' },
       },
       {
         path: 'list/promotor',

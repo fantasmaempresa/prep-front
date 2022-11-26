@@ -19,7 +19,7 @@ export class PromoterService extends CrudService<
 @Injectable({
   providedIn: 'root',
 })
-export class OperatorTypeService extends PromoterService {
+export class DistrictCoordinatorService extends PromoterService {
   override fetchAll(params?: HttpParams): Observable<Pagination<PromoterDto>> {
     params = new HttpParams().append('type', '1');
     return super.fetchAll(params);
@@ -29,7 +29,7 @@ export class OperatorTypeService extends PromoterService {
 @Injectable({
   providedIn: 'root',
 })
-export class GeneralCoordinateTypeService extends PromoterService {
+export class AreaManagerService extends PromoterService {
   override fetchAll(params?: HttpParams): Observable<Pagination<PromoterDto>> {
     params = new HttpParams().append('type', '2');
     return super.fetchAll(params);
@@ -39,7 +39,7 @@ export class GeneralCoordinateTypeService extends PromoterService {
 @Injectable({
   providedIn: 'root',
 })
-export class SectionCoordinateTypeService extends PromoterService {
+export class SectionManagerService extends PromoterService {
   override fetchAll(params?: HttpParams): Observable<Pagination<PromoterDto>> {
     params = new HttpParams().append('type', '3');
     return super.fetchAll(params);
@@ -49,7 +49,7 @@ export class SectionCoordinateTypeService extends PromoterService {
 @Injectable({
   providedIn: 'root',
 })
-export class MilitantTypeService extends PromoterService {
+export class ActivistTypeService extends PromoterService {
   override fetchAll(params?: HttpParams): Observable<Pagination<PromoterDto>> {
     params = new HttpParams().append('type', '4');
     return super.fetchAll(params);

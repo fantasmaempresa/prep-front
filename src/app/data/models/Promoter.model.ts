@@ -1,16 +1,19 @@
 import { ViewActions, viewCrud, viewHTML, viewLabel } from 'o2c_core';
 import {
-  GeneralCoordinateTypeService,
-  MilitantTypeService,
+  AreaManagerService,
+  ActivistTypeService,
   PromoterService,
-  OperatorTypeService,
-  SectionCoordinateTypeService,
+  DistrictCoordinatorService,
+  SectionManagerService,
 } from '../services/promoter.service';
 import { People } from './People.model';
 import { PromoterDto } from '../dto/Promoter.dto';
 import { MatDialog } from '@angular/material/dialog';
 import { BudgetFormComponent } from '../../features/militant/pages/militant-list/dialogs/budget-form/budget-form.component';
 import { BillsFormComponent } from '../../features/militant/pages/militant-list/dialogs/bills-form/bills-form.component';
+import {
+  ChildrenListComponent
+} from "../../features/militant/pages/militant-list/dialogs/children-list/children-list.component";
 
 const budgetDialog = new ViewActions<PromoterDto>(
   ({ row, injector }) => {
@@ -40,6 +43,22 @@ const billsDialog = new ViewActions<PromoterDto>(
   { tooltip: 'Agregar gastos', color: 'primary', isVisible: (row) => !!row }
 );
 
+const childrenDialog = new ViewActions<PromoterDto>(
+  ({ row, injector }) => {
+    const dialog = injector.get(MatDialog);
+    dialog.open(ChildrenListComponent, {
+      data: row,
+      width: '500px',
+    });
+  },
+  'list',
+  {
+    tooltip: 'Ver estructura',
+    color: 'primary',
+    isVisible: (row) => !!row,
+  }
+);
+
 @viewCrud({
   classProvider: PromoterService,
   route: {
@@ -52,20 +71,24 @@ const billsDialog = new ViewActions<PromoterDto>(
 export class Promoter extends People {
   static ROL = [
     {
-      label: 'Responsable de Sección',
+      label: 'Coordinador distrital',
       value: 1,
     },
     {
-      label: 'Activista',
+      label: 'Responsable de zona',
       value: 2,
     },
     {
-      label: 'Simpatizante',
+      label: 'Responsable de sección',
       value: 3,
     },
     {
-      label: 'Promovido',
+      label: 'Activista',
       value: 4,
+    },
+    {
+      label: 'Simpatizante',
+      value: 5,
     },
   ];
 
@@ -107,25 +130,25 @@ export class Promoter extends People {
 }
 
 @viewCrud({
-  classProvider: OperatorTypeService,
-  registerName: 'Responsable de Sección',
+  classProvider: DistrictCoordinatorService,
+  registerName: 'Coordinador distrital',
 })
-export class OperatorType extends Promoter {}
+export class DistrictCoordinatorType extends Promoter {}
 
 @viewCrud({
-  classProvider: GeneralCoordinateTypeService,
+  classProvider: AreaManagerService,
+  registerName: 'Responsable de zona',
+})
+export class AreaManagerType extends Promoter {}
+
+@viewCrud({
+  classProvider: SectionManagerService,
+  registerName: 'Responsable de sección',
+})
+export class SectionManagerType extends Promoter {}
+
+@viewCrud({
+  classProvider: ActivistTypeService,
   registerName: 'Activista',
 })
-export class GeneralCoordinateType extends Promoter {}
-
-@viewCrud({
-  classProvider: SectionCoordinateTypeService,
-  registerName: 'Simpatizante',
-})
-export class SectionCoordinateType extends Promoter {}
-
-@viewCrud({
-  classProvider: MilitantTypeService,
-  registerName: 'Promovido',
-})
-export class MilitantType extends Promoter {}
+export class ActivistType extends Promoter {}

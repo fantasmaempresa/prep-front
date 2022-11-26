@@ -9,6 +9,7 @@ import { ErrorMessagesModule, ViewsModule } from 'o2c_core';
 import { PromotorListComponent } from './pages/promotor-list/promotor-list.component';
 import { BudgetFormComponent } from './pages/militant-list/dialogs/budget-form/budget-form.component';
 import { BillsFormComponent } from './pages/militant-list/dialogs/bills-form/bills-form.component';
+import { ChildrenListComponent } from './pages/militant-list/dialogs/children-list/children-list.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { BillsFormComponent } from './pages/militant-list/dialogs/bills-form/bil
     PromotorListComponent,
     BudgetFormComponent,
     BillsFormComponent,
+    ChildrenListComponent,
   ],
   imports: [
     SharedModule,

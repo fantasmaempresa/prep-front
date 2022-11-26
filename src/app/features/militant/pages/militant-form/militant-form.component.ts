@@ -13,15 +13,18 @@ import { SectionDto } from '../../../../data/dto/Section.dto';
 import { map, Observable, switchMap, tap } from 'rxjs';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import {
-  GeneralCoordinateType,
-  OperatorType,
+  ActivistType,
+  AreaManagerType,
+  DistrictCoordinatorType,
   Promoter,
-  SectionCoordinateType,
+  SectionManagerType,
 } from '../../../../data/models/Promoter.model';
 import { FormHandler, MessageHelper, Pagination } from 'o2c_core';
 import { PromoterDto } from '../../../../data/dto/Promoter.dto';
 import { PromoterService } from '../../../../data/services/promoter.service';
 import { PeopleService } from '../../../../data/services/people.service';
+import { ZoneService } from "../../../../data/services/zone.service";
+import { ZoneDto } from "../../../../data/dto/Zone.dto";
 
 @Component({
   selector: 'app-militant-form',
@@ -29,10 +32,19 @@ import { PeopleService } from '../../../../data/services/people.service';
   styleUrls: ['./militant-form.component.scss'],
 })
 export class MilitantFormComponent implements AfterViewInit {
+  isDistrictCoordinator = false;
+  isAreaManager = false;
+  isSectionManager = false;
+  isActivist = false;
+  isSympathizer = false;
+
   formHandler!: FormHandler<PromoterDto, Pagination<PromoterDto>>;
   maps!: MapsComponent;
   showAssignPattern = true;
   districts$: Observable<FederalDistrictDto[]>;
+  zones$: Observable<ZoneDto[]> = this.zoneService
+    .fetchAll()
+    .pipe(map(({ data }) => data));
   municipalities: MunicipalityDto[] = [];
   sections: SectionDto[] = [];
   CURP_REGEX =
@@ -86,18 +98,22 @@ export class MilitantFormComponent implements AfterViewInit {
         Validators.required,
         Validators.maxLength(10),
       ]),
-      home_phone: new FormControl('', []),
+      home_phone: new FormControl(null, []),
       email: new FormControl('', [Validators.required, Validators.email]),
       //admin data
-      type: new FormControl('', [Validators.required]),
-      assign_pattern: new FormControl('', [Validators.required]),
+      type: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
       //location data
-      district: new FormControl('', [Validators.required]),
-      municipality: new FormControl('', [Validators.required]),
-      section_id: new FormControl('', [Validators.required]),
+      district: new FormControl(''),
+      municipality: new FormControl(''),
+      section_id: new FormControl(''),
+      zone_id: new FormControl(''),
       address: new FormControl(''),
-      address_lat: new FormControl(''),
-      address_long: new FormControl(''),
+      lat: new FormControl(''),
+      lng: new FormControl(''),
+      local_district_id: new FormControl(null),
       register_lat: new FormControl('0'),
       register_long: new FormControl('0'),
       promoter_id: new FormControl(null),
@@ -108,10 +124,7 @@ export class MilitantFormComponent implements AfterViewInit {
       ValidatorEquals('ocr', 'ocr_confirm', 'notEquals'),
     ]
   );
-  optionsClass = {
-    view: OperatorType,
-    title: 'Operador',
-  };
+  optionsClass: any = null;
   private fieldsToValidate = [
     'cell_phone',
     'email',
@@ -132,7 +145,8 @@ export class MilitantFormComponent implements AfterViewInit {
     private localDistrict: LocalDistrictService,
     private federalDistrict: FederalDistrictService,
     private promoterService: PromoterService,
-    private peopleService: PeopleService
+    private peopleService: PeopleService,
+    private zoneService: ZoneService
   ) {
     this.districts$ = this.federalDistrict
       .fetchAll()
@@ -165,15 +179,15 @@ export class MilitantFormComponent implements AfterViewInit {
     this.militantForm.get('assign_pattern')?.valueChanges.subscribe((value) => {
       const options = [
         {
-          view: OperatorType,
+          view: DistrictCoordinatorType,
           title: 'Operador',
         },
         {
-          view: GeneralCoordinateType,
+          view: AreaManagerType,
           title: 'Coordinador General',
         },
         {
-          view: SectionCoordinateType,
+          view: SectionManagerType,
           title: 'Coordinador de Sección',
         },
       ];
@@ -188,8 +202,27 @@ export class MilitantFormComponent implements AfterViewInit {
 
       const findRol = this.role_select.find((item) => +value === item.value);
 
+      const options = [
+        {
+          view: DistrictCoordinatorType,
+          title: 'Coordinador distrital',
+        },
+        {
+          view: AreaManagerType,
+          title: 'Responsable de zona',
+        },
+        {
+          view: SectionManagerType,
+          title: 'Responsable de sección',
+        },
+        {
+          view: ActivistType,
+          title: 'Activista',
+        },
+      ];
+
       this.formHandler =
-        +value !== 4
+        +value !== 5
           ? new FormHandler(
               this.promoterService,
               this.route,
@@ -207,55 +240,27 @@ export class MilitantFormComponent implements AfterViewInit {
 
       switch (+value) {
         case 1:
-          this.showAssignPattern = false;
-          this.militantForm.get('assign_pattern')?.clearValidators();
-          this.militantForm.get('assign_pattern')?.updateValueAndValidity();
-          this.setValidatorsMilitant();
+          this.optionsClass = null;
           break;
+
         case 2:
-          this.showAssignPattern = true;
-          this.setValidatorsMilitant();
-          this.pattern_select.push({
-            label: 'Operador',
-            value: 1,
-          });
+          this.optionsClass = options[0];
           break;
 
         case 3:
-          this.showAssignPattern = true;
-          this.setValidatorsMilitant();
-          this.pattern_select.push(
-            {
-              label: 'Operador',
-              value: 1,
-            },
-            {
-              label: 'Coordinador de general',
-              value: 2,
-            }
-          );
+          this.optionsClass = options[1];
           break;
+
         case 4:
-          this.showAssignPattern = true;
-          this.removeValidatorsMilitant();
-          this.pattern_select.push(
-            {
-              label: 'Operador',
-              value: 1,
-            },
-            {
-              label: 'Coordinador de general',
-              value: 2,
-            },
-            {
-              label: 'Coordinador de sección',
-              value: 3,
-            }
-          );
+          this.optionsClass = options[2];
+          break;
+
+        case 5:
+          this.optionsClass = options[3];
           break;
 
         default:
-          this.showAssignPattern = true;
+          this.optionsClass = null;
       }
     });
   }
@@ -268,19 +273,19 @@ export class MilitantFormComponent implements AfterViewInit {
         this.maps.form.get('address') as FormControl
       );
       this.militantForm.setControl(
-        'address_lat',
+        'lat',
         this.maps.form.get('lat') as FormControl
       );
       this.militantForm.setControl(
-        'address_long',
+        'lng',
         this.maps.form.get('lng') as FormControl
       );
       this.militantForm.get('address')?.addValidators(Validators.required);
-      this.militantForm.get('address_lat')?.addValidators(Validators.required);
-      this.militantForm.get('address_lng')?.addValidators(Validators.required);
+      this.militantForm.get('lat')?.addValidators(Validators.required);
+      this.militantForm.get('lng')?.addValidators(Validators.required);
       this.militantForm.get('address')?.updateValueAndValidity();
-      this.militantForm.get('address_lat')?.updateValueAndValidity();
-      this.militantForm.get('address_long')?.updateValueAndValidity();
+      this.militantForm.get('lat')?.updateValueAndValidity();
+      this.militantForm.get('lng')?.updateValueAndValidity();
     });
   }
 

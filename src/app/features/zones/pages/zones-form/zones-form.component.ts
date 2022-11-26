@@ -13,6 +13,7 @@ import {
 } from '@angular/material/autocomplete';
 import { ZoneService } from '../../../../data/services/zone.service';
 import { ZoneDto } from '../../../../data/dto/Zone.dto';
+import { MessageHelper } from '../../../../shared/helpers/MessageHelper';
 
 @Component({
   selector: 'app-zones-form',
@@ -150,8 +151,16 @@ export class ZonesFormComponent implements OnInit {
       id: 0,
     };
 
-    this.zoneService.save(payload).subscribe((response) => {
-      console.log(response);
+    this.zoneService.save(payload).subscribe({
+      next: (response) => {
+        MessageHelper.successMessage('Éxito', 'Zona guardada con éxito');
+        this.zoneForm.reset();
+      },
+      error: (error) => {
+        MessageHelper.errorMessage(
+          'Ha ocurrido un error al guardar la zona, intentelo mas tarde'
+        );
+      },
     });
   }
 }

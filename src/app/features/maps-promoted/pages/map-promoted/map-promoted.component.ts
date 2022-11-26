@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { GoogleMap } from '@angular/google-maps';
-import { OperatorTypeService } from '../../../../data/services/promoter.service';
+import { DistrictCoordinatorService } from '../../../../data/services/promoter.service';
 import { map, Observable, switchMap, tap } from 'rxjs';
 import { MessageHelper } from 'o2c_core';
 import { RefreshCountdown, SECOND } from '../../../../core/refresh-countdown';
@@ -28,7 +28,7 @@ export class MapPromotedComponent implements AfterViewInit {
 
   refreshCountDown = new RefreshCountdown(REFRESH_TIME);
 
-  constructor(private dataService: OperatorTypeService) {
+  constructor(private dataService: DistrictCoordinatorService) {
     this.heatmapData$ = this.refreshCountDown.refresh$.pipe(
       tap(() => MessageHelper.showLoading('Obteniendo información')),
       switchMap(() =>

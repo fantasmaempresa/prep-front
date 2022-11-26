@@ -27,22 +27,22 @@ export class SidebarComponent {
               icon: 'list',
             },
             {
-              label: 'Responsable de Sección Lista',
+              label: 'Coordinador distrital lista',
               route: './militant/list/section-responsible',
               icon: 'list',
             },
             {
-              label: 'Activista Lista',
+              label: 'Responsable de zona lista',
               route: './militant/list/militant',
               icon: 'list',
             },
             {
-              label: 'Simpatizante Lista',
+              label: 'Responsable de sección lista',
               route: './militant/list/sympathizer',
               icon: 'list',
             },
             {
-              label: 'Promovido Lista',
+              label: 'Activista lista',
               route: './militant/list/promoted',
               icon: 'list',
             },

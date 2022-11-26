@@ -115,7 +115,7 @@ export class MessageHelper {
       allowOutsideClick: false,
       allowEscapeKey: false,
       didOpen() {
-        Swal.showLoading();
+        Swal.showLoading(null);
       },
     }).then();
   }
