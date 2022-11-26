@@ -132,7 +132,6 @@ export class Promoter extends People {
 @viewCrud({
   classProvider: DistrictCoordinatorService,
   registerName: 'Coordinador distrital',
-  actions: [childrenDialog],
 })
 export class DistrictCoordinatorType extends Promoter {}
 

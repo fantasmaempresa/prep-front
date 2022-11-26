@@ -13,3 +13,14 @@
   border-radius: 100px;
   cursor: pointer;
 }
+
+.select-rol {
+  display: flex;
+  position: absolute;
+  top: 1rem;
+  right: 30%;
+  z-index: 99;
+  background: #eee;
+  padding: 0 1.2rem;
+  border-radius: 100px;
+}

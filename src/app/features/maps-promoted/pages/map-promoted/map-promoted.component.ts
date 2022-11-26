@@ -1,9 +1,17 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { GoogleMap } from '@angular/google-maps';
-import { DistrictCoordinatorService } from '../../../../data/services/promoter.service';
+import {
+  ActivistTypeService,
+  AreaManagerService,
+  DistrictCoordinatorService,
+  PromoterService,
+  SectionManagerService,
+} from '../../../../data/services/promoter.service';
 import { map, Observable, switchMap, tap } from 'rxjs';
 import { MessageHelper } from 'o2c_core';
 import { RefreshCountdown, SECOND } from '../../../../core/refresh-countdown';
+import { Promoter } from '../../../../data/models/Promoter.model';
+import { FormControl } from '@angular/forms';
 
 const REFRESH_TIME = 2 * 60 * SECOND;
 
@@ -28,47 +36,43 @@ export class MapPromotedComponent implements AfterViewInit {
 
   refreshCountDown = new RefreshCountdown(REFRESH_TIME);
 
-  constructor(private dataService: DistrictCoordinatorService) {
+  rolControl = new FormControl(1, { nonNullable: true });
+  roles = Promoter.ROL;
+  private _dataService: PromoterService = this.districtCoordinatorService;
+
+  constructor(
+    private districtCoordinatorService: DistrictCoordinatorService,
+    private areaManagerService: AreaManagerService,
+    private sectionManagerService: SectionManagerService,
+    private activistTypeService: ActivistTypeService
+  ) {
     this.heatmapData$ = this.refreshCountDown.refresh$.pipe(
       tap(() => MessageHelper.showLoading('Obteniendo información')),
       switchMap(() =>
-        this.dataService.fetchAll().pipe(
+        this._dataService.fetchAll().pipe(
           map(({ data }) =>
             data.map(({ lng, lat }) => ({ lat: +lat, lng: +lng }))
           ),
-          tap(() => MessageHelper.getInstanceSwal().close()),
-          map((value) => [
-            ...value,
-            ...[
-              {
-                lat: this.latitude,
-                lng: this.longitude,
-              },
-              {
-                lat: this.latitude,
-                lng: this.longitude,
-              },
-              {
-                lat: this.latitude,
-                lng: this.longitude,
-              },
-              {
-                lat: this.latitude,
-                lng: this.longitude,
-              },
-              {
-                lat: this.latitude,
-                lng: this.longitude,
-              },
-              {
-                lat: this.latitude,
-                lng: this.longitude,
-              },
-            ],
-          ])
+          tap(() => MessageHelper.getInstanceSwal().close())
         )
       )
     );
+
+    this.rolControl.valueChanges
+      .pipe(
+        map((option: number): PromoterService => {
+          const options: PromoterService[] = [
+            this.districtCoordinatorService,
+            this.areaManagerService,
+            this.sectionManagerService,
+            this.activistTypeService,
+            this.activistTypeService,
+          ];
+          return options[+option - 1];
+        }),
+        tap((service: PromoterService) => (this._dataService = service))
+      )
+      .subscribe(() => this.refreshCountDown.resetCountDown());
   }
 
   ngAfterViewInit(): void {
