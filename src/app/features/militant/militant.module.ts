@@ -10,6 +10,7 @@ import { PromotorListComponent } from './pages/promotor-list/promotor-list.compo
 import { BudgetFormComponent } from './pages/militant-list/dialogs/budget-form/budget-form.component';
 import { BillsFormComponent } from './pages/militant-list/dialogs/bills-form/bills-form.component';
 import { ChildrenListComponent } from './pages/militant-list/dialogs/children-list/children-list.component';
+import { PeopleListComponent } from './pages/militant-list/dialogs/people-list/people-list.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { ChildrenListComponent } from './pages/militant-list/dialogs/children-li
     BudgetFormComponent,
     BillsFormComponent,
     ChildrenListComponent,
+    PeopleListComponent,
   ],
   imports: [
     SharedModule,

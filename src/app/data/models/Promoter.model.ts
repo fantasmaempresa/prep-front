@@ -13,7 +13,7 @@ import { BudgetFormComponent } from '../../features/militant/pages/militant-list
 import { BillsFormComponent } from '../../features/militant/pages/militant-list/dialogs/bills-form/bills-form.component';
 import {
   ChildrenListComponent
-} from "../../features/militant/pages/militant-list/dialogs/children-list/children-list.component";
+} from '../../features/militant/pages/militant-list/dialogs/children-list/children-list.component';
 
 const budgetDialog = new ViewActions<PromoterDto>(
   ({ row, injector }) => {
@@ -132,23 +132,27 @@ export class Promoter extends People {
 @viewCrud({
   classProvider: DistrictCoordinatorService,
   registerName: 'Coordinador distrital',
+  actions: [childrenDialog],
 })
 export class DistrictCoordinatorType extends Promoter {}
 
 @viewCrud({
   classProvider: AreaManagerService,
   registerName: 'Responsable de zona',
+  actions: [childrenDialog],
 })
 export class AreaManagerType extends Promoter {}
 
 @viewCrud({
   classProvider: SectionManagerService,
   registerName: 'Responsable de sección',
+  actions: [childrenDialog],
 })
 export class SectionManagerType extends Promoter {}
 
 @viewCrud({
   classProvider: ActivistTypeService,
   registerName: 'Activista',
+  actions: [childrenDialog],
 })
 export class ActivistType extends Promoter {}

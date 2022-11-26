@@ -17,4 +17,5 @@ export interface PromoterDto extends EntityDto {
   lng: number;
   promoter_id?: number;
   section_id: number;
+  promoter_children?: PromoterDto[];
 }
