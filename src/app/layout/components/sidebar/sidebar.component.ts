@@ -71,6 +71,11 @@ export class SidebarComponent {
           ],
         },
         { label: 'Mapa de Promovidos', route: './promoted-map', icon: 'maps' },
+        {
+          label: 'Perfil Político',
+          route: './politic-profile',
+          icon: 'account_box',
+        },
         // {
         //   label: 'Configuración',
         //   icon: 'settings',
