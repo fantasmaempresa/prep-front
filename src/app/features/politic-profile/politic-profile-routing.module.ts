@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { BasicViewComponent, VIEW_CLAZZ } from 'o2c_core';
-import { Promoter } from '../../data/models/Promoter.model';
+import { FORM_CLAZZ, FormComponent } from 'o2c_core';
+import { Form3 } from './forms/form3';
+import { Form1 } from './forms/form1';
+import { Form2 } from './forms/form2';
 
 const routes: Routes = [
   {
     path: '',
-    providers: [{ provide: VIEW_CLAZZ, useValue: Promoter }],
-    component: BasicViewComponent,
+    providers: [{ provide: FORM_CLAZZ, useValue: Form2 }],
+    component: FormComponent,
   },
 ];
 
