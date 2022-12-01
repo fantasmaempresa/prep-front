@@ -55,6 +55,14 @@ const routes: Routes = [
           ),
         data: { breadcrumb: 'Dashboard' },
       },
+      {
+        path: 'statistics',
+        loadChildren: () =>
+          import('./features/statistics/statistics.module').then(
+            (m) => m.StatisticsModule
+          ),
+        data: { breadcrumb: 'Estadísticas' },
+      },
     ],
   },
 ];
