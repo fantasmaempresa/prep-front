@@ -33,24 +33,75 @@
           <h3>{{ population.name }} {{ population.value }}</h3>
         </div>
       </div>
-
-      <div class="row mt-3" *ngIf="statisticsByOption">
-        <h2 class="m-0">{{ statisticsByOption?.name }}</h2>
-        <mat-list
-          *ngFor="let statistic of statisticsByOption?.data"
-        >
-          <mat-list-item>
-            <span matListItemTitle
-              >{{ statistic.name }}: {{ statistic.value }}</span
-            >
-            <span matListItemLine></span>
-          </mat-list-item>
-        </mat-list>
-      </div>
     </div>
 
+    <!--      <div class="row mt-3" *ngIf="statisticsByOption">-->
+    <!--        <h2 class="m-0">{{ statisticsByOption?.name }}</h2>-->
+    <!--        <mat-list-->
+    <!--          *ngFor="let statistic of statisticsByOption?.data"-->
+    <!--        >-->
+    <!--          <mat-list-item>-->
+    <!--            <span matListItemTitle-->
+    <!--              >{{ statistic.name }}: {{ statistic.value }}</span-->
+    <!--            >-->
+    <!--            <span matListItemLine></span>-->
+    <!--          </mat-list-item>-->
+    <!--        </mat-list>-->
+    <!--      </div>-->
+    <!--    </div>-->
+
     <div class="col-md-8">
-      <app-maps class="mt-3"></app-maps>
+      <app-maps class="mt-3" [viewAddressBox]="false"></app-maps>
+    </div>
+  </div>
+
+  <div class="row mt-3" style="height: 300px">
+    <div class="col-md-4" *ngIf="percentage.length > 0">
+      <ngx-charts-bar-vertical
+        [showDataLabel]="true"
+        [scheme]="colorScheme"
+        [results]="percentage"
+        [gradient]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="'Años'"
+        [yAxisLabel]="'Porcentaje'"
+      >
+      </ngx-charts-bar-vertical>
+    </div>
+
+    <div class="col-md-4" *ngIf="people.length > 0">
+      <ngx-charts-bar-vertical
+        [showDataLabel]="true"
+        [scheme]="colorScheme"
+        [results]="people"
+        [gradient]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="'Personas'"
+      >
+      </ngx-charts-bar-vertical>
+    </div>
+
+    <div class="col-md-4" *ngIf="deficiencies.length > 0">
+      <ngx-charts-bar-vertical
+        [showDataLabel]="true"
+        [scheme]="colorScheme"
+        [results]="deficiencies"
+        [gradient]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="'Carencias'"
+      >
+      </ngx-charts-bar-vertical>
     </div>
   </div>
 </mat-card>
