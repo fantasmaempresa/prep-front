@@ -2,12 +2,14 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  Input,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { GoogleMap } from '@angular/google-maps';
 import Swal from 'sweetalert2';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MarkerDto } from '../../../data/dto/Marker.dto';
 
 @Component({
   selector: 'app-maps',
@@ -16,7 +18,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class MapsComponent implements OnInit, AfterViewInit {
   @ViewChild('mapSearch') searchElementRef!: ElementRef;
-  @ViewChild(GoogleMap, { static: true }) public map!: GoogleMap;
+  @ViewChild(GoogleMap) public map!: GoogleMap;
+
+  @Input()
   viewAddressBox = true;
   latitude = 19.043764;
   longitude = -98.197851;
@@ -46,61 +50,63 @@ export class MapsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    const searchBox = new google.maps.places.SearchBox(
-      this.searchElementRef.nativeElement
-    );
+    if (this.viewAddressBox) {
+      const searchBox = new google.maps.places.SearchBox(
+        this.searchElementRef.nativeElement
+      );
 
-    searchBox.addListener('places_changed', () => {
-      const places = searchBox.getPlaces();
-      if (places?.length === 0) {
-        return;
-      }
-      this.markers.forEach((marker) => {
-        marker.setMap(null);
-      });
-      this.markers = [];
-
-      const bounds = new google.maps.LatLngBounds();
-      places?.forEach((place) => {
-        if (!place.geometry || !place.geometry.location) {
-          console.log('Returned place contains no geometry');
+      searchBox.addListener('places_changed', () => {
+        const places = searchBox.getPlaces();
+        if (places?.length === 0) {
           return;
         }
-
-        const icon = {
-          url: place.icon as string,
-          size: new google.maps.Size(71, 71),
-          origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(17, 34),
-          scaledSize: new google.maps.Size(25, 25),
-        };
-
-        const marker = new google.maps.Marker({
-          map: this.map.googleMap,
-          icon: icon,
-          animation: google.maps.Animation.DROP,
-          title: place.name,
-          position: place.geometry.location,
-          draggable: true,
-          clickable: true,
+        this.markers.forEach((marker) => {
+          marker.setMap(null);
         });
+        this.markers = [];
 
-        marker.addListener('dragend', () => {
-          this.decoderPosition();
+        const bounds = new google.maps.LatLngBounds();
+        places?.forEach((place) => {
+          if (!place.geometry || !place.geometry.location) {
+            console.log('Returned place contains no geometry');
+            return;
+          }
+
+          const icon = {
+            url: place.icon as string,
+            size: new google.maps.Size(71, 71),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(17, 34),
+            scaledSize: new google.maps.Size(25, 25),
+          };
+
+          const marker = new google.maps.Marker({
+            map: this.map.googleMap,
+            icon: icon,
+            animation: google.maps.Animation.DROP,
+            title: place.name,
+            position: place.geometry.location,
+            draggable: true,
+            clickable: true,
+          });
+
+          marker.addListener('dragend', () => {
+            this.decoderPosition();
+          });
+          this.markers.push(marker);
+
+          if (place.geometry.viewport) {
+            bounds.union(place.geometry.viewport);
+          } else {
+            bounds.extend(place.geometry.location);
+          }
         });
-        this.markers.push(marker);
+        this.map.fitBounds(bounds);
 
-        if (place.geometry.viewport) {
-          bounds.union(place.geometry.viewport);
-        } else {
-          bounds.extend(place.geometry.location);
-        }
+        this.decoderPosition();
       });
-      this.map.fitBounds(bounds);
-
-      this.decoderPosition();
-    });
-    console.log(searchBox);
+      console.log(searchBox);
+    }
   }
 
   decoderPosition() {
@@ -155,5 +161,50 @@ export class MapsComponent implements OnInit, AfterViewInit {
       strokeWeight: 1,
     });
     console.log('draw geoJson');
+  }
+
+  public drawMarkers(markers: MarkerDto[], onClick = false) {
+    this.clearMarkersOnMap();
+    markers.forEach((marker) => {
+      const markerG = new google.maps.Marker({
+        map: this.map.googleMap,
+        // animation: google.maps.Animation.DROP,
+        // label: {
+        //     text: marker.label,
+        //     color: 'black',
+        //     fontSize: '12px',
+        // },
+        title: marker.label,
+        position: { lat: marker.lat, lng: marker.lng },
+        draggable: marker.draggable,
+        icon: {
+          // url: '',
+          url: marker.icon,
+          size: new google.maps.Size(71, 71),
+          origin: new google.maps.Point(0, 0),
+          anchor: new google.maps.Point(17, 34),
+          scaledSize: new google.maps.Size(25, 25),
+        },
+      });
+
+      if (onClick) {
+        markerG.addListener('click', () => {
+          if (this.map.googleMap) {
+            this.map.googleMap.setZoom(13);
+            this.map.googleMap.setCenter(
+              markerG.getPosition() as google.maps.LatLng
+            );
+          }
+        });
+      }
+      this.markers.push(markerG);
+    });
+  }
+
+  public clearMarkersOnMap() {
+    this.markers.forEach((marker) => {
+      marker.setMap(null);
+    });
+    this.markers = [];
   }
 }

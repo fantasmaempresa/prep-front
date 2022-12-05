@@ -71,6 +71,7 @@ export class SidebarComponent {
           ],
         },
         { label: 'Mapa de Promovidos', route: './promoted-map', icon: 'maps' },
+        { label: 'Datos estadisticos', route: './statistics', icon: 'query_stats' },
         // {
         //   label: 'Configuración',
         //   icon: 'settings',
