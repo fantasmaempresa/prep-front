@@ -1,7 +1,7 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
   <div class="row">
     <div class="col-12 d-flex flex-column">
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" *ngIf="viewAddressBox">
         <mat-label>Dirección</mat-label>
         <input
           #mapSearch
@@ -9,7 +9,6 @@
           type="text"
           autocomplete="false"
           formControlName="address"
-          *ngIf="viewAddressBox"
         />
         <mat-error o2cErrorMessage></mat-error>
       </mat-form-field>

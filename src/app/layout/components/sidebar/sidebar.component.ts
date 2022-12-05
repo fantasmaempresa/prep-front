@@ -76,6 +76,7 @@ export class SidebarComponent {
           route: './politic-profile',
           icon: 'account_box',
         },
+        { label: 'Datos estadisticos', route: './statistics', icon: 'query_stats' },
         // {
         //   label: 'Configuración',
         //   icon: 'settings',

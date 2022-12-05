@@ -21,4 +21,8 @@ export class ChartsService {
   byPromoterBudget() {
     return this.http.get(`${this.url}/promotedForBudgets`);
   }
+
+  byMunicipality(municipalityId: number) {
+    return this.http.get(`${this.url}/municipality/${municipalityId}`);
+  }
 }

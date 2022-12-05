@@ -65,6 +65,14 @@ const routes: Routes = [
             (m) => m.PoliticProfileModule
           ),
       },
+      {
+        path: 'statistics',
+        loadChildren: () =>
+          import('./features/statistics/statistics.module').then(
+            (m) => m.StatisticsModule
+          ),
+        data: { breadcrumb: 'Estadísticas' },
+      },
     ],
   },
 ];
