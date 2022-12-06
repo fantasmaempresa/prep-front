@@ -1,14 +1,10 @@
-import { formField, FormFieldType, FormOption } from 'o2c_core';
+import { formField, FormFieldType } from 'o2c_core';
+import { RELATION_OPTIONS } from './form2';
 
-export const RELATION_OPTIONS = [
-  new FormOption('Buena', 1),
-  new FormOption('Regular', 2),
-  new FormOption('Mala', 3),
-];
-
-export class Form2 {
+export class Form7 {
   @formField({
-    label: 'Relación entre el Diputado Federal y el Diputado Local',
+    label:
+      'Relación entre el Diputado Federal y el Presidente Auxiliar en Funciones',
     formFieldType: FormFieldType.RADIO,
     options: RELATION_OPTIONS,
   })
@@ -16,54 +12,45 @@ export class Form2 {
 
   @formField({
     label:
-      'Relación entre el Diputado Federal y el Diputado Local en Funciones:',
+      'Relación entre el Diputado Local y el Presidente Auxiliar en Funciones',
     formFieldType: FormFieldType.RADIO,
     options: RELATION_OPTIONS,
   })
   municipality_header: string;
 
   @formField({
-    label: 'Relación entre el Diputado Federal y el Diputado Local Electo',
+    label: 'Relación entre el Diputado Local Elector y el presidente Auxiliar',
     formFieldType: FormFieldType.RADIO,
     options: RELATION_OPTIONS,
   })
   federal_deputy: string;
 
   @formField({
-    label:
-      'Relación entre el Diputado Federal y el Presidente Municipal Electo',
+    label: 'Relación entre el Presidente Municipal y el Presiden Auxiliar',
     formFieldType: FormFieldType.RADIO,
     options: RELATION_OPTIONS,
   })
   political_parties_membership: string;
 
   @formField({
-    label: 'Relación entre el Diputado Local y el Diputado Local Electo',
+    label:
+      'Relación entre el presidente Municipal Electo y el Presidente Auxiliar',
     formFieldType: FormFieldType.RADIO,
     options: RELATION_OPTIONS,
   })
   former_district_federal: string;
 
   @formField({
-    label:
-      'Relación entre el Diputado Local y el Presidente Municipal en funciones',
-    formFieldType: FormFieldType.RADIO,
-    options: RELATION_OPTIONS,
+    label: 'Partido al que pertenece el presidente Auxiliar',
+    formFieldType: FormFieldType.TEXT,
   })
   header_former: string;
-
-  @formField({
-    label: 'Relación entre el diputado Local y el Presidente Municipal Electo',
-    formFieldType: FormFieldType.RADIO,
-    options: RELATION_OPTIONS,
-  })
-  political_parties_membership_former: string;
 
   @formField({
     label: 'Observaciones',
     formFieldType: FormFieldType.TEXTAREA,
   })
-  local_district_current: string;
+  political_parties_membership_former: string;
 
   constructor(
     district_federal: string,
@@ -72,8 +59,7 @@ export class Form2 {
     political_parties_membership: string,
     former_district_federal: string,
     header_former: string,
-    political_parties_membership_former: string,
-    local_district_current: string
+    political_parties_membership_former: string
   ) {
     this.district_federal = district_federal;
     this.municipality_header = municipality_header;
@@ -83,6 +69,5 @@ export class Form2 {
     this.header_former = header_former;
     this.political_parties_membership_former =
       political_parties_membership_former;
-    this.local_district_current = local_district_current;
   }
 }
