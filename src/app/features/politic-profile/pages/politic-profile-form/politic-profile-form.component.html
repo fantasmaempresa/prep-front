@@ -1,5 +1,28 @@
-<!--<mat-stepper linear #stepper>-->
-<!--  <mat-step *ngFor="let view of views">-->
-<!--    <o2c-form-builder [formFields]="view.control | async"></o2c-form-builder>-->
-<!--  </mat-step>-->
-<!--</mat-stepper>-->
+<mat-stepper linear>
+  <mat-step *ngFor="let formField$ of viewsFormFields; let i = index">
+    <ng-container *ngIf="formField$ | async as formFields">
+      <ng-template matStepLabel>{{ views[i].title }}</ng-template>
+      <o2c-form-builder [formFields]="formFields"></o2c-form-builder>
+    </ng-container>
+
+    <div>
+      <button mat-flat-button matStepperPrevious *ngIf="i !== 0">
+        Anterior
+      </button>
+      <button
+        mat-flat-button
+        matStepperNext
+        *ngIf="i < viewsFormFields.length - 1"
+      >
+        Siguiente
+      </button>
+      <button
+        mat-stroked-button
+        color="primary"
+        *ngIf="viewsFormFields.length - 1 === i"
+      >
+        Guardar Formulario
+      </button>
+    </div>
+  </mat-step>
+</mat-stepper>
