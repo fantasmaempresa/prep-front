@@ -1,4 +1,4 @@
-<mat-stepper linear>
+<mat-stepper orientation="vertical">
   <mat-step *ngFor="let formField$ of viewsFormFields; let i = index">
     <ng-container *ngIf="formField$ | async as formFields">
       <ng-template matStepLabel>{{ views[i].title }}</ng-template>

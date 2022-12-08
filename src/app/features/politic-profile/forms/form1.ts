@@ -1,6 +1,8 @@
-import { formField, FormFieldType } from 'o2c_core';
+import { formField, FormFieldType, formValidators } from 'o2c_core';
+import { Validators } from '@angular/forms';
 
 export class Form1 {
+  @formValidators(Validators.required)
   @formField({
     label: 'Distrito federal',
     formFieldType: FormFieldType.TEXT,
