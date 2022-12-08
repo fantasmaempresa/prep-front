@@ -17,6 +17,7 @@
         Siguiente
       </button>
       <button
+        (click)="draftStorage.clearDraft()"
         mat-stroked-button
         color="primary"
         *ngIf="viewsFormFields.length - 1 === i"

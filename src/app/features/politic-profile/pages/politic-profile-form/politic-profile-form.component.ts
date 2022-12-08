@@ -1,6 +1,5 @@
 import {
   AfterViewInit,
-  ChangeDetectorRef,
   Component,
   Injector,
   QueryList,
@@ -11,10 +10,11 @@ import {
   FormBuilder,
   FormBuilderComponent,
   FormField,
+  MessageHelper,
 } from 'o2c_core';
 import { Form2 } from '../../forms/form2';
 import { Form1 } from '../../forms/form1';
-import { Observable } from 'rxjs';
+import { combineLatest, debounceTime, Observable, startWith } from 'rxjs';
 import { Form3 } from '../../forms/form3';
 import { Form4 } from '../../forms/form4';
 import { Form6 } from '../../forms/form6';
@@ -43,6 +43,7 @@ import { SchoolForm } from '../../forms/school.form';
 import { SchoolChargeForm } from '../../forms/school-charge.form';
 import { MatStep } from '@angular/material/stepper';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { DraftStorage } from '../../../../core/draft-storage';
 
 @Component({
   selector: 'app-politic-profile-form',
@@ -60,6 +61,8 @@ export class PoliticProfileFormComponent implements AfterViewInit {
   listFormBuilder!: QueryList<FormBuilderComponent>;
 
   @ViewChildren(MatStep) listMatStep!: QueryList<MatStep>;
+
+  draftStorage: DraftStorage = new DraftStorage('public-profile');
 
   views = [
     {
@@ -173,6 +176,14 @@ export class PoliticProfileFormComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.setStepControlToStepper();
+      this.askForDraft();
+      combineLatest(
+        this.listFormBuilder.map(({ form }) =>
+          form.valueChanges.pipe(startWith(null))
+        )
+      )
+        .pipe(debounceTime(500), this.draftStorage.saveDraftOnValueChange())
+        .subscribe();
     }, 100);
   }
 
@@ -194,5 +205,21 @@ export class PoliticProfileFormComponent implements AfterViewInit {
       const formBuilder = new FormBuilder(inj);
       return formBuilder.buildFormFields();
     });
+  }
+
+  private askForDraft() {
+    const currentDraft: any[] | null = this.draftStorage.getDraft();
+    if (currentDraft) {
+      MessageHelper.decisionMessage(
+        'Aviso de borrador',
+        '¿Tienes un borrador guardado, quieres cargarlo?',
+        () => {
+          this.listFormBuilder.forEach(({ form }, index) => {
+            console.log('cargando información');
+            form.patchValue(currentDraft[index]);
+          });
+        }
+      );
+    }
   }
 }
