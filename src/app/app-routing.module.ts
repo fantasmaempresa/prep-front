@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthLayoutComponent } from './layout/auth-layout/auth-layout.component';
 import { ContentLayoutComponent } from './layout/components/content-layout/content-layout.component';
+import { BasicViewComponent, VIEW_CLAZZ } from 'o2c_core';
+import { Promoter } from './data/models/Promoter.model';
 
 const routes: Routes = [
   {
@@ -56,12 +58,28 @@ const routes: Routes = [
         data: { breadcrumb: 'Dashboard' },
       },
       {
+        path: 'politic-profile',
+        data: { breadcrumb: 'Perfil Político' },
+        loadChildren: () =>
+          import('./features/politic-profile/politic-profile.module').then(
+            (m) => m.PoliticProfileModule
+          ),
+      },
+      {
         path: 'statistics',
         loadChildren: () =>
           import('./features/statistics/statistics.module').then(
             (m) => m.StatisticsModule
           ),
         data: { breadcrumb: 'Estadísticas' },
+      },
+      {
+        path: 'users',
+        loadChildren: () =>
+          import('./features/users/users.module').then(
+            (m) => m.UsersModule
+          ),
+        data: { breadcrumb: 'Usuarios' },
       },
     ],
   },

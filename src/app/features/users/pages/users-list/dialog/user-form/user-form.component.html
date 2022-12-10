@@ -1,0 +1,56 @@
+<h2 mat-dialog-title>Agregar usuario</h2>
+
+<div mat-dialog-content>
+  <form class="row" [formGroup]="userForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Nombre</mat-label>
+      <input matInput type="text" autocomplete="off" formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" autocomplete="off" formControlName="email" />
+    </mat-form-field>
+
+    <div class="row" *ngIf="data.edit">
+      <div class="col">
+        <section>
+          <mat-checkbox (change)="updatePasswordChange($event)">
+            ¿Deseas actualizar la contraseña?
+          </mat-checkbox>
+        </section>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="updatePassword">
+      <div class="col">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Contraseña</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'"
+                 formControlName="password">
+          <mat-icon (click)="hidePassword = !hidePassword" matSuffix>
+            {{ hidePassword ? 'visibility_off' : 'visibility' }}
+          </mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="col">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Confirmar contraseña</mat-label>
+          <input matInput [type]="hideRepeatPassword ? 'password' : 'text'"
+                 formControlName="password_confirm">
+          <mat-icon (click)="hideRepeatPassword = !hideRepeatPassword" matSuffix>
+            {{ hideRepeatPassword ? 'visibility_off' : 'visibility' }}
+          </mat-icon>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+
+  <mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancelar</button>
+    <button mat-button [disabled]="userForm.invalid" (click)="submit()">
+      Guardar
+    </button>
+  </mat-dialog-actions>
+</div>

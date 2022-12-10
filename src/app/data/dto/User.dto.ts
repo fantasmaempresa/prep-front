@@ -3,15 +3,10 @@
 import { EntityDto } from 'o2c_core';
 
 export interface UserDto extends EntityDto {
+  name: string;
   email: string;
 
   password?: string;
-
-  config: object;
-
-  role_id: number;
-
-  online: number;
 
   // role: RoleDto;
 }

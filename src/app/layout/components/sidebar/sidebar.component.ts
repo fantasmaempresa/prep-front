@@ -10,7 +10,7 @@ export class SidebarComponent {
     {
       menuName: 'Menu',
       submenus: [
-        { label: 'Inicio', route: '/app', icon: 'home' },
+        { label: 'Inicio', route: '/app/dashboard', icon: 'home' },
         {
           label: 'Operadores',
           icon: 'support_agent',
@@ -71,7 +71,13 @@ export class SidebarComponent {
           ],
         },
         { label: 'Mapa de Promovidos', route: './promoted-map', icon: 'maps' },
+        {
+          label: 'Perfil Político',
+          route: './politic-profile',
+          icon: 'account_box',
+        },
         { label: 'Datos estadisticos', route: './statistics', icon: 'query_stats' },
+        { label: 'Usuarios', route: './users', icon: 'group' },
         // {
         //   label: 'Configuración',
         //   icon: 'settings',
