@@ -1,4 +1,10 @@
-import { formField, FormFieldType, FormOption } from 'o2c_core';
+import {
+  formField,
+  FormFieldType,
+  FormOption,
+  formTable,
+  viewLabel,
+} from 'o2c_core';
 
 const MUNICIPALITY_CHARGE = [
   { label: 'Presidente Municipal', value: 1 },
@@ -167,30 +173,35 @@ export class MunicipalityAuthorityForm {
     formFieldType: FormFieldType.DROPDOWN,
     options: OPTIONS_MUNICIPALITY_FORM_OPTIONS,
   })
+  @viewLabel('Cargo')
   charge: string;
 
   @formField({
     label: 'Nombre',
     formFieldType: FormFieldType.TEXT,
   })
+  @viewLabel('Nombre')
   name: string;
 
   @formField({
     label: 'Edad',
     formFieldType: FormFieldType.TEXT,
   })
+  @viewLabel('Edad')
   age: string;
 
   @formField({
     label: 'Partido Politico',
     formFieldType: FormFieldType.TEXT,
   })
+  @viewLabel('Partido Politico')
   political_party: string;
 
   @formField({
     label: 'Observaciones',
     formFieldType: FormFieldType.TEXTAREA,
   })
+  @viewLabel('Observaciones')
   observations: string;
 
   constructor(
@@ -205,5 +216,20 @@ export class MunicipalityAuthorityForm {
     this.age = age;
     this.political_party = political_party;
     this.observations = observations;
+  }
+}
+
+export class MunicipalityAuthoritiesForm {
+  @formTable({
+    tableProvider: MunicipalityAuthorityForm,
+  })
+  @formField({
+    label: 'Autoridades Municipales',
+    formFieldType: FormFieldType.TABLE,
+  })
+  table: string;
+
+  constructor(table: string) {
+    this.table = table;
   }
 }

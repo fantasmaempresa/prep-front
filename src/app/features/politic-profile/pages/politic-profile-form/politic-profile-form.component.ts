@@ -34,7 +34,10 @@ import {
   JusticeOfPeaceMemberForm,
   MunicipalityInspectorMemberForm,
 } from '../../forms/member.form';
-import { MunicipalityAuthorityForm } from '../../forms/municipality-authority.form';
+import {
+  MunicipalityAuthoritiesForm,
+  MunicipalityAuthorityForm,
+} from '../../forms/municipality-authority.form';
 import { OrganizationForm } from '../../forms/organization.form';
 import { PoliticalPartyRepresentativeForm } from '../../forms/political-party-representative.form';
 import { PowderForm } from '../../forms/powder.form';
@@ -76,6 +79,10 @@ export class PoliticProfileFormComponent implements AfterViewInit {
     {
       title: 'Formulario 3',
       view: Form3,
+    },
+    {
+      title: 'Autoridades Municipales',
+      view: MunicipalityAuthoritiesForm,
     },
     {
       title: 'Formulario 4',
