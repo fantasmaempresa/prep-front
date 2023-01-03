@@ -30,7 +30,7 @@
     "@types/d3": "^7.4.0",
     "date-fns": "^2.29.3",
     "ngrx-store-localstorage": "^14.0.0",
-    "o2c_core": "^0.1.0",
+    "o2c_core": "^0.1.1",
     "rxjs": "~7.5.7",
     "sweetalert2": "^11.6.7",
     "tslib": "^2.4.1",
