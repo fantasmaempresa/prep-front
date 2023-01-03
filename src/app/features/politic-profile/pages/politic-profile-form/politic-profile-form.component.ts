@@ -9,7 +9,7 @@ import {
   FORM_CLAZZ,
   FormBuilder,
   FormBuilderComponent,
-  FormField,
+  FormFieldI,
   MessageHelper,
 } from 'o2c_core';
 import { Form2 } from '../../forms/form2';
@@ -167,7 +167,7 @@ export class PoliticProfileFormComponent implements AfterViewInit {
     },
   ];
 
-  viewsFormFields: Observable<FormField[]>[];
+  viewsFormFields: Observable<FormFieldI[]>[];
 
   constructor() {
     this.viewsFormFields = this.buildStepperForms();
