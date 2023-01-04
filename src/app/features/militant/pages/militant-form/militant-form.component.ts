@@ -23,8 +23,8 @@ import { FormHandler, MessageHelper, Pagination } from 'o2c_core';
 import { PromoterDto } from '../../../../data/dto/Promoter.dto';
 import { PromoterService } from '../../../../data/services/promoter.service';
 import { PeopleService } from '../../../../data/services/people.service';
-import { ZoneService } from "../../../../data/services/zone.service";
-import { ZoneDto } from "../../../../data/dto/Zone.dto";
+import { ZoneService } from '../../../../data/services/zone.service';
+import { ZoneDto } from '../../../../data/dto/Zone.dto';
 
 @Component({
   selector: 'app-militant-form',

@@ -61,7 +61,7 @@ const childrenDialog = new ViewActions<PromoterDto>(
 @viewCrud({
   classProvider: PromoterService,
   route: {
-    add: '../new',
+    add: '../../new',
     edit: '../',
   },
   registerName: 'Promotor',
