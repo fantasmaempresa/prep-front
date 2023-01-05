@@ -13,6 +13,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { BudgetFormComponent } from '../../features/militant/pages/militant-list/dialogs/budget-form/budget-form.component';
 import { BillsFormComponent } from '../../features/militant/pages/militant-list/dialogs/bills-form/bills-form.component';
 import { ChildrenListComponent } from '../../features/militant/pages/militant-list/dialogs/children-list/children-list.component';
+import {
+  BillsListComponent
+} from '../../features/militant/pages/militant-list/dialogs/bills-list/bills-list.component';
 
 const budgetDialog = new ViewActions<PromoterDto>(
   ({ row, injector }) => {
@@ -42,6 +45,18 @@ const billsDialog = new ViewActions<PromoterDto>(
   { tooltip: 'Agregar gastos', color: 'primary', isVisible: (row) => !!row }
 );
 
+const billsListDialog = new ViewActions<PromoterDto>(
+  ({ row, injector }) => {
+    const dialog = injector.get(MatDialog);
+    dialog.open(BillsListComponent, {
+      data: row,
+      width: '500px',
+    });
+  },
+  'list',
+  { tooltip: 'Ver gastos', color: 'primary', isVisible: (row) => !!row }
+);
+
 const childrenDialog = new ViewActions<PromoterDto>(
   ({ row, injector }) => {
     const dialog = injector.get(MatDialog);
@@ -65,7 +80,7 @@ const childrenDialog = new ViewActions<PromoterDto>(
     edit: '../',
   },
   registerName: 'Promotor',
-  actions: [budgetDialog, billsDialog],
+  actions: [budgetDialog, billsDialog, billsListDialog],
 })
 export class Promoter extends People {
   static ROL = [

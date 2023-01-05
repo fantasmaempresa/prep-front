@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>Lista de gastos</h2>
+
+<div mat-dialog-content>
+  <div class="row" *ngFor="let budget of budgets$ | async">
+    <h3 class="bold">{{ budget.name }}</h3>
+    <mat-list role="list">
+      <mat-list-item role="listitem" *ngIf="budget.bills?.length === 0">
+        <p>No hay gastos en este presupuesto</p>
+      </mat-list-item>
+      <mat-list-item *ngFor="let bill of budget.bills">
+        <div class="d-flex justify-content-between w-100">
+          <p>{{ bill.name }} </p>
+          <p>{{ bill.amount | currency }}</p>
+        </div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+    </mat-list>
+  </div>
+  <div class="row mt-3" *ngIf="resume$ | async as budget">
+    <h3 class="bold">Resumen</h3>
+    <mat-list role="list">
+      <mat-list-item role="listitem">
+        <div class="d-flex justify-content-between w-100">
+          <span>Presupuesto total</span>
+          <span>{{ budget.budget | currency }}</span>
+        </div>
+      </mat-list-item>
+      <mat-list-item role="listitem">
+        <div class="d-flex justify-content-between w-100">
+          <span>Gastos totales</span>
+          <span>{{ budget.bills_total | currency }}</span>
+        </div>
+      </mat-list-item>
+      <mat-list-item role="listitem">
+        <div class="d-flex justify-content-between w-100">
+          <span>Restante</span>
+          <span>{{ budget.difference | currency }}</span>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</div>
