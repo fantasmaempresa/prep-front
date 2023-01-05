@@ -11,6 +11,7 @@ import { BudgetFormComponent } from './pages/militant-list/dialogs/budget-form/b
 import { BillsFormComponent } from './pages/militant-list/dialogs/bills-form/bills-form.component';
 import { ChildrenListComponent } from './pages/militant-list/dialogs/children-list/children-list.component';
 import { PeopleListComponent } from './pages/militant-list/dialogs/people-list/people-list.component';
+import { BillsListComponent } from './pages/militant-list/dialogs/bills-list/bills-list.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { PeopleListComponent } from './pages/militant-list/dialogs/people-list/p
     BillsFormComponent,
     ChildrenListComponent,
     PeopleListComponent,
+    BillsListComponent,
   ],
   imports: [
     SharedModule,

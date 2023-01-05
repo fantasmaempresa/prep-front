@@ -17,7 +17,6 @@ const createDialog = new ViewActions<UserDto>(
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log(result);
         rechargeService.reloadPage();
       }
     });
@@ -43,7 +42,6 @@ const editDialog = new ViewActions<UserDto>(
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log(result);
         rechargeService.reloadPage();
       }
     });
