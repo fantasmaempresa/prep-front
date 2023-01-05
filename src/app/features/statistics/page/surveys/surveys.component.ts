@@ -5,6 +5,7 @@ import { map, shareReplay, switchMap, tap } from 'rxjs';
 import { ChartsService } from '../../../../data/services/charts.service';
 import { Color, LegendPosition, ScaleType } from '@swimlane/ngx-charts';
 import { QuestionService } from '../../../../data/services/question.service';
+import { MessageHelper } from 'o2c_core';
 
 @Component({
   selector: 'app-surveys',
@@ -19,16 +20,19 @@ export class SurveysComponent implements OnInit {
   surveys$ = this.surveyService.fetchAll().pipe(map((data) => data.data));
 
   answersToOpenQuestion$ = this.openQuestionsControl.valueChanges.pipe(
-    switchMap((questionId) => this.questionService.fetch(questionId))
+    tap(() => MessageHelper.showLoading('Obteniendo información')),
+    switchMap((questionId) => this.questionService.fetch(questionId)),
+    tap(() => MessageHelper.getInstanceSwal().close())
   );
 
   statistics$ = this.surveyControl.valueChanges.pipe(
+    tap(() => MessageHelper.showLoading('Obteniendo información')),
     switchMap((surveyId) => this.chartService.surveys(surveyId)),
-    shareReplay(1)
+    shareReplay(1),
+    tap(() => MessageHelper.getInstanceSwal().close())
   );
 
   openQuestions$: any = this.statistics$.pipe(
-    tap((data) => console.log(data)),
     map((data) => data.openQuestions)
   );
 
