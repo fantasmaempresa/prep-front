@@ -4,6 +4,7 @@ import {
   FormOption,
   formTable,
   viewLabel,
+  viewMapTo,
 } from 'o2c_core';
 
 const MUNICIPALITY_CHARGE = [
@@ -173,6 +174,11 @@ export class MunicipalityAuthorityForm {
     formFieldType: FormFieldType.DROPDOWN,
     options: OPTIONS_MUNICIPALITY_FORM_OPTIONS,
   })
+  @viewMapTo(
+    (id) =>
+      OPTIONS_MUNICIPALITY_FORM_OPTIONS.find((option) => option.value === id)
+        ?.label
+  )
   @viewLabel('Cargo')
   charge: string;
 
