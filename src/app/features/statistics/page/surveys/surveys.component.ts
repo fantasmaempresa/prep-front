@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { SurveyService } from '../../../../data/services/survey.service';
-import { map, switchMap } from 'rxjs';
+import { map, shareReplay, switchMap, tap } from 'rxjs';
 import { ChartsService } from '../../../../data/services/charts.service';
-import { Color, ScaleType } from "@swimlane/ngx-charts";
+import { Color, LegendPosition, ScaleType } from '@swimlane/ngx-charts';
+import { QuestionService } from '../../../../data/services/question.service';
 
 @Component({
   selector: 'app-surveys',
@@ -13,10 +14,22 @@ import { Color, ScaleType } from "@swimlane/ngx-charts";
 export class SurveysComponent implements OnInit {
   surveyControl = new FormControl();
 
+  openQuestionsControl = new FormControl();
+
   surveys$ = this.surveyService.fetchAll().pipe(map((data) => data.data));
 
+  answersToOpenQuestion$ = this.openQuestionsControl.valueChanges.pipe(
+    switchMap((questionId) => this.questionService.fetch(questionId))
+  );
+
   statistics$ = this.surveyControl.valueChanges.pipe(
-    switchMap((surveyId) => this.chartService.surveys(surveyId))
+    switchMap((surveyId) => this.chartService.surveys(surveyId)),
+    shareReplay(1)
+  );
+
+  openQuestions$: any = this.statistics$.pipe(
+    tap((data) => console.log(data)),
+    map((data) => data.openQuestions)
   );
 
   colorScheme: Color = {
@@ -26,16 +39,14 @@ export class SurveysComponent implements OnInit {
     selectable: true,
   };
 
+  legendPosition = LegendPosition.Below;
+
   stats = [];
   constructor(
     private surveyService: SurveyService,
-    private chartService: ChartsService
+    private chartService: ChartsService,
+    private questionService: QuestionService
   ) {}
 
-  ngOnInit(): void {
-    this.statistics$.subscribe((data) => {
-      // this.stats = data.statistics;
-      // console.log(data);
-    });
-  }
+  ngOnInit(): void {}
 }
