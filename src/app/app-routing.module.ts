@@ -73,6 +73,14 @@ const routes: Routes = [
           ),
         data: { breadcrumb: 'Estadísticas' },
       },
+      {
+        path: 'users',
+        loadChildren: () =>
+          import('./features/users/users.module').then(
+            (m) => m.UsersModule
+          ),
+        data: { breadcrumb: 'Usuarios' },
+      },
     ],
   },
 ];
