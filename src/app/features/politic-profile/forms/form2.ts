@@ -16,7 +16,7 @@ export class Form2 {
 
   @formField({
     label:
-      'Relación entre el Diputado Federal y el Diputado Local en Funciones:',
+      'Relación entre el Diputado Federal y el Diputado Local en Funciones',
     formFieldType: FormFieldType.RADIO,
     options: RELATION_OPTIONS,
   })

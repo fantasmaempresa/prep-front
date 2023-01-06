@@ -1,4 +1,5 @@
-import { formField, FormFieldType, FormOption } from 'o2c_core';
+import { formField, FormFieldType, FormOption, formTable } from 'o2c_core';
+import { AuxiliaryBoardForm } from './member.form';
 
 export class Form8 {
   @formField({
@@ -39,13 +40,24 @@ export class Form8 {
   })
   header_former: string;
 
+  @formTable({
+    tableProvider: AuxiliaryBoardForm,
+  })
+  @formField({
+    label:
+      'Personas Destacadas que se consideren Factores de Poder dentro de la Junta',
+    formFieldType: FormFieldType.TABLE,
+  })
+  people_table: string;
+
   constructor(
     district_federal: string,
     municipality_header: string,
     federal_deputy: string,
     political_parties_membership: string,
     former_district_federal: string,
-    header_former: string
+    header_former: string,
+    people_table: string
   ) {
     this.district_federal = district_federal;
     this.municipality_header = municipality_header;
@@ -53,5 +65,6 @@ export class Form8 {
     this.political_parties_membership = political_parties_membership;
     this.former_district_federal = former_district_federal;
     this.header_former = header_former;
+    this.people_table = people_table;
   }
 }

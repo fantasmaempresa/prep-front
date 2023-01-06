@@ -1,30 +1,46 @@
-import { formField, FormFieldType, FormOption } from 'o2c_core';
+import {
+  formField,
+  FormFieldType,
+  FormOption,
+  formTable,
+  viewLabel,
+  viewMapTo,
+} from 'o2c_core';
 
 export class MembersForm {
+  @formField({
+    label: 'Nombre',
+    formFieldType: FormFieldType.TEXT,
+  })
+  @viewLabel('Cargo')
   charge: string;
 
   @formField({
     label: 'Nombre',
     formFieldType: FormFieldType.TEXT,
   })
+  @viewLabel('Nombre')
   name: string;
 
   @formField({
     label: 'Domicilio',
     formFieldType: FormFieldType.TEXT,
   })
+  @viewLabel('Domicilio')
   address: string;
 
   @formField({
     label: 'Teléfono',
     formFieldType: FormFieldType.TEXT,
   })
+  @viewLabel('Teléfono')
   phone: string;
 
   @formField({
     label: 'E-mail',
     formFieldType: FormFieldType.TEXT,
   })
+  @viewLabel('E-mail')
   email: string;
 
   constructor(
@@ -62,6 +78,8 @@ export class AuxiliaryBoardForm extends MembersForm {
     formFieldType: FormFieldType.DROPDOWN,
     options: AUXILIARY_CHARGES_OPTIONS,
   })
+  @viewMapTo((v) => AUXILIARY_CHARGES.find(({ value }) => v === value)?.label)
+  @viewLabel('Cargo')
   override charge: string = '';
 }
 
@@ -85,6 +103,10 @@ export class BoardMembersForm extends MembersForm {
     formFieldType: FormFieldType.DROPDOWN,
     options: MEMBER_BOARD_CHARGES_OPTIONS,
   })
+  @viewMapTo(
+    (v) => BOARD_MEMBERS_CHARGES.find(({ value }) => v === value)?.label
+  )
+  @viewLabel('Cargo')
   override charge: string = '';
 }
 
@@ -93,6 +115,7 @@ export class JusticeOfPeaceMemberForm extends MembersForm {
     label: 'Cargo',
     formFieldType: FormFieldType.TEXT,
   })
+  @viewLabel('Cargo')
   override charge: string = '';
 }
 
@@ -101,5 +124,56 @@ export class MunicipalityInspectorMemberForm extends MembersForm {
     label: 'Cargo',
     formFieldType: FormFieldType.TEXT,
   })
+  @viewLabel('Cargo')
   override charge: string = '';
+}
+
+export class AuxiliaryAndMembersBoards {
+  @formTable({
+    tableProvider: AuxiliaryBoardForm,
+  })
+  @formField({
+    label: 'Junta Auxiliar',
+    formFieldType: FormFieldType.TABLE,
+  })
+  auxiliaryBoard: string;
+
+  @formTable({
+    tableProvider: BoardMembersForm,
+  })
+  @formField({
+    label: 'Miembros de la Junta',
+    formFieldType: FormFieldType.TABLE,
+  })
+  members: string;
+
+  @formTable({
+    tableProvider: JusticeOfPeaceMemberForm,
+  })
+  @formField({
+    label: 'Jueces de Justicia',
+    formFieldType: FormFieldType.TABLE,
+  })
+  justiceMember: string;
+
+  constructor(auxiliaryBoard: string, members: string, justiceMember: string) {
+    this.auxiliaryBoard = auxiliaryBoard;
+    this.members = members;
+    this.justiceMember = justiceMember;
+  }
+}
+
+export class MunicipalitiesInspectors {
+  @formTable({
+    tableProvider: MunicipalityInspectorMemberForm,
+  })
+  @formField({
+    label: 'Inspectores Municipales',
+    formFieldType: FormFieldType.TABLE,
+  })
+  table: string;
+
+  constructor(table: string) {
+    this.table = table;
+  }
 }

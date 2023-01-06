@@ -19,14 +19,14 @@ export class Form7 {
   municipality_header: string;
 
   @formField({
-    label: 'Relación entre el Diputado Local Elector y el presidente Auxiliar',
+    label: 'Relación entre el Diputado Local Electo y el presidente Auxiliar',
     formFieldType: FormFieldType.RADIO,
     options: RELATION_OPTIONS,
   })
   federal_deputy: string;
 
   @formField({
-    label: 'Relación entre el Presidente Municipal y el Presiden Auxiliar',
+    label: 'Relación entre el Presidente Municipal y el Presidente Auxiliar',
     formFieldType: FormFieldType.RADIO,
     options: RELATION_OPTIONS,
   })

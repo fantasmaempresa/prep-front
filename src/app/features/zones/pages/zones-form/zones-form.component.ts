@@ -7,10 +7,7 @@ import Swal from 'sweetalert2';
 import { MunicipalityDto } from '../../../../data/dto/Municipality.dto';
 import { SectionDto } from '../../../../data/dto/Section.dto';
 import { MunicipalityService } from '../../../../data/services/municipality.service';
-import {
-  MatAutocompleteSelectedEvent,
-  MatAutocompleteTrigger,
-} from '@angular/material/autocomplete';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ZoneService } from '../../../../data/services/zone.service';
 import { ZoneDto } from '../../../../data/dto/Zone.dto';
 import { MessageHelper } from '../../../../shared/helpers/MessageHelper';
@@ -133,18 +130,11 @@ export class ZonesFormComponent implements OnInit {
     return section && section.section ? section.section : '';
   }
 
-  private _filter(name: string): SectionDto[] {
-    console.log(name);
-    const filterValue = name;
-
-    return this.sections.filter((section) =>
-      section.section.includes(filterValue)
-    );
-  }
-
   saveZone() {
     const form = this.zoneForm.getRawValue();
     const payload: ZoneDto = {
+      locked: 1,
+      political_profile: undefined,
       name: form.name,
       description: form.description,
       sections: this.selectedSections,
@@ -162,5 +152,14 @@ export class ZonesFormComponent implements OnInit {
         );
       },
     });
+  }
+
+  private _filter(name: string): SectionDto[] {
+    console.log(name);
+    const filterValue = name;
+
+    return this.sections.filter((section) =>
+      section.section.includes(filterValue)
+    );
   }
 }

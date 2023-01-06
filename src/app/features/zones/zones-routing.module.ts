@@ -22,6 +22,14 @@ const routes: Routes = [
         component: ZonesFormComponent,
         data: { breadcrumb: 'Agregar zona' },
       },
+      {
+        path: ':id/politic-profile',
+        data: { breadcrumb: 'Perfil Político' },
+        loadChildren: () =>
+          import('../politic-profile/politic-profile.module').then(
+            (m) => m.PoliticProfileModule
+          ),
+      },
     ],
   },
 ];
