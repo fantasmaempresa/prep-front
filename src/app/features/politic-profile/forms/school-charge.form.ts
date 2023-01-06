@@ -1,4 +1,10 @@
-import { formField, FormFieldType, FormOption } from 'o2c_core';
+import {
+  formField,
+  FormFieldType,
+  FormOption,
+  viewLabel,
+  viewMapTo,
+} from 'o2c_core';
 
 const SCHOOL_CHARGE = [
   { label: 'Director', value: 1 },
@@ -18,30 +24,36 @@ export class SchoolChargeForm {
     formFieldType: FormFieldType.DROPDOWN,
     options: SCHOOL_CHARGE_FORM_OPTIONS,
   })
+  @viewMapTo((v) => SCHOOL_CHARGE.find(({ value }) => v === value)?.label)
+  @viewLabel('Cargo')
   charge: string;
 
   @formField({
     label: 'Nombre',
     formFieldType: FormFieldType.TEXT,
   })
+  @viewLabel('Nombre')
   name: string;
 
   @formField({
     label: 'Domicilio',
     formFieldType: FormFieldType.TEXT,
   })
+  @viewLabel('Domicilio')
   age: string;
 
   @formField({
     label: 'Teléfono',
     formFieldType: FormFieldType.TEXT,
   })
+  @viewLabel('Teléfono')
   political_party: string;
 
   @formField({
     label: 'E-mail',
     formFieldType: FormFieldType.TEXT,
   })
+  @viewLabel('E-mail')
   observations: string;
 
   constructor(

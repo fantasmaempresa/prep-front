@@ -14,39 +14,29 @@ import {
 } from 'o2c_core';
 import { Form2 } from '../../forms/form2';
 import { Form1 } from '../../forms/form1';
-import { combineLatest, debounceTime, Observable, startWith } from 'rxjs';
+import { combineLatest, debounceTime, Observable, startWith, tap } from 'rxjs';
 import { Form3 } from '../../forms/form3';
 import { Form4 } from '../../forms/form4';
 import { Form6 } from '../../forms/form6';
 import { Form5 } from '../../forms/form5';
 import { Form7 } from '../../forms/form7';
-import { Form8 } from '../../forms/form8';
-import { HolidaysForm } from '../../forms/holidays.form';
-import { ActorsOfProblemForm } from '../../forms/actors-of-problem.form';
+import { HolidayTableForm } from '../../forms/holidays.form';
+import { EjidalCouncilTableForm } from '../../forms/ejidal-council';
+import { LeadersForm } from '../../forms/leader.form';
 import {
-  EjidalCouncilMemberForm,
-  MonitoringCommitteeMemberForm,
-} from '../../forms/ejidal-council';
-import { LeaderForm } from '../../forms/leader.form';
-import {
-  AuxiliaryBoardForm,
-  BoardMembersForm,
-  JusticeOfPeaceMemberForm,
-  MunicipalityInspectorMemberForm,
+  AuxiliaryAndMembersBoards,
+  MunicipalitiesInspectors,
 } from '../../forms/member.form';
-import {
-  MunicipalityAuthoritiesForm,
-  MunicipalityAuthorityForm,
-} from '../../forms/municipality-authority.form';
-import { OrganizationForm } from '../../forms/organization.form';
-import { PoliticalPartyRepresentativeForm } from '../../forms/political-party-representative.form';
-import { PowderForm } from '../../forms/powder.form';
-import { PublicWorkForm } from '../../forms/public-work.form';
-import { SchoolForm } from '../../forms/school.form';
-import { SchoolChargeForm } from '../../forms/school-charge.form';
+import { MunicipalityAuthoritiesForm } from '../../forms/municipality-authority.form';
+import { OrganizationsForms } from '../../forms/organization.form';
+import { PowderTableForm } from '../../forms/powder.form';
+import { PublicWorkTableForm } from '../../forms/public-work.form';
+import { SchoolsForms } from '../../forms/school.form';
 import { MatStep } from '@angular/material/stepper';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { DraftStorage } from '../../../../core/draft-storage';
+import { Form8 } from '../../forms/form8';
+import { ChurchesForm } from '../../forms/church.form';
 
 @Component({
   selector: 'app-politic-profile-form',
@@ -97,80 +87,68 @@ export class PoliticProfileFormComponent implements AfterViewInit {
       view: Form6,
     },
     {
+      title: 'Organización',
+      view: OrganizationsForms,
+    },
+    {
+      title: 'Escuelas',
+      view: SchoolsForms,
+    },
+    {
       title: 'Formulario 7',
       view: Form7,
+    },
+    {
+      title: 'Miembros de Juntas Auxiliares y Miembros de la Junta',
+      view: AuxiliaryAndMembersBoards,
+    },
+    {
+      title: 'Inspectores Municipales',
+      view: MunicipalitiesInspectors,
     },
     {
       title: 'Formulario 8',
       view: Form8,
     },
     {
-      title: 'Festividades',
-      view: HolidaysForm,
+      title: 'Liderazgos en la Junta Auxiliar',
+      view: LeadersForm,
     },
     {
-      title: 'Cargo 1',
-      view: ActorsOfProblemForm,
+      title: 'Organizaciones (Juntas Auxiliares)',
+      view: OrganizationsForms,
+    },
+    {
+      title: 'Aspirantes a presidentes Municipales',
+      view: LeadersForm,
+    },
+    {
+      title: 'Iglesias',
+      view: ChurchesForm,
+    },
+    {
+      title: 'Festividades',
+      view: HolidayTableForm,
+    },
+    {
+      title: 'Obra Publica Realizada',
+      view: PublicWorkTableForm,
+    },
+    {
+      title: 'Obra Publica Prioritaria',
+      view: PublicWorkTableForm,
+    },
+    {
+      title: 'Escuelas (Junta Auxiliar)',
+      view: SchoolsForms,
     },
     {
       title: 'Consejo Ejidal',
-      view: EjidalCouncilMemberForm,
-    },
-    {
-      title: 'Líder',
-      view: LeaderForm,
-    },
-    {
-      title: 'Miembro de mesa',
-      view: BoardMembersForm,
-    },
-    {
-      title: 'Miembro de Paz',
-      view: JusticeOfPeaceMemberForm,
-    },
-    {
-      title: 'Inspector Municipal',
-      view: MunicipalityInspectorMemberForm,
-    },
-    {
-      title: 'Autoridad de Municipio',
-      view: MunicipalityAuthorityForm,
-    },
-    {
-      title: 'Organización',
-      view: OrganizationForm,
-    },
-    {
-      title: 'Representante de partido Politico',
-      view: PoliticalPartyRepresentativeForm,
+      view: EjidalCouncilTableForm,
     },
     {
       title: 'Polvorines',
-      view: PowderForm,
-    },
-    {
-      title: 'Obra Publica',
-      view: PublicWorkForm,
-    },
-    {
-      title: 'Escuela',
-      view: SchoolForm,
-    },
-    {
-      title: 'Cargo de Escuela',
-      view: SchoolChargeForm,
-    },
-    {
-      title: 'Representante de partido Politico',
-      view: PoliticalPartyRepresentativeForm,
-    },
-    {
-      title: 'Miembro de Comité',
-      view: MonitoringCommitteeMemberForm,
-    },
-    {
-      title: 'Miembro Auxiliar de Mesa',
-      view: AuxiliaryBoardForm,
+      view: PowderTableForm,
     },
   ];
 
@@ -189,7 +167,13 @@ export class PoliticProfileFormComponent implements AfterViewInit {
           form.valueChanges.pipe(startWith(null))
         )
       )
-        .pipe(debounceTime(500), this.draftStorage.saveDraftOnValueChange())
+        .pipe(
+          tap((value) => {
+            console.log(value);
+          }),
+          debounceTime(500),
+          this.draftStorage.saveDraftOnValueChange()
+        )
         .subscribe();
     }, 100);
   }
