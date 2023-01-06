@@ -14,7 +14,7 @@ import {
 } from 'o2c_core';
 import { Form2 } from '../../forms/form2';
 import { Form1 } from '../../forms/form1';
-import { combineLatest, debounceTime, Observable, startWith, tap } from 'rxjs';
+import { combineLatest, debounceTime, map, Observable, startWith } from 'rxjs';
 import { Form3 } from '../../forms/form3';
 import { Form4 } from '../../forms/form4';
 import { Form6 } from '../../forms/form6';
@@ -37,6 +37,8 @@ import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { DraftStorage } from '../../../../core/draft-storage';
 import { Form8 } from '../../forms/form8';
 import { ChurchesForm } from '../../forms/church.form';
+import { ZoneService } from '../../../../data/services/zone.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-politic-profile-form',
@@ -55,7 +57,7 @@ export class PoliticProfileFormComponent implements AfterViewInit {
 
   @ViewChildren(MatStep) listMatStep!: QueryList<MatStep>;
 
-  draftStorage: DraftStorage = new DraftStorage('public-profile');
+  draftStorage: DraftStorage;
 
   views = [
     {
@@ -153,9 +155,12 @@ export class PoliticProfileFormComponent implements AfterViewInit {
   ];
 
   viewsFormFields: Observable<FormFieldI[]>[];
+  private readonly zoneId: number;
 
-  constructor() {
+  constructor(private zoneService: ZoneService, private route: ActivatedRoute) {
     this.viewsFormFields = this.buildStepperForms();
+    this.zoneId = Number(this.route.snapshot.params['id']);
+    this.draftStorage = new DraftStorage(`public-profile${this.zoneId}`);
   }
 
   ngAfterViewInit(): void {
@@ -167,15 +172,24 @@ export class PoliticProfileFormComponent implements AfterViewInit {
           form.valueChanges.pipe(startWith(null))
         )
       )
-        .pipe(
-          tap((value) => {
-            console.log(value);
-          }),
-          debounceTime(500),
-          this.draftStorage.saveDraftOnValueChange()
-        )
+        .pipe(debounceTime(500), this.draftStorage.saveDraftOnValueChange())
         .subscribe();
     }, 100);
+  }
+
+  saveForm() {
+    const value = this.listFormBuilder.map(({ form }) => form.value);
+    MessageHelper.showLoading('Enviando información');
+    this.zoneService
+      .saveOrUpdatePoliticalProfile(this.zoneId, value)
+      .subscribe({
+        next: () => {
+          MessageHelper.successMessage(
+            'Éxito',
+            'Perfil Politico actualizado'
+          ).then(() => this.draftStorage.clearDraft());
+        },
+      });
   }
 
   private setStepControlToStepper() {
@@ -199,22 +213,36 @@ export class PoliticProfileFormComponent implements AfterViewInit {
   }
 
   private askForDraft() {
-    const currentDraft: any[] | null = this.draftStorage.getDraft();
-    if (currentDraft) {
-      MessageHelper.decisionMessage(
-        'Aviso de borrador',
-        '¿Tienes un borrador guardado, quieres cargarlo?',
-        () => {
-          this.listFormBuilder.forEach(({ form }, index) => {
-            console.log('cargando información');
-            form.patchValue(currentDraft[index]);
-          });
+    MessageHelper.showLoading('Obteniendo información...');
+    this.zoneService.politicalProfile(this.zoneId).subscribe({
+      next: (serverData: any) => {
+        const currentDraft: any[] | null = this.draftStorage.getDraft();
+        if (
+          currentDraft &&
+          JSON.stringify(currentDraft) !== JSON.stringify(serverData)
+        ) {
+          MessageHelper.decisionMessage(
+            'Aviso de borrador',
+            '¿Tienes un borrador guardado, quieres cargarlo?',
+            () => {
+              this.listFormBuilder.forEach(({ form }, index) => {
+                form.patchValue({
+                  ...serverData[index],
+                  ...currentDraft[index],
+                });
+              });
+            },
+            () => {
+              console.log(serverData);
+              if (serverData) {
+                this.listFormBuilder.forEach(({ form }, index) => {
+                  form.patchValue(serverData[index] ?? null);
+                });
+              }
+            }
+          );
         }
-      );
-    }
-  }
-
-  saveForm() {
-    this.draftStorage.clearDraft();
+      },
+    });
   }
 }

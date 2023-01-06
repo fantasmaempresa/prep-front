@@ -58,14 +58,6 @@ const routes: Routes = [
         data: { breadcrumb: 'Dashboard' },
       },
       {
-        path: 'politic-profile',
-        data: { breadcrumb: 'Perfil Político' },
-        loadChildren: () =>
-          import('./features/politic-profile/politic-profile.module').then(
-            (m) => m.PoliticProfileModule
-          ),
-      },
-      {
         path: 'statistics',
         loadChildren: () =>
           import('./features/statistics/statistics.module').then(
@@ -76,9 +68,7 @@ const routes: Routes = [
       {
         path: 'users',
         loadChildren: () =>
-          import('./features/users/users.module').then(
-            (m) => m.UsersModule
-          ),
+          import('./features/users/users.module').then((m) => m.UsersModule),
         data: { breadcrumb: 'Usuarios' },
       },
     ],
