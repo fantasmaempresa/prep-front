@@ -213,4 +213,8 @@ export class PoliticProfileFormComponent implements AfterViewInit {
       );
     }
   }
+
+  saveForm() {
+    this.draftStorage.clearDraft();
+  }
 }
