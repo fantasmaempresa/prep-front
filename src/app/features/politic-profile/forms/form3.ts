@@ -1,4 +1,5 @@
-import { formField, FormFieldType } from 'o2c_core';
+import { formField, FormFieldType, formTable } from 'o2c_core';
+import { PoliticalPartyRepresentativeForm } from './political-party-representative.form';
 
 export class Form3 {
   @formField({
@@ -55,6 +56,15 @@ export class Form3 {
   })
   field3: string;
 
+  @formTable({
+    tableProvider: PoliticalPartyRepresentativeForm,
+  })
+  @formField({
+    label: 'Representantes de los partidos Politicos',
+    formFieldType: FormFieldType.TABLE,
+  })
+  field4: string;
+
   constructor(
     district_federal: string,
     municipality_header: string,
@@ -65,7 +75,8 @@ export class Form3 {
     political_parties_membership_former: string,
     field1: string,
     field2: string,
-    field3: string
+    field3: string,
+    field4: string
   ) {
     this.district_federal = district_federal;
     this.municipality_header = municipality_header;
@@ -78,5 +89,6 @@ export class Form3 {
     this.field1 = field1;
     this.field2 = field2;
     this.field3 = field3;
+    this.field4 = field4;
   }
 }

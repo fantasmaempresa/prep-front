@@ -1,27 +1,48 @@
-import { formField, FormFieldType, FormOption } from 'o2c_core';
+import {
+  formField,
+  FormFieldType,
+  FormOption,
+  formTable,
+  viewLabel,
+  viewMapTo,
+} from 'o2c_core';
+import { SchoolChargeForm } from './school-charge.form';
+
+const SHIFT = [
+  { label: 'Matutino', value: 1 },
+  {
+    label: 'Vespertino',
+    value: 2,
+  },
+  { label: 'Nocturno', value: 3 },
+];
+
+const SHIFT_OPTIONS = SHIFT.map(
+  ({ value, label }) => new FormOption(label, value)
+);
 
 export class SchoolForm {
   @formField({
     label: 'Nombre',
     formFieldType: FormFieldType.TEXT,
   })
+  @viewLabel('Nombre')
   politic_party: string;
 
   @formField({
     label: 'Clave Escolar',
     formFieldType: FormFieldType.TEXT,
   })
-  charge: string;
+  @viewLabel('Clave Escolar')
+  key_school: string;
 
   @formField({
     label: 'Turno',
     formFieldType: FormFieldType.RADIO,
-    options: [
-      new FormOption('Matutino', 1),
-      new FormOption('Vespertino', 2),
-      new FormOption('Nocturno', 3),
-    ],
+    options: SHIFT_OPTIONS,
   })
+  @viewMapTo((v) => SHIFT.find(({ value }) => v === value)?.label)
+  @viewLabel('Turno')
   name: string;
 
   @formField({
@@ -30,15 +51,41 @@ export class SchoolForm {
   })
   address: string;
 
+  @formTable({
+    tableProvider: SchoolChargeForm,
+  })
+  @formField({
+    label: 'Cargo Escolar',
+    formFieldType: FormFieldType.TABLE,
+  })
+  scholar_charge: string;
+
   constructor(
     politic_party: string,
-    charge: string,
+    key_school: string,
     name: string,
-    address: string
+    address: string,
+    scholar_charge: string
   ) {
     this.politic_party = politic_party;
-    this.charge = charge;
+    this.key_school = key_school;
     this.name = name;
     this.address = address;
+    this.scholar_charge = scholar_charge;
+  }
+}
+
+export class SchoolsForms {
+  @formTable({
+    tableProvider: SchoolForm,
+  })
+  @formField({
+    label: 'Escuelas',
+    formFieldType: FormFieldType.TABLE,
+  })
+  table: string;
+
+  constructor(table: string) {
+    this.table = table;
   }
 }

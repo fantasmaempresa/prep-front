@@ -72,26 +72,9 @@ export class SidebarComponent {
         },
         { label: 'Mapa de Promovidos', route: './promoted-map', icon: 'maps' },
         {
-          label: 'Perfil Político',
-          route: './politic-profile',
-          icon: 'account_box',
-        },
-        {
-          label: 'Datos estadisticos',
+          label: 'Datos estadísticos',
+          route: './statistics',
           icon: 'query_stats',
-          isOpen: false,
-          dropdowns: [
-            {
-              label: 'Pobreza',
-              route: './statistics/poverty',
-              icon: 'bar_chart',
-            },
-            {
-              label: 'Encuestas',
-              route: './statistics/survey',
-              icon: 'list',
-            },
-          ],
         },
         { label: 'Usuarios', route: './users', icon: 'group' },
         // {
