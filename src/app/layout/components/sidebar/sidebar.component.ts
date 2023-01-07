@@ -72,9 +72,21 @@ export class SidebarComponent {
         },
         { label: 'Mapa de Promovidos', route: './promoted-map', icon: 'maps' },
         {
-          label: 'Datos estadísticos',
-          route: './statistics',
+          label: 'Datos estadisticos',
           icon: 'query_stats',
+          isOpen: false,
+          dropdowns: [
+            {
+              label: 'Pobreza',
+              route: './statistics/poverty',
+              icon: 'bar_chart',
+            },
+            {
+              label: 'Encuestas',
+              route: './statistics/survey',
+              icon: 'list',
+            },
+          ],
         },
         { label: 'Usuarios', route: './users', icon: 'group' },
         // {
