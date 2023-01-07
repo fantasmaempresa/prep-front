@@ -146,9 +146,9 @@ export class ZonesFormComponent implements OnInit {
         MessageHelper.successMessage('Éxito', 'Zona guardada con éxito');
         this.zoneForm.reset();
       },
-      error: (error) => {
+      error: ({ error }) => {
         MessageHelper.errorMessage(
-          'Ha ocurrido un error al guardar la zona, intentelo mas tarde'
+          `Ha ocurrido un error al guardar la zona: ${error.error}`
         );
       },
     });
