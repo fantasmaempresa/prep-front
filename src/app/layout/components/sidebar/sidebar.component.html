@@ -1,18 +1,17 @@
 <div class="sidebar-container">
   <div class="sidebar__button">
-    <input
-      type="checkbox"
-      name="navi-toggle"
-      id="navi-toggle"
-      #naviToggle
-      class="sidebar__checkbox"
-    />
-    <label for="navi-toggle" class="sidebar__button">
+    <!--    <input-->
+    <!--      type="checkbox"-->
+    <!--      name="navi-toggle"-->
+    <!--      id="navi-toggle"-->
+    <!--      class="sidebar__checkbox"-->
+    <!--    />-->
+    <label class="sidebar__button" (click)="closeMenu()">
       <span class="sidebar__icon"></span>
     </label>
   </div>
 
-  <nav class="sidebar" [class.sidebar--extended]="naviToggle.checked">
+  <nav class="sidebar" [class.sidebar--extended]="menuIsOpen">
     <div class="sidebar-header">
       <img
         alt=""
@@ -36,12 +35,12 @@
               >
                 <span class="material-icons menu__icon">{{
                   submenu.icon
-                }}</span>
+                  }}</span>
                 <span class="menu__dropdown-label menu__label">{{
                   submenu.label
-                }}</span>
+                  }}</span>
                 <span class="material-icons menu__dropdown-icon"
-                  >expand_more</span
+                >expand_more</span
                 >
                 <div
                   class="menu__dropdown-container sidebar-body"
@@ -53,7 +52,7 @@
                       class="menu__dropdown-back"
                     >
                       <i class="material-icons menu__dropdown-back-label-icon"
-                        >arrow_back</i
+                      >arrow_back</i
                       >
                     </button>
                     <span class="menu__dropdown-back-label">
@@ -72,7 +71,7 @@
                       >
                         <span class="material-icons menu__icon">{{
                           dropdown.icon
-                        }}</span>
+                          }}</span>
                         <span class="menu__label">{{ dropdown.label }}</span>
                       </a>
                     </li>
@@ -90,7 +89,7 @@
                 >
                   <span class="material-icons menu__icon">{{
                     submenu.icon
-                  }}</span>
+                    }}</span>
                   <span class="menu__label">{{ submenu.label }}</span>
                 </a>
               </li>

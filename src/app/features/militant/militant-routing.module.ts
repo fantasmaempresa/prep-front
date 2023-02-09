@@ -10,6 +10,7 @@ import {
   SectionManagerType,
   SympathizerType,
 } from '../../data/models/Promoter.model';
+import { People } from '../../data/models/People.model';
 
 const routes: Routes = [
   {
@@ -75,7 +76,7 @@ const routes: Routes = [
         providers: [
           {
             provide: VIEW_CLAZZ,
-            useValue: SympathizerType,
+            useValue: People,
           },
         ],
         data: { breadcrumb: 'Lista de Simpatizantes' },

@@ -6,6 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent {
+  menuIsOpen = false;
+
   menus = [
     {
       menuName: 'Menu',
@@ -72,7 +74,7 @@ export class SidebarComponent {
         },
         { label: 'Mapa de Promovidos', route: './promoted-map', icon: 'maps' },
         {
-          label: 'Datos estadisticos',
+          label: 'Datos estadísticos',
           icon: 'query_stats',
           isOpen: false,
           dropdowns: [
@@ -102,7 +104,8 @@ export class SidebarComponent {
     },
   ];
 
-  constructor() {}
+  constructor() {
+  }
 
   dropdown(submenu: any) {
     this.menus.forEach((menu) => {
@@ -119,5 +122,9 @@ export class SidebarComponent {
 
   stopPropagation(event: Event) {
     event.stopPropagation();
+  }
+
+  closeMenu() {
+    this.menuIsOpen = !this.menuIsOpen;
   }
 }
