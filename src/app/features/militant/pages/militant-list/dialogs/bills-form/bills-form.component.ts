@@ -12,7 +12,9 @@ import { PromoterDto } from '../../../../../../data/dto/Promoter.dto';
   styleUrls: ['./bills-form.component.scss'],
 })
 export class BillsFormComponent {
-  budgets$ = this.data.budgets;
+  budgets$ = this.budgetService
+    .budgetsByPromoter(this.data.id)
+    .pipe(map((promoter) => promoter.promoter.budgets));
 
   billForm: FormGroup = new FormGroup({
     name: new FormControl<string>(''),

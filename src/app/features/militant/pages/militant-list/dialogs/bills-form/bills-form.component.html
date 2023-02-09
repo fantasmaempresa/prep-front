@@ -6,7 +6,7 @@
       <mat-label>Seleccione un presupuesto</mat-label>
       <mat-select formControlName="budget_id" required>
         <mat-option>--</mat-option>
-        <mat-option *ngFor="let budget of budgets$" [value]="budget.id">
+        <mat-option *ngFor="let budget of budgets$ | async" [value]="budget.id">
           {{ budget.name }}
         </mat-option>
       </mat-select>
