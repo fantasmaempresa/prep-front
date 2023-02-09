@@ -13,6 +13,7 @@ import { MessageHelper } from 'o2c_core';
 import { RefreshCountdown, SECOND } from '../../../../core/refresh-countdown';
 import { Promoter } from '../../../../data/models/Promoter.model';
 import { FormControl } from '@angular/forms';
+import { environment } from '../../../../../environments/environment';
 
 const REFRESH_TIME = 2 * 60 * SECOND;
 
@@ -23,8 +24,8 @@ const REFRESH_TIME = 2 * 60 * SECOND;
 })
 export class MapPromotedComponent implements AfterViewInit {
   @ViewChild(GoogleMap) public map!: GoogleMap;
-  latitude = 18.073187012188487;
-  longitude = -92.69948315869415;
+  latitude = 0;
+  longitude = 0;
   zoom = 8.6;
 
   center: google.maps.LatLngLiteral = {
@@ -48,6 +49,24 @@ export class MapPromotedComponent implements AfterViewInit {
     private activistTypeService: ActivistTypeService,
     private sympathizerService: SympathizerService
   ) {
+    if (environment.location === 'PUEBLA') {
+      this.latitude = 19.045854;
+      this.longitude = -98.206094;
+
+      this.center = {
+        lat: this.latitude,
+        lng: this.longitude,
+      };
+    } else if (environment.location === 'TABASCO') {
+      this.latitude = 18.073187012188487;
+      this.longitude = -92.69948315869415;
+
+      this.center = {
+        lat: this.latitude,
+        lng: this.longitude,
+      };
+    }
+
     //Todo hay que hacer la duplicidad de información, para que se mapee la información real
     this.heatmapData$ = this.refreshCountDown.refresh$.pipe(
       tap(() => MessageHelper.showLoading('Obteniendo información')),
@@ -93,7 +112,11 @@ export class MapPromotedComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.drawGeoJson('./../assets/geojson/tabasco_municipalities.json');
+    if (environment.location === 'PUEBLA') {
+      this.drawGeoJson('./../assets/geojson/mun.json');
+    } else if (environment.location === 'TABASCO') {
+      this.drawGeoJson('./../assets/geojson/tabasco_municipalities.json');
+    }
   }
 
   drawGeoJson(geoJson: string) {

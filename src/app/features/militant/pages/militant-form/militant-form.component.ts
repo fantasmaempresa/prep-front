@@ -25,6 +25,7 @@ import { PromoterService } from '../../../../data/services/promoter.service';
 import { PeopleService } from '../../../../data/services/people.service';
 import { ZoneService } from '../../../../data/services/zone.service';
 import { ZoneDto } from '../../../../data/dto/Zone.dto';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-militant-form',
@@ -290,8 +291,13 @@ export class MilitantFormComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.maps.setCenterMap(18.07918, -93.235782, 8);
-    this.maps.drawGeoJson('./../assets/geojson/tabasco_municipalities.json');
+    if (environment.location === 'PUEBLA') {
+      this.maps.drawGeoJson('./../assets/geojson/mun.json');
+      this.maps.setCenterMap(19.045854, -98.206094, 8);
+    } else if (environment.location === 'TABASCO') {
+      this.maps.drawGeoJson('./../assets/geojson/tabasco_municipalities.json');
+      this.maps.setCenterMap(18.07918, -93.235782, 8);
+    }
   }
 
   removeValidatorsMilitant() {

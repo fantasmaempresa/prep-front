@@ -12,6 +12,7 @@ import { FormControl } from '@angular/forms';
 import { ChartsService } from '../../../../data/services/charts.service';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { MapsComponent } from '../../../../shared/components/maps/maps.component';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-statistics',
@@ -72,8 +73,13 @@ export class StatisticsComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    this.maps.drawGeoJson('./../assets/geojson/tabasco_municipalities.json');
-    this.maps.setCenterMap(18.07918, -93.235782, 8);
+    if (environment.location === 'PUEBLA') {
+      this.maps.drawGeoJson('./../assets/geojson/mun.json');
+      this.maps.setCenterMap(19.045854, -98.206094, 8);
+    } else if (environment.location === 'TABASCO') {
+      this.maps.drawGeoJson('./../assets/geojson/tabasco_municipalities.json');
+      this.maps.setCenterMap(18.07918, -93.235782, 8);
+    }
     this.cd.detectChanges();
   }
 
@@ -83,50 +89,50 @@ export class StatisticsComponent implements OnInit, AfterViewInit {
         case 1:
           this.maps.drawMarkers([
             {
-              lat: 17.809086,
-              lng: -91.537491,
-              label: 'Balancán',
+              lat: 19.103333333333,
+              lng: -97.951111111111,
+              label: 'Acajete',
               draggable: false,
               icon: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
             },
           ]);
-          this.maps.setCenterMap(17.809086, -91.537491, 10);
+          this.maps.setCenterMap(19.103333333333, -97.951111111111, 10);
           break;
         case 2:
           this.maps.drawMarkers([
             {
-              lat: 17.996912,
-              lng: -93.373166,
-              label: 'Cardenas',
+              lat: 20.1299,
+              lng: -97.2085,
+              label: 'Acateno',
               draggable: false,
               icon: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
             },
           ]);
-          this.maps.setCenterMap(17.996912, -93.373166, 10);
+          this.maps.setCenterMap(20.1299, -97.2085, 10);
           break;
         case 3:
           this.maps.drawMarkers([
             {
-              lat: 18.53424,
-              lng: -92.646839,
-              label: 'Centla',
+              lat: 18.213183,
+              lng: -98.055495,
+              label: 'Acatlan',
               draggable: false,
               icon: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
             },
           ]);
-          this.maps.setCenterMap(18.53424, -92.646839, 10);
+          this.maps.setCenterMap(18.213183, -98.055495, 10);
           break;
         case 4:
           this.maps.drawMarkers([
             {
-              lat: 18.00457,
-              lng: -92.862597,
-              label: 'Centro',
+              lat: 18.98315,
+              lng: -97.782925,
+              label: 'Acatzingo',
               draggable: false,
               icon: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
             },
           ]);
-          this.maps.setCenterMap(18.00457, -92.862597, 10);
+          this.maps.setCenterMap(18.98315, -97.782925, 10);
           break;
         case 5:
           this.maps.drawMarkers([
