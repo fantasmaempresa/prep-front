@@ -13,6 +13,7 @@ import { MessageHelper } from 'o2c_core';
 import { RefreshCountdown, SECOND } from '../../../../core/refresh-countdown';
 import { Promoter } from '../../../../data/models/Promoter.model';
 import { FormControl } from '@angular/forms';
+import { PeopleService } from '../../../../data/services/people.service';
 
 const REFRESH_TIME = 2 * 60 * SECOND;
 
@@ -46,7 +47,7 @@ export class MapPromotedComponent implements AfterViewInit {
     private areaManagerService: AreaManagerService,
     private sectionManagerService: SectionManagerService,
     private activistTypeService: ActivistTypeService,
-    private sympathizerService: SympathizerService
+    private peopleService: PeopleService
   ) {
     //Todo hay que hacer la duplicidad de información, para que se mapee la información real
     this.heatmapData$ = this.refreshCountDown.refresh$.pipe(
@@ -82,8 +83,7 @@ export class MapPromotedComponent implements AfterViewInit {
             this.areaManagerService,
             this.sectionManagerService,
             this.activistTypeService,
-            this.activistTypeService,
-            this.sympathizerService,
+            this.peopleService,
           ];
           return options[+option - 1];
         }),

@@ -1,5 +1,4 @@
 import { viewCrud, viewLabel } from 'o2c_core';
-import { Promoter } from './Promoter.model';
 import { PeopleService } from '../services/people.service';
 
 @viewCrud({
